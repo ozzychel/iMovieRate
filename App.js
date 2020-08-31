@@ -1,21 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import NavBar from './components/NavBar';
 import SearchBar from './components/SearchBar';
 import axios from 'axios';
-import api_key from './config.js'
+import api_key from './config.js';
+import MovieMapper from './components/MovieMapper';
 
 
 export default function App() {
-  const [currentSearch, setCurrentSearch] = useState('default')
+  const [currentSearch, setCurrentSearch] = useState('')
+
+  const [currentMovieList, setCurrentMovieList] = useState([])
 
   const getUserInput = (input) => {
     setCurrentSearch(input)
-    getDataFromServer(currentSearch)
   }
 
+  useEffect(() => {
+    if(currentSearch) {
+      getDataFromServer(currentSearch)
+    }
+  }, [currentSearch])
+
   const getDataFromServer = (query) => {
-    console.log('QUERY', typeof query)
+    console.log('QUERY', query)
     axios.get('https://api.themoviedb.org/3/search/movie', {
       params: {
         api_key,
@@ -24,7 +32,8 @@ export default function App() {
     })
     .then((result) => {
       console.log('GET SUCCESS')
-      console.log(result.data)
+      console.log(result.data.results)
+      setCurrentMovieList(result.data.results)
     })
     .catch((err) => {
       console.log('GET FAILED')
@@ -36,7 +45,8 @@ export default function App() {
     <View style={styles.container}>
       <NavBar />
       <SearchBar getUserInput={getUserInput}/>
-      <Text style={{fontSize: 30}}>{currentSearch}</Text>
+      {/* <Text style={{fontSize: 30}}>{currentSearch}</Text> */}
+      <MovieMapper movieList={currentMovieList}/>
     </View>
   );
 }

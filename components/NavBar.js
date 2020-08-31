@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   },
   titleCont: {
     width: '70%',
-    height: '60%',
+    height: '40%',
     borderWidth: 2,
     borderStyle: 'solid',
     borderColor: 'black',

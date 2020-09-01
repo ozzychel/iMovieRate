@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import Movie from './Movie';
 
-const MovieMapper = ({movieList}) => {
+const MovieMapper = ({ movieList }) => {
   const movies = [];
   movieList.forEach((movie, i) => {
     movies.push(
@@ -11,9 +11,15 @@ const MovieMapper = ({movieList}) => {
   })
 
   return (
-    <View>{movies}</View>
+    <ScrollView>{movies}</ScrollView>
   )
 
 };
+
+const styles = StyleSheet.create({
+  cont: {
+    alignItems: 'center'
+  }
+})
 
 export default MovieMapper;

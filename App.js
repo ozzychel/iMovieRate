@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import NavBar from './components/NavBar';
 import SearchBar from './components/SearchBar';
 import axios from 'axios';
@@ -42,17 +42,19 @@ export default function App() {
   }
 
   return (
+
+
     <View style={styles.container}>
       <NavBar />
       <SearchBar getUserInput={getUserInput}/>
-      {/* <Text style={{fontSize: 30}}>{currentSearch}</Text> */}
       <MovieMapper movieList={currentMovieList}/>
     </View>
+
   );
 }
 
 const styles = StyleSheet.create({
   container: {
 
-  }
+  },
 });

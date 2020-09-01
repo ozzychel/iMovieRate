@@ -11,6 +11,7 @@ const Movie = ({ movie }) => {
       <View>
         <Image
           style={styles.poster}
+          defaultSource={require('../default.jpg')}
           source={{
             uri:`https://image.tmdb.org/t/p/w300${movie.poster_path}`
           }}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Button, TextInput, Alert } from 'react-native';
+import { View, Text, StyleSheet, Button, TextInput, Alert, Keyboard } from 'react-native';
 
 const SearchBar = ({ getUserInput }) => {
   const [inputValue, setInputValue] = useState('');
@@ -9,6 +9,7 @@ const SearchBar = ({ getUserInput }) => {
       console.log('search:', inputValue)
       getUserInput(inputValue)
       setInputValue('')
+      Keyboard.dismiss()
     } else {
       Alert.alert('Search field cannot be empty!')
     }
@@ -17,7 +18,7 @@ const SearchBar = ({ getUserInput }) => {
     <View style={styles.container}>
       <View style={styles.inputWrapper}>
         <TextInput
-          style={{fontSize:32}}
+          style={{fontSize:20}}
           value={inputValue}
           onChangeText={text => setInputValue(text)}
         />

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 
-const MainCarousel = ({items}) => {
+const MainCarousel = ({items, active, handleTabPress}) => {
   // const { items, style } = props;
   // const itemsPerInterval = props.itemsPerInterval === undefined
   //   ? 1
@@ -15,7 +15,7 @@ const MainCarousel = ({items}) => {
   //   const totalItems = items.length;
   //   setIntervals(Math.ceil(totalItems / itemsPerInterval));
   // }
-
+  const [activeTab, setActiveTab] = useState(active)
 
   return (
     <View style={styles.container}>
@@ -28,11 +28,21 @@ const MainCarousel = ({items}) => {
         scrollEventThrottle={200}
         // pagingEnabled
         decelerationRate="fast"
-      >{items.map((item) => {
+      >{items.map((item, i) => {
         return (
-          <View style={styles.itemCont}>
+          <TouchableOpacity
+            key={i}
+            style={styles.itemCont}
+            onPress={()=> {
+              setActiveTab(item.title)
+              handleTabPress(item.title)
+              // Alert.alert(item.title)
+
+            }}
+            >
             <Text style={styles.itemText}>{item.title}</Text>
-          </View>
+            <View style={item.title === activeTab ? styles.bulletActive : styles.bullet}></View>
+          </TouchableOpacity>
         )
       })}
 
@@ -47,11 +57,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'black'
   },
   itemCont: {
-    backgroundColor: '#131313',
+    // backgroundColor: '#131313',
+    backgroundColor: 'black',
     // backgroundColor: 'grey',
-    padding: 2,
-    marginTop: 7,
-    marginBottom: 7,
+    padding: 7,
     marginLeft: 10,
     marginRight: 5
   },
@@ -59,6 +68,14 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '500',
     color: 'white'
+  },
+  bulletActive: {
+    height: 2,
+    backgroundColor: 'green'
+  },
+  bullet: {
+    height: 2,
+    backgroundColor: 'black'
   }
 })
 

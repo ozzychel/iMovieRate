@@ -17,6 +17,7 @@ const SearchBar = ({ getUserInput }) => {
     <View style={styles.container}>
       <View style={styles.inputWrapper}>
         <TextInput
+          style={{fontSize:32}}
           value={inputValue}
           onChangeText={text => setInputValue(text)}
         />
@@ -36,9 +37,10 @@ const styles = StyleSheet.create({
 
   },
   inputWrapper: {
-    marginTop: 5,
-    marginBottom: 5,
-    marginLeft: 5
+    height: 30,
+    margin: 5,
+    borderBottomWidth: 1,
+    borderBottomColor: 'darkgrey'
   }
 })
 

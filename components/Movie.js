@@ -4,10 +4,12 @@ import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
 const Movie = ({ movie }) => {
 
   return (
-    <View>
-      <View>
-        <Text>{movie.title}</Text>
+    <View style={styles.movie_cont}>
+
+      <View style={styles.title_cont}>
+        <Text style={styles.title}>{movie.title + ` (${movie.release_date.slice(0, 4)})`}</Text>
       </View>
+
       <View>
         <Image
           style={styles.poster}
@@ -17,9 +19,16 @@ const Movie = ({ movie }) => {
           }}
         />
       </View>
+
+      <Separator />
     </View>
   )
 }
+
+const Separator = () => (
+  <View style={styles.separator} />
+);
+
 
 const styles = StyleSheet.create({
   poster: {
@@ -27,7 +36,24 @@ const styles = StyleSheet.create({
     height: 600,
     alignItems: 'center',
     borderWidth: 2,
-    borderColor: 'white'
+    borderColor: 'black'
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: 'white',
+    marginLeft: 5,
+    marginTop: 0
+  },
+  movie_cont: {
+    marginTop: 15
+  },
+  separator: {
+    marginVertical: 2,
+    borderBottomColor: '#737373',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+  },
+  title_cont: {
   }
 })
 

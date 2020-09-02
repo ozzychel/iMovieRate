@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, StatusBar } from 'react-native';
 import NavBar from './components/NavBar';
 import SearchBar from './components/SearchBar';
 import axios from 'axios';
 import api_key from './config.js';
 import MovieMapper from './components/MovieMapper';
+import Constants from "expo-constants";
 
 
 export default function App() {
@@ -48,6 +49,7 @@ export default function App() {
       <NavBar />
       <SearchBar getUserInput={getUserInput}/>
       <MovieMapper movieList={currentMovieList}/>
+      <StatusBar barStyle='light-content'/>
     </View>
 
   );

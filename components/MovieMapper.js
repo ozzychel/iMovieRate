@@ -11,14 +11,14 @@ const MovieMapper = ({ movieList }) => {
   })
 
   return (
-    <ScrollView>{movies}</ScrollView>
+    <ScrollView style={styles.cont}>{movies}</ScrollView>
   )
 
 };
 
 const styles = StyleSheet.create({
   cont: {
-    alignItems: 'center'
+    backgroundColor: 'black'
   }
 })
 

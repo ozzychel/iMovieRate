@@ -20,7 +20,7 @@ const NavBar = (props) => {
 const styles = StyleSheet.create({
   navbar: {
     height: 100,
-    backgroundColor: 'palevioletred',
+    backgroundColor: '#131313',
     alignItems: 'flex-end',
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     height: '40%',
     borderWidth: 2,
     borderStyle: 'solid',
-    borderColor: 'black',
+    borderColor: 'white',
     marginLeft: 5,
     paddingLeft: 10,
     justifyContent: 'flex-end',
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   dotsCont: {
     width: '20%',
     height: '40%',
-    borderColor: 'black',
+    borderColor: 'white',
     borderWidth: 2,
     borderStyle: 'solid',
     marginRight: 5,
@@ -49,7 +49,8 @@ const styles = StyleSheet.create({
   },
   titleText: {
     fontSize: 24,
-    fontWeight: '700'
+    fontWeight: '700',
+    color: 'white'
   }
 
 })

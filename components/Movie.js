@@ -21,17 +21,14 @@ const Movie = ({ movie }) => {
         />
       )
     }
-  }
+  };
 
   return (
     <View style={styles.movie_cont}>
-
       <View style={styles.title_cont}>
         <Text style={styles.title}>{movie.title + ` (${movie.release_date.slice(0, 4)})`}</Text>
       </View>
-
       <View>{renderImage()}</View>
-
       <Separator />
     </View>
   )
@@ -40,7 +37,6 @@ const Movie = ({ movie }) => {
 const Separator = () => (
   <View style={styles.separator} />
 );
-
 
 const styles = StyleSheet.create({
   poster: {

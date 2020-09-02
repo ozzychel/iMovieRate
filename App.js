@@ -6,7 +6,7 @@ import axios from 'axios';
 import api_key from './config.js';
 import MovieMapper from './components/MovieMapper';
 import Constants from "expo-constants";
-
+import MainCarousel from './components/MainCarousel';
 
 export default function App() {
   const [currentSearch, setCurrentSearch] = useState('')
@@ -42,21 +42,51 @@ export default function App() {
     })
   }
 
+  const renderStatusBar = (OS) => {
+    if (OS === 'ios') {
+      return (
+        <View style={styles.iosBar}></View>
+      )
+    }
+    if (OS === 'android') {
+      return (
+        <View style={styles.androidBar}></View>
+      )
+    }
+  }
+
   return (
 
-
     <View style={styles.container}>
+      {renderStatusBar(Platform.OS)}
+      <StatusBar barStyle='light-content'/>
+      {/* <View style={styles.bar}></View> */}
       <NavBar />
+      <MainCarousel
+        style="slides"
+        itemsPerInterval={1}
+        items={[{title: 'HOME'}, {title: 'MOVIES'}, {title: 'TV SHOWS'}, {title: 'CELEBS'}, {title: 'AWARDS & EVENTS'}]}
+          />
       <SearchBar getUserInput={getUserInput}/>
       <MovieMapper movieList={currentMovieList}/>
-      <StatusBar barStyle='light-content'/>
+
     </View>
 
   );
 }
 
+// const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 40 : StatusBar.currentHeight;
+
 const styles = StyleSheet.create({
   container: {
 
   },
+  iosBar: {
+    backgroundColor: 'black',
+    height: 40
+  },
+  androidBar: {
+    backgroundColor: 'purple',
+    height: 0
+  }
 });

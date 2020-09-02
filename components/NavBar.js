@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 
 const NavBar = (props) => {
 
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   titleCont: {
-    width: '70%',
+    width: '45%',
     // height: '40%',
     borderWidth: 1,
     borderStyle: 'solid',

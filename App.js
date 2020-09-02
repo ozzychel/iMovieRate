@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Image, StatusBar } from 'react-native';
 import NavBar from './components/NavBar';
-import SearchBar from './components/SearchBar';
 import axios from 'axios';
 import api_key from './config.js';
-import MovieMapper from './components/MovieMapper';
 import Constants from "expo-constants";
 import MainCarousel from './components/MainCarousel';
+import SearchTab from './components/SearchTab';
 
 export default function App() {
   const [currentSearch, setCurrentSearch] = useState('')
 
   const [currentMovieList, setCurrentMovieList] = useState([])
+
+  const [currentTab, setCurrentTab] = useState('SEARCH')// <----
 
   const getUserInput = (input) => {
     setCurrentSearch(input)
@@ -42,16 +43,42 @@ export default function App() {
     })
   }
 
+  const handleTabPress = (title) => {
+    setCurrentTab(title)
+  }
+
   const renderStatusBar = (OS) => {
     if (OS === 'ios') {
-      return (
-        <View style={styles.iosBar}></View>
-      )
+      return (<View style={styles.iosBar}></View>)
     }
     if (OS === 'android') {
+      return (<View style={styles.androidBar}></View>)
+    }
+  };
+
+  const renderView = (view) => {
+    if (view === 'SEARCH') {
       return (
-        <View style={styles.androidBar}></View>
+        <SearchTab
+          getUserInput={getUserInput}
+          movieList={currentMovieList}
+        />
       )
+    }
+    if (view === 'HOME' || !view) {
+      return (<Text>HOME SCREEN</Text>)
+    }
+    if (view === 'MOVIES') {
+      return (<Text>MOVIES SCREEN</Text>)
+    }
+    if (view === 'TV SHOWS') {
+      return (<Text>TV SHOWS SCREEN</Text>)
+    }
+    if (view === 'CELEBS') {
+      return (<Text>CELEBS SCREEN</Text>)
+    }
+    if (view === 'AWARDS & EVENTS') {
+      return (<Text>AWARDS SCREEN</Text>)
     }
   }
 
@@ -60,26 +87,29 @@ export default function App() {
     <View style={styles.container}>
       {renderStatusBar(Platform.OS)}
       <StatusBar barStyle='light-content'/>
-      {/* <View style={styles.bar}></View> */}
       <NavBar />
       <MainCarousel
         style="slides"
         itemsPerInterval={1}
-        items={[{title: 'HOME'}, {title: 'MOVIES'}, {title: 'TV SHOWS'}, {title: 'CELEBS'}, {title: 'AWARDS & EVENTS'}]}
-          />
-      <SearchBar getUserInput={getUserInput}/>
-      <MovieMapper movieList={currentMovieList}/>
-
+        items={[
+          {title: 'HOME'},
+          {title: 'MOVIES'},
+          {title: 'TV SHOWS'},
+          {title: 'CELEBS'},
+          {title: 'AWARDS & EVENTS'},
+          {title: 'SEARCH'}
+        ]
+        }
+        active={currentTab}
+        handleTabPress={handleTabPress}
+      />
+      {renderView(currentTab)}
     </View>
-
   );
-}
-
-// const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 40 : StatusBar.currentHeight;
+};
 
 const styles = StyleSheet.create({
   container: {
-
   },
   iosBar: {
     backgroundColor: 'black',

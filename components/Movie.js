@@ -1,7 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
 
 const Movie = ({ movie }) => {
+  const renderImage = () => {
+    if (movie.poster_path) {
+      return (
+        <Image
+            style={styles.poster}
+            // defaultSource={require('../default.jpg')}
+            source={{
+              uri:`https://image.tmdb.org/t/p/w300${movie.poster_path}`
+            }}
+        />
+      )
+    } else {
+      return (
+        <Image
+        source={require('../default.jpg')}
+        style={styles.poster}
+        />
+      )
+    }
+  }
 
   return (
     <View style={styles.movie_cont}>
@@ -10,15 +30,7 @@ const Movie = ({ movie }) => {
         <Text style={styles.title}>{movie.title + ` (${movie.release_date.slice(0, 4)})`}</Text>
       </View>
 
-      <View>
-        <Image
-          style={styles.poster}
-          defaultSource={require('../default.jpg')}
-          source={{
-            uri:`https://image.tmdb.org/t/p/w300${movie.poster_path}`
-          }}
-        />
-      </View>
+      <View>{renderImage()}</View>
 
       <Separator />
     </View>
@@ -43,7 +55,6 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: 'white',
     marginLeft: 5,
-    marginTop: 0
   },
   movie_cont: {
     marginTop: 15

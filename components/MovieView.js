@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView } from 'react-native';
+import axios from 'axios';
 
-const MovieView = ({ selectedMovieId }) => {
+const MovieView = ({ selectedMovie }) => {
+
+
+
+
   return (
     <View>
-      <Text>{selectedMovieId}</Text>
+      <Text>MOVIE VIEW</Text>
+      <Text>{JSON.stringify(selectedMovie[0].title)}</Text>
     </View>
   )
 };

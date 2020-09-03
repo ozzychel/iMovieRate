@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Image, StatusBar } from 'react-native';
+import { StyleSheet, Text, View, Image, StatusBar, ScrollView } from 'react-native';
 import NavBar from './components/NavBar';
 import axios from 'axios';
 import api_key from './config.js';
@@ -13,25 +13,42 @@ export default function App() {
 
   const [currentMovieList, setCurrentMovieList] = useState([]);
 
+  const [selectedMovieDetails, setSelectedMovieDetails] = useState([]);
+
   const [currentTab, setCurrentTab] = useState('SEARCH');// <--
 
-  const [selectedMovieId, setSelectedMovieId] = useState('');
-
   const getUserSelectedMovie = (id) => {
-    setSelectedMovieId(id)
+    getMovieDataById(id)
   }
 
   const getUserInput = (input) => {
     setCurrentSearch(input)
   };
 
-  useEffect(() => {
-    if(currentSearch) {
-      getDataFromServer(currentSearch)
-    }
-  }, [currentSearch]);
+  // useEffect(() => {
+  //   if (currentSearch) {
+  //     getDataListFromServer(currentSearch)
+  //   }
+  // }, [currentSearch]);
 
-  const getDataFromServer = (query) => {
+  // useEffect(() => {
+    // if (selectedMovieDetails.length > 0) {
+    //   console.log('UE sel mov det WORKS')
+    //   changeView('MOVIE VIEW')
+    // }
+  // }, [selectedMovieDetails])
+
+  useEffect(() => {
+    if (currentSearch) {
+      getDataListFromServer(currentSearch)
+    }
+    if (selectedMovieDetails.length > 0) {
+      console.log('UE sel mov det WORKS')
+      changeView('MOVIE VIEW')
+    }
+  }, [currentSearch, selectedMovieDetails])
+
+  const getDataListFromServer = (query) => {
     console.log('QUERY', query)
     axios.get('https://api.themoviedb.org/3/search/movie', {
       params: {
@@ -40,30 +57,41 @@ export default function App() {
       }
     })
     .then((result) => {
-      console.log('GET SUCCESS')
-      console.log(result.data.results)
-      setCurrentMovieList(result.data.results)
+      console.log('GET SUCCESS');
+      console.log(result.data.results);
+      setCurrentMovieList(result.data.results);
     })
     .catch((err) => {
-      console.log('GET FAILED')
-      console.log(err)
+      console.log('GET FAILED');
+      console.log(err);
     })
-  }
+  };
 
-  const handleTabPress = (title) => {
-    setCurrentTab(title)
-  }
+  const getMovieDataById = (id) => {
+    axios.get(`https://api.themoviedb.org/3/movie/${id}`, {
+      params: {
+        api_key
+      }
+    })
+    .then((result) => {
+      console.log('++++++++++++ MOVIE DETAILS SUCCESS', result.data)
+      setSelectedMovieDetails(prevState => [result.data])
+    })
+    .catch((err) => {
+     console.log('------------ MOVIE DETAILS FAILED', err)
+    })
+};
 
   const changeView = (source) => {
-    setCurrentTab(source)
-  }
+    setCurrentTab(source);
+  };
 
   const renderStatusBar = (OS) => {
     if (OS === 'ios') {
-      return (<View style={styles.iosBar}></View>)
+      return (<View style={styles.iosBar}></View>);
     }
     if (OS === 'android') {
-      return (<View style={styles.androidBar}></View>)
+      return (<View style={styles.androidBar}></View>);
     }
   };
 
@@ -74,7 +102,6 @@ export default function App() {
           getUserInput={getUserInput}
           movieList={currentMovieList}
           getUserSelectedMovie={getUserSelectedMovie}
-          changeView={changeView}
         />
       )
     }
@@ -95,7 +122,7 @@ export default function App() {
     }
     if (view === 'MOVIE VIEW') {
       return (<MovieView
-        selectedMovieId={selectedMovieId}
+        selectedMovie={selectedMovieDetails}
       />)
     }
   }
@@ -119,7 +146,7 @@ export default function App() {
         ]
         }
         active={currentTab}
-        handleTabPress={handleTabPress}
+        handleTabPress={changeView}
       />
       {renderView(currentTab)}
     </View>

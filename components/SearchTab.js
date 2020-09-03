@@ -3,14 +3,13 @@ import { View, Text } from 'react-native';
 import SearchBar from './SearchBar';
 import MovieMapper from './MovieMapper';
 
-const SearchTab = ({getUserInput, movieList, getUserSelectedMovie, changeView}) => {
+const SearchTab = ({getUserInput, movieList, getUserSelectedMovie}) => {
   return (
     <View>
       <SearchBar getUserInput={getUserInput}/>
       <MovieMapper
         movieList={movieList}
         getUserSelectedMovie={getUserSelectedMovie}
-        changeView={changeView}
         />
     </View>
   )

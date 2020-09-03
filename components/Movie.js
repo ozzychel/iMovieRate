@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 
-const Movie = ({ movie, getUserSelectedMovie, changeView }) => {
+const Movie = ({ movie, getUserSelectedMovie }) => {
   const renderImage = () => {
     if (movie.poster_path) {
       return (
         <Image
             style={styles.poster}
-            // defaultSource={require('../default.jpg')}
             source={{
               uri:`https://image.tmdb.org/t/p/w300${movie.poster_path}`
             }}
@@ -28,7 +27,6 @@ const Movie = ({ movie, getUserSelectedMovie, changeView }) => {
       <TouchableOpacity
         onPress={() => {
           getUserSelectedMovie(movie.id)
-          changeView('MOVIE VIEW')
         }}
       >
       <View style={styles.title_cont}>

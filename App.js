@@ -6,23 +6,30 @@ import api_key from './config.js';
 import Constants from "expo-constants";
 import MainCarousel from './components/MainCarousel';
 import SearchTab from './components/SearchTab';
+import MovieView from './components/MovieView';
 
 export default function App() {
-  const [currentSearch, setCurrentSearch] = useState('')
+  const [currentSearch, setCurrentSearch] = useState('');
 
-  const [currentMovieList, setCurrentMovieList] = useState([])
+  const [currentMovieList, setCurrentMovieList] = useState([]);
 
-  const [currentTab, setCurrentTab] = useState('SEARCH')// <----
+  const [currentTab, setCurrentTab] = useState('SEARCH');// <--
+
+  const [selectedMovieId, setSelectedMovieId] = useState('');
+
+  const getUserSelectedMovie = (id) => {
+    setSelectedMovieId(id)
+  }
 
   const getUserInput = (input) => {
     setCurrentSearch(input)
-  }
+  };
 
   useEffect(() => {
     if(currentSearch) {
       getDataFromServer(currentSearch)
     }
-  }, [currentSearch])
+  }, [currentSearch]);
 
   const getDataFromServer = (query) => {
     console.log('QUERY', query)
@@ -47,6 +54,10 @@ export default function App() {
     setCurrentTab(title)
   }
 
+  const changeView = (source) => {
+    setCurrentTab(source)
+  }
+
   const renderStatusBar = (OS) => {
     if (OS === 'ios') {
       return (<View style={styles.iosBar}></View>)
@@ -62,6 +73,8 @@ export default function App() {
         <SearchTab
           getUserInput={getUserInput}
           movieList={currentMovieList}
+          getUserSelectedMovie={getUserSelectedMovie}
+          changeView={changeView}
         />
       )
     }
@@ -79,6 +92,11 @@ export default function App() {
     }
     if (view === 'AWARDS & EVENTS') {
       return (<Text>AWARDS SCREEN</Text>)
+    }
+    if (view === 'MOVIE VIEW') {
+      return (<MovieView
+        selectedMovieId={selectedMovieId}
+      />)
     }
   }
 

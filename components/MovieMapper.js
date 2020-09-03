@@ -2,11 +2,16 @@ import React from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import Movie from './Movie';
 
-const MovieMapper = ({ movieList }) => {
+const MovieMapper = ({ movieList, getUserSelectedMovie, changeView }) => {
   const movies = [];
   movieList.forEach((movie, i) => {
     movies.push(
-      <Movie movie={movieList[i]} key={i}/>
+      <Movie
+        key={i}
+        movie={movieList[i]}
+        getUserSelectedMovie={getUserSelectedMovie}
+        changeView={changeView}
+      />
     )
   })
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 
-const Movie = ({ movie }) => {
+const Movie = ({ movie, getUserSelectedMovie, changeView }) => {
   const renderImage = () => {
     if (movie.poster_path) {
       return (
@@ -25,11 +25,18 @@ const Movie = ({ movie }) => {
 
   return (
     <View style={styles.movie_cont}>
+      <TouchableOpacity
+        onPress={() => {
+          getUserSelectedMovie(movie.id)
+          changeView('MOVIE VIEW')
+        }}
+      >
       <View style={styles.title_cont}>
         <Text style={styles.title}>{movie.title + ` (${movie.release_date.slice(0, 4)})`}</Text>
       </View>
       <View>{renderImage()}</View>
       <Separator />
+      </TouchableOpacity>
     </View>
   )
 }

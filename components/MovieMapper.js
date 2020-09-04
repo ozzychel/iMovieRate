@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import Movie from './Movie';
 
-const MovieMapper = ({ movieList, getUserSelectedMovie }) => {
+const MovieMapper = ({ movieList, getUserSelectedMovie, genresList }) => {
   const movies = [];
   movieList.forEach((movie, i) => {
     movies.push(
@@ -10,6 +10,7 @@ const MovieMapper = ({ movieList, getUserSelectedMovie }) => {
         key={i}
         movie={movieList[i]}
         getUserSelectedMovie={getUserSelectedMovie}
+        genresList={genresList}
       />
     )
   })
@@ -22,7 +23,7 @@ const MovieMapper = ({ movieList, getUserSelectedMovie }) => {
 
 const styles = StyleSheet.create({
   cont: {
-    backgroundColor: 'black'
+    backgroundColor: 'white'
   }
 })
 

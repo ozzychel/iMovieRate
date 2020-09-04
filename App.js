@@ -15,6 +15,8 @@ export default function App() {
 
   const [selectedMovieDetails, setSelectedMovieDetails] = useState([]);
 
+  const [genresList, setGenresList] = useState({});
+
   const [currentTab, setCurrentTab] = useState('SEARCH');// <--
 
   const getUserSelectedMovie = (id) => {
@@ -25,22 +27,13 @@ export default function App() {
     setCurrentSearch(input)
   };
 
-  // useEffect(() => {
-  //   if (currentSearch) {
-  //     getDataListFromServer(currentSearch)
-  //   }
-  // }, [currentSearch]);
-
-  // useEffect(() => {
-    // if (selectedMovieDetails.length > 0) {
-    //   console.log('UE sel mov det WORKS')
-    //   changeView('MOVIE VIEW')
-    // }
-  // }, [selectedMovieDetails])
+  useEffect(() => {
+    getGenresListFromApi()
+  }, [])
 
   useEffect(() => {
     if (currentSearch) {
-      getDataListFromServer(currentSearch)
+      getMovieListFromServer(currentSearch)
     }
     if (selectedMovieDetails.length > 0) {
       console.log('UE sel mov det WORKS')
@@ -48,7 +41,7 @@ export default function App() {
     }
   }, [currentSearch, selectedMovieDetails])
 
-  const getDataListFromServer = (query) => {
+  const getMovieListFromServer = (query) => {
     console.log('QUERY', query)
     axios.get('https://api.themoviedb.org/3/search/movie', {
       params: {
@@ -66,6 +59,26 @@ export default function App() {
       console.log(err);
     })
   };
+
+  const getGenresListFromApi = () => {
+    axios.get(`https://api.themoviedb.org/3/genre/movie/list`, {
+      params: {
+        api_key
+      }
+    })
+    .then((result) => {
+      let genresObj = {};
+      result.data.genres.forEach((item) => {
+        if(!genresObj[item.id]) {
+          genresObj[item.id] = item.name
+        }
+      })
+      setGenresList(genresObj)
+    })
+    .catch((err) => {
+      console.log('GENRES GET FAILED', err)
+    })
+  }
 
   const getMovieDataById = (id) => {
     axios.get(`https://api.themoviedb.org/3/movie/${id}`, {
@@ -102,6 +115,7 @@ export default function App() {
           getUserInput={getUserInput}
           movieList={currentMovieList}
           getUserSelectedMovie={getUserSelectedMovie}
+          genresList={genresList}
         />
       )
     }

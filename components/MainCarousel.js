@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     marginRight: 5
   },
   itemText: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: '500',
     color: 'white'
   },

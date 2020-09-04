@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 
 const Movie = ({ movie, getUserSelectedMovie, genresList }) => {
-  console.log('MOVIE LOG', genresList)
+  // console.log('MOVIE LOG', genresList)
   const renderImage = () => {
     if (movie.poster_path) {
       return (
@@ -27,9 +27,9 @@ const Movie = ({ movie, getUserSelectedMovie, genresList }) => {
     }
   };
 
-  const genres = ''
+  let genres = [];
   movie.genre_ids.forEach((id) => {
-
+    genres.push(genresList[id])
   })
 
   return (
@@ -48,7 +48,7 @@ const Movie = ({ movie, getUserSelectedMovie, genresList }) => {
           <Text style={styles.title}>
             {movie.title + ` (${movie.release_date.slice(0, 4)})`}
           </Text>
-            <Text>{genres}</Text>
+            <Text style={styles.genres_title}>{genres.join(', ')}</Text>
         </View>
 
       </View>
@@ -72,30 +72,40 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'row',
-    borderWidth: 2,
+    // borderWidth: 2,
     justifyContent: 'space-between'
   },
   poster_cont: {
     margin: 5,
-    borderWidth: 3,
-    borderColor:'green'
+    // borderWidth: 3,
+    // borderColor:'green'
   },
   poster: {
     width: 92,
     height: 138,
   },
   title_cont: {
-    width: '70%',
+    width: '75%',
     margin: 5,
-    borderWidth: 3,
-    borderColor: 'yellow'
+    // borderWidth: 3,
+    // borderColor: 'yellow'
   },
   title: {
-    width: '100%',
-    fontSize: 20,
-    backgroundColor: 'grey',
+    // width: '100%',
+    fontSize: 16,
+    // backgroundColor: 'grey',
     marginTop: '10%',
-    paddingLeft: 5
+    paddingLeft: 5,
+    fontWeight: '500',
+    color: 'white'
+  },
+  genres_title: {
+    fontSize: 14,
+    // backgroundColor: 'lightgrey',
+    marginTop: 5,
+    paddingLeft: 5,
+    fontStyle: 'italic',
+    color: 'white'
   },
   separator: {
     marginVertical: 2,

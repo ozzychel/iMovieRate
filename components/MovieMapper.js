@@ -23,7 +23,7 @@ const MovieMapper = ({ movieList, getUserSelectedMovie, genresList }) => {
 
 const styles = StyleSheet.create({
   cont: {
-    backgroundColor: 'white'
+    backgroundColor: '#131313'
   }
 })
 

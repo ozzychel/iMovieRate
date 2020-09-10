@@ -35,11 +35,14 @@ export default function App() {
     if (currentSearch) {
       getMovieListFromServer(currentSearch)
     }
+  }, [currentSearch])
+
+  useEffect(() => {
     if (selectedMovieDetails.length > 0) {
       console.log('UE sel mov det WORKS')
       changeView('MOVIE VIEW')
     }
-  }, [currentSearch, selectedMovieDetails])
+  }, [selectedMovieDetails])
 
   const getMovieListFromServer = (query) => {
     console.log('QUERY', query)
@@ -51,7 +54,7 @@ export default function App() {
     })
     .then((result) => {
       console.log('GET SUCCESS');
-      console.log(result.data.results);
+      // console.log(result.data.results);
       setCurrentMovieList(result.data.results);
     })
     .catch((err) => {

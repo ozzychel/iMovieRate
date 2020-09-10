@@ -54,7 +54,7 @@ export default function App() {
     })
     .then((result) => {
       console.log('GET SUCCESS');
-      // console.log(result.data.results);
+      console.log(result.data.results);
       setCurrentMovieList(result.data.results);
     })
     .catch((err) => {
@@ -70,6 +70,7 @@ export default function App() {
       }
     })
     .then((result) => {
+      console.log('GET GENRES SUCCESS')
       let genresObj = {};
       result.data.genres.forEach((item) => {
         if(!genresObj[item.id]) {
@@ -140,6 +141,7 @@ export default function App() {
     if (view === 'MOVIE VIEW') {
       return (<MovieView
         selectedMovie={selectedMovieDetails}
+        genresList={genresList}
       />)
     }
   }

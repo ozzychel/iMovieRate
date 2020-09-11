@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 
 const Movie = ({ movie, getUserSelectedMovie, genresList }) => {
-  // console.log('MOVIE LOG', genresList)
   const renderImage = () => {
     if (movie.poster_path) {
       return (
@@ -33,9 +32,7 @@ const Movie = ({ movie, getUserSelectedMovie, genresList }) => {
   })
 
   return (
-    <View
-    // style={styles.movie_cont}
-    >
+    <View>
       <TouchableOpacity
         onPress={() => {
           getUserSelectedMovie(movie.id)
@@ -52,12 +49,6 @@ const Movie = ({ movie, getUserSelectedMovie, genresList }) => {
         </View>
 
       </View>
-      {/* <View style={styles.title_cont}>
-        <Text style={styles.title}>{movie.title + ` (${movie.release_date.slice(0, 4)})`}</Text>
-      </View>
-      <View>{renderImage()}</View> */}
-
-
       <Separator />
       </TouchableOpacity>
     </View>
@@ -72,13 +63,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'row',
-    // borderWidth: 2,
     justifyContent: 'space-between'
   },
   poster_cont: {
     margin: 5,
-    // borderWidth: 3,
-    // borderColor:'green'
   },
   poster: {
     width: 92,
@@ -87,13 +75,9 @@ const styles = StyleSheet.create({
   title_cont: {
     width: '75%',
     margin: 5,
-    // borderWidth: 3,
-    // borderColor: 'yellow'
   },
   title: {
-    // width: '100%',
     fontSize: 16,
-    // backgroundColor: 'grey',
     marginTop: '10%',
     paddingLeft: 5,
     fontWeight: '500',
@@ -101,7 +85,6 @@ const styles = StyleSheet.create({
   },
   genres_title: {
     fontSize: 14,
-    // backgroundColor: 'lightgrey',
     marginTop: 5,
     paddingLeft: 5,
     fontStyle: 'italic',

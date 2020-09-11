@@ -11,14 +11,18 @@ const MovieView = ({ selectedMovie, genresList }) => {
     let genreBlocks = [];
     genresArr.forEach((genre, i) => {
       genreBlocks.push(
-        /////////////////////CATCH UP FROM HERE
-        <Text key={i}>
-          {genre}
-        </Text>
+        <View key={i} style={styles.genres_block}>
+          <Text style={styles.genres_text}>
+            {genre}
+          </Text>
+        </View>
         )
     })
     return (
-      <ScrollView>
+      <ScrollView
+        style={styles.genres_cont}
+        horizontal={true}
+        >
         {genreBlocks}
       </ScrollView>
     )
@@ -48,76 +52,107 @@ const MovieView = ({ selectedMovie, genresList }) => {
     }
   };
 
+  const renderTagline = () => {
+    return movie.tagline ?
+    <View style={styles.tagline_cont}>
+      <Text style={styles.tagline_text}>{`"${movie.tagline}"`}</Text>
+      <Separator/>
+    </View> :
+    <Text></Text>
+  }
+
+  const Separator = () => (
+    <View style={styles.separator} />
+  );
+
   const genres = [];
   movie.genres.forEach((obj) => {
     genres.push(genresList[obj.id])
   })
   return (
-    // big picture with small inside with title and year
-    // description
-    // ratings
+    // PICTURE CAROUSEL
+    // TITLE
+    // DESCription BLOCK
+    // ADD TO WATCHLIST
+    // RATINGS BLOCK
+    // CAST ACTORS
+    // NEWS, UPDATES....
+    // VIDEOS
+    // IMAGES
+    // AWARDS
+    // REVIEWS
     <ScrollView>
 
-      <View style={styles.info_cont}>
-        <Text style={styles.title_text}>
-            {selectedMovie[0].title}
-        </Text>
-        <View style={styles.title_info_cont}>
-          <Text style={styles.title_info_text}>{selectedMovie[0].release_date.slice(0,4)}</Text>
-          <Text style={styles.title_info_text}>{runtime + 'h'}</Text>
+      <View style={styles.title_cont}>
+        <View>
+          <Text style={styles.title_text}>
+              {selectedMovie[0].title}
+          </Text>
+        </View>
+        <View style={styles.year_duration_cont}>
+          <Text style={styles.year_duration_text}>{selectedMovie[0].release_date.slice(0,4)}</Text>
+          <Text style={styles.year_duration_text}>{runtime + 'h'}</Text>
         </View>
       </View>
 
+      <Separator/>
       <View style={styles.desc_main_cont}>
           {renderImage()}
-
         <View style={styles.genres_desc_cont}>
             {renderGenres(genres)}
-            {/* <View style={styles.genres_cont}>
-              <Text>{genres}</Text>
-            </View> */}
 
             <ScrollView style={styles.desc_cont}>
-              <Text>{movie.overview}</Text>
+              <Text style={styles.desc_text}>{movie.overview}</Text>
             </ScrollView>
 
         </View>
       </View>
+      <Separator />
+
+      <View>
+        {renderTagline()}
+      </View>
 
 
-        <Text>{`"${selectedMovie[0].tagline}"`}</Text>
     </ScrollView>
   )
 };
 
 const styles = StyleSheet.create({
-  info_cont: {
-    backgroundColor: 'beige'
+  separator: {
+    marginVertical: 0.3,
+    borderBottomColor: '#737373',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+  },
+  title_cont: {
+    backgroundColor: '#131313',
+    maxHeight: 150
   },
   title_text: {
-    fontSize: 24,
-    backgroundColor: 'lightgrey',
+    fontSize: 30,
+    color: 'white',
     paddingLeft: 10,
     paddingTop: 10,
     paddingBottom: 5
   },
-  title_info_cont: {
+  year_duration_cont: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
+    paddingBottom: 7
   },
-  title_info_text: {
+  year_duration_text: {
     fontSize: 18,
     paddingLeft: 10,
+    color: '#737373'
   },
   desc_main_cont: {
     flexDirection: 'row',
-    borderWidth: 3,
-    borderColor: 'red',
+    backgroundColor: '#131313',
+    padding: 5
   },
   poster_cont: {
     margin: 5,
-    borderWidth: 3,
-    borderColor:'green'
+    maxHeight: 138
   },
   poster: {
     width: 92,
@@ -125,21 +160,41 @@ const styles = StyleSheet.create({
   },
   genres_desc_cont: {
     width: '70%',
-    padding: 5,
     margin: 5,
-    borderWidth: 3,
-    borderColor:'pink'
+    maxHeight: 138
   },
   genres_cont: {
+    paddingTop: 7,
+    paddingBottom: 7,
+  },
+  genres_block: {
     padding: 5,
-    borderWidth: 3,
-    borderColor:'lightgrey',
+    marginRight: 10,
+    borderColor: '#737373',
+    borderWidth: 2,
+    borderRadius: 6
+  },
+  genres_text: {
+    fontSize: 16,
+    color: 'white'
   },
   desc_cont: {
-    padding: 5,
-    borderWidth: 3,
-    borderColor:'lightgrey',
+    paddingBottom: 5,
     maxHeight: 90
+  },
+  desc_text: {
+    color: 'white',
+    fontSize: 16
+  },
+  tagline_cont: {
+    backgroundColor: '#131313',
+    alignItems: 'center',
+    padding: 10
+  },
+  tagline_text: {
+    color: '#737373',
+    fontSize: 18,
+    fontStyle: 'italic'
   }
 });
 

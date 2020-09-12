@@ -76,6 +76,7 @@ const MovieView = ({ selectedMovie, genresList }) => {
     // ADD TO WATCHLIST
 
     // RATINGS BLOCK
+
     // CAST ACTORS
     // NEWS, UPDATES....
     // VIDEOS
@@ -134,6 +135,32 @@ const MovieView = ({ selectedMovie, genresList }) => {
       </View>
       <Separator/>
 
+
+
+      <View style={styles.cast_cont}>
+
+        <View style={styles.cast_heading}>
+          <View style={styles.cast_heading_subtitle_cont}>
+            <Text style={styles.subtitle}>Cast</Text>
+          </View>
+          <TouchableOpacity>
+          <View style={styles.cast_heading_seeAllbutton_cont}>
+            <Text style={styles.cast_heading_seeAllbutton_text}>SEE ALL</Text>
+          </View>
+          </TouchableOpacity>
+        </View>
+
+        <ScrollView
+          style={styles.cast_carousel}
+          horizontal={true}
+          ></ScrollView>
+
+        <View><Text style={{color:'white'}}>Writers</Text></View>
+
+      </View>
+
+
+
     </ScrollView>
   )
 };
@@ -144,12 +171,16 @@ const styles = StyleSheet.create({
     borderBottomColor: '#737373',
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
+  subtitle: {
+    color: 'white',
+    fontSize: 26
+  },
   title_cont: {
     backgroundColor: '#131313',
     maxHeight: 150
   },
   title_text: {
-    fontSize: 30,
+    fontSize: 34,
     color: 'white',
     paddingLeft: 10,
     paddingTop: 10,
@@ -232,10 +263,7 @@ const styles = StyleSheet.create({
   addButton_icon_cont: {
     alignItems: 'flex-end',
     justifyContent: 'center',
-    // width: '20%',
     paddingRight: 7,
-    // borderColor:'white',
-    // borderWidth:1
   },
   addButton_icon_text: {
     color: 'white',
@@ -244,10 +272,7 @@ const styles = StyleSheet.create({
   addButton_text_cont: {
     alignItems: 'flex-start',
     justifyContent: 'center',
-    // width: '65%',
     padding: 7,
-    // borderColor:'white',
-    // borderWidth:1
   },
   addButton_text: {
     paddingTop: 2,
@@ -257,6 +282,32 @@ const styles = StyleSheet.create({
   ratings_cont: {
     backgroundColor: '#131313',
     height: 50
+  },
+  cast_cont: {
+    marginTop: 20,
+    backgroundColor: '#131313',
+  },
+  cast_heading: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 5
+  },
+  cast_heading_subtitle_cont: {
+    padding: 5,
+  },
+  cast_heading_seeAllbutton_cont: {
+    padding: 10,
+  },
+  cast_heading_seeAllbutton_text: {
+    paddingTop: 3,
+    justifyContent: 'flex-end',
+    color: '#1472f1',
+    fontSize: 18,
+    fontWeight: '600'
+  },
+  cast_carousel: {
+    height: 30,
+    backgroundColor: '#737373'
   }
 });
 

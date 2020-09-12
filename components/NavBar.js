@@ -28,7 +28,6 @@ const styles = StyleSheet.create({
   },
   titleCont: {
     width: '45%',
-    // height: '40%',
     borderWidth: 1,
     borderStyle: 'solid',
     borderColor: 'white',
@@ -39,7 +38,6 @@ const styles = StyleSheet.create({
   },
   dotsCont: {
     width: '20%',
-    // height: '40%',
     borderColor: 'white',
     borderWidth: 1,
     borderStyle: 'solid',

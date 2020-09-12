@@ -156,12 +156,12 @@ export default function App() {
         style="slides"
         itemsPerInterval={1}
         items={[
+          {title: 'SEARCH'},
           {title: 'HOME'},
           {title: 'MOVIES'},
           {title: 'TV SHOWS'},
           {title: 'CELEBS'},
           {title: 'AWARDS & EVENTS'},
-          {title: 'SEARCH'}
         ]
         }
         active={currentTab}

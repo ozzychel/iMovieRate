@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView, StyleSheet, Image } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 import moment from 'moment';
 
@@ -67,12 +67,13 @@ const MovieView = ({ selectedMovie, genresList }) => {
 
   const genres = [];
   movie.genres.forEach((obj) => {
-    genres.push(genresList[obj.id])
+    genres.push(genresList[obj.id]);
   })
   return (
     // PICTURE CAROUSEL
     // TITLE
     // DESCription BLOCK
+
     // ADD TO WATCHLIST
     // RATINGS BLOCK
     // CAST ACTORS
@@ -112,7 +113,20 @@ const MovieView = ({ selectedMovie, genresList }) => {
       <View>
         {renderTagline()}
       </View>
+      <Separator/>
 
+      <View style={styles.addWatchList_cont}>
+        <TouchableOpacity>
+          <View style={styles.addButton_cont}>
+            <View style={styles.addButton_icon_cont}>
+              <Text style={styles.addButton_icon_text}>+</Text>
+            </View>
+            <View style={styles.addButton_text_cont}>
+              <Text style={styles.addButton_text}>ADD TO WATCHLIST</Text>
+            </View>
+          </View>
+        </TouchableOpacity>
+      </View>
 
     </ScrollView>
   )
@@ -120,7 +134,7 @@ const MovieView = ({ selectedMovie, genresList }) => {
 
 const styles = StyleSheet.create({
   separator: {
-    marginVertical: 0.3,
+    marginVertical: 0.05,
     borderBottomColor: '#737373',
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
@@ -195,6 +209,38 @@ const styles = StyleSheet.create({
     color: '#737373',
     fontSize: 18,
     fontStyle: 'italic'
+  },
+  addWatchList_cont: {
+    backgroundColor: '#131313',
+    padding: 12
+  },
+  addButton_cont: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    borderWidth: 2,
+    borderColor: '#737373'
+
+  },
+  addButton_icon_cont: {
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+    width: '20%',
+    paddingRight: 7
+  },
+  addButton_icon_text: {
+    color: 'white',
+    fontSize: 22
+  },
+  addButton_text_cont: {
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    width: '65%',
+    padding: 7,
+  },
+  addButton_text: {
+    paddingTop: 2,
+    color: 'white',
+    fontSize: 14
   }
 });
 

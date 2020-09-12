@@ -58,7 +58,7 @@ const MovieView = ({ selectedMovie, genresList }) => {
       <Text style={styles.tagline_text}>{`"${movie.tagline}"`}</Text>
       <Separator/>
     </View> :
-    <Text></Text>
+    null
   }
 
   const Separator = () => (
@@ -73,8 +73,8 @@ const MovieView = ({ selectedMovie, genresList }) => {
     // PICTURE CAROUSEL
     // TITLE
     // DESCription BLOCK
-
     // ADD TO WATCHLIST
+
     // RATINGS BLOCK
     // CAST ACTORS
     // NEWS, UPDATES....
@@ -127,6 +127,12 @@ const MovieView = ({ selectedMovie, genresList }) => {
           </View>
         </TouchableOpacity>
       </View>
+      <Separator/>
+
+      <View style={styles.ratings_cont}>
+        <Text style={{color:'#737373'}}>Ratings block</Text>
+      </View>
+      <Separator/>
 
     </ScrollView>
   )
@@ -218,14 +224,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     borderWidth: 2,
-    borderColor: '#737373'
+    borderColor: 'black',
+    backgroundColor: '#737373',
+    borderRadius: 5
 
   },
   addButton_icon_cont: {
     alignItems: 'flex-end',
     justifyContent: 'center',
-    width: '20%',
-    paddingRight: 7
+    // width: '20%',
+    paddingRight: 7,
+    // borderColor:'white',
+    // borderWidth:1
   },
   addButton_icon_text: {
     color: 'white',
@@ -234,13 +244,19 @@ const styles = StyleSheet.create({
   addButton_text_cont: {
     alignItems: 'flex-start',
     justifyContent: 'center',
-    width: '65%',
+    // width: '65%',
     padding: 7,
+    // borderColor:'white',
+    // borderWidth:1
   },
   addButton_text: {
     paddingTop: 2,
     color: 'white',
     fontSize: 14
+  },
+  ratings_cont: {
+    backgroundColor: '#131313',
+    height: 50
   }
 });
 

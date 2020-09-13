@@ -1,27 +1,51 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import axios from 'axios';
-import api_key from '../config.js';
+import keys from '../config.js';
 import moment from 'moment';
 
 const MovieView = ({ selectedMovie, genresList }) => {
-  const movie = selectedMovie[0];
+  const movie_tmdb = selectedMovie[0];
   const [castList, setCastList] = useState([]);
+  const [crewList, setCrewList] = useState([]);
   const [topCastList, setTopCastList] = useState([]);
+  const [movie_omdb, setMovie_omdb] = useState({});
+
 
   useEffect(() => {
-    getCastListFromServer(movie.id)
+    getCastListFromServer(movie_tmdb.id)
+  }, []);
+
+  useEffect(() => {
+    getDataFromOMDB(movie_tmdb.imdb_id)
   }, [])
+
+  const getDataFromOMDB = (id) => {
+    axios.get(`http://www.omdbapi.com/`, {
+      params: {
+        i: id,
+        apikey: keys.omdb_api_key
+      }
+    })
+    .then((result) => {
+      console.log('OMDB GET SUCCESS', result.data);
+      setMovie_omdb(result.data);
+    })
+    .catch((err) => {
+      console.log('OMDB GETT ERROR', err)
+    })
+  }
 
   const getCastListFromServer = (movieId) => {
     axios.get(`https://api.themoviedb.org/3/movie/${movieId}/credits`, {
       params: {
-        api_key
+        api_key: keys.tmdb_api_key
       }
     })
     .then((result) => {
       console.log('CREDITS GET SUCCESS');
       setCastList(result.data.cast);
+      setCrewList(result.data.crew);
       setTopCastList(result.data.cast.slice(0, 20))
     })
     .catch((err) => {
@@ -29,7 +53,7 @@ const MovieView = ({ selectedMovie, genresList }) => {
     })
   }
 
-  const runtime = moment.utc(moment.duration(movie.runtime, "minutes").asMilliseconds()).format(`H:mm`);
+  const runtime = moment.utc(moment.duration(movie_tmdb.runtime, "minutes").asMilliseconds()).format(`H:mm`);
 
   const renderGenres = (genresArr) => {
     let genreBlocks = [];
@@ -55,13 +79,13 @@ const MovieView = ({ selectedMovie, genresList }) => {
   }
 
   const renderImage = () => {
-    if (movie.poster_path) {
+    if (movie_tmdb.poster_path) {
       return (
         <View style={styles.poster_cont}>
         <Image
             style={styles.poster}
             source={{
-              uri:`https://image.tmdb.org/t/p/w154${movie.poster_path}`
+              uri:`https://image.tmdb.org/t/p/w154${movie_tmdb.poster_path}`
             }}
         />
         </View>
@@ -79,9 +103,9 @@ const MovieView = ({ selectedMovie, genresList }) => {
   };
 
   const renderTagline = () => {
-    return movie.tagline ?
+    return movie_tmdb.tagline ?
     <View style={styles.tagline_cont}>
-      <Text style={styles.tagline_text}>{`"${movie.tagline}"`}</Text>
+      <Text style={styles.tagline_text}>{`"${movie_tmdb.tagline}"`}</Text>
       <Separator/>
     </View> :
     null
@@ -112,11 +136,10 @@ const MovieView = ({ selectedMovie, genresList }) => {
   );
 
   const genres = [];
-  movie.genres.forEach((obj) => {
+  movie_tmdb.genres.forEach((obj) => {
     genres.push(genresList[obj.id]);
   });
 
-  console.log('--------------TOP CAST------------',topCastList)
 
   return (
     // PICTURE CAROUSEL
@@ -132,7 +155,7 @@ const MovieView = ({ selectedMovie, genresList }) => {
     // IMAGES
     // AWARDS
     // REVIEWS
-    <ScrollView contentContainerStyle={{height: 2000}}>
+    <ScrollView contentContainerStyle={styles.tab_cont}>
 
       <View style={styles.title_cont}>
         <View>
@@ -153,7 +176,7 @@ const MovieView = ({ selectedMovie, genresList }) => {
             {renderGenres(genres)}
 
             <ScrollView style={styles.desc_cont}>
-              <Text style={styles.desc_text}>{movie.overview}</Text>
+              <Text style={styles.desc_text}>{movie_tmdb.overview}</Text>
             </ScrollView>
 
         </View>
@@ -222,7 +245,8 @@ const MovieView = ({ selectedMovie, genresList }) => {
                 </View>
 
                 <View style={styles.cast_actor_character}>
-                  <Text style={styles.cast_actor_character_text}>{actor.character}</Text>
+                  <Text style={styles.cast_actor_character_text}>{actor.character}
+                  </Text>
                 </View>
 
               </View>
@@ -231,7 +255,23 @@ const MovieView = ({ selectedMovie, genresList }) => {
 
           </ScrollView>
 
-        <View><Text style={{color:'white'}}>Writers</Text></View>
+        <View style={styles.cast_writers}>
+          <Text style={styles.cast_actor_name_text}>Director</Text>
+        </View>
+        <View style={styles.cast_writers}>
+          <Text style={styles.cast_actor_character_text}>
+            {movie_omdb['Director']}
+          </Text>
+        </View>
+
+        <View style={styles.cast_writers}>
+          <Text style={styles.cast_actor_name_text}>Writer</Text>
+        </View>
+        <View style={styles.cast_writers}>
+          <Text style={styles.cast_actor_character_text}>
+            {movie_omdb['Writer']}
+          </Text>
+        </View>
 
       </View>
 
@@ -242,6 +282,10 @@ const MovieView = ({ selectedMovie, genresList }) => {
 };
 
 const styles = StyleSheet.create({
+  tab_cont: {
+    height: 2000,
+    backgroundColor: '#131313'
+  },
   separator: {
     marginVertical: 0.05,
     borderBottomColor: '#737373',
@@ -252,7 +296,7 @@ const styles = StyleSheet.create({
     fontSize: 26
   },
   title_cont: {
-    backgroundColor: '#131313',
+    backgroundColor: '#1f1f1f',
     maxHeight: 150
   },
   title_text: {
@@ -274,7 +318,7 @@ const styles = StyleSheet.create({
   },
   desc_main_cont: {
     flexDirection: 'row',
-    backgroundColor: '#131313',
+    backgroundColor: '#1f1f1f',
     padding: 5
   },
   poster_cont: {
@@ -314,7 +358,7 @@ const styles = StyleSheet.create({
     fontSize: 16
   },
   tagline_cont: {
-    backgroundColor: '#131313',
+    backgroundColor: '#1f1f1f',
     alignItems: 'center',
     padding: 10
   },
@@ -324,14 +368,12 @@ const styles = StyleSheet.create({
     fontStyle: 'italic'
   },
   addWatchList_cont: {
-    backgroundColor: '#131313',
+    backgroundColor: '#1f1f1f',
     padding: 12
   },
   addButton_cont: {
     flexDirection: 'row',
     justifyContent: 'center',
-    borderWidth: 2,
-    borderColor: 'black',
     backgroundColor: '#313131',
     borderRadius: 5
 
@@ -356,12 +398,12 @@ const styles = StyleSheet.create({
     fontSize: 14
   },
   ratings_cont: {
-    backgroundColor: '#131313',
+    backgroundColor: '#1f1f1f',
     height: 50
   },
   cast_cont: {
     marginTop: 20,
-    backgroundColor: '#131313',
+    backgroundColor: '#1f1f1f',
   },
   cast_heading: {
     flexDirection: 'row',
@@ -382,8 +424,7 @@ const styles = StyleSheet.create({
     fontWeight: '600'
   },
   cast_carousel: {
-    backgroundColor: '#131313',
-    // backgroundColor: 'white',
+    backgroundColor: '#1f1f1f',
     justifyContent: 'space-between',
     paddingTop: 15,
     paddingBottom: 15
@@ -430,7 +471,14 @@ const styles = StyleSheet.create({
   },
   cast_actor_character_text: {
     color: '#737373',
-    fontSize: 16
+    fontSize: 16,
+    paddingRight: 2
+  },
+  cast_writers: {
+    height: 40,
+    paddingLeft: 10,
+    justifyContent: 'center',
+    backgroundColor: '#1f1f1f',
   }
 
 });

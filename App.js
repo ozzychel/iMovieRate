@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Image, StatusBar, ScrollView } from 'react-native';
 import NavBar from './components/NavBar';
 import axios from 'axios';
-import api_key from './config.js';
+import keys from './config.js';
 import Constants from "expo-constants";
 import MainCarousel from './components/MainCarousel';
 import SearchTab from './components/SearchTab';
@@ -48,8 +48,8 @@ export default function App() {
     console.log('QUERY', query)
     axios.get('https://api.themoviedb.org/3/search/movie', {
       params: {
-        api_key,
-        query
+        api_key: keys.tmdb_api_key,
+        query: query
       }
     })
     .then((result) => {
@@ -66,7 +66,7 @@ export default function App() {
   const getGenresListFromApi = () => {
     axios.get(`https://api.themoviedb.org/3/genre/movie/list`, {
       params: {
-        api_key
+        api_key: keys.tmdb_api_key
       }
     })
     .then((result) => {
@@ -87,7 +87,7 @@ export default function App() {
   const getMovieDataById = (id) => {
     axios.get(`https://api.themoviedb.org/3/movie/${id}`, {
       params: {
-        api_key
+        api_key: keys.tmdb_api_key
       }
     })
     .then((result) => {

@@ -20,7 +20,7 @@ const NavBar = (props) => {
 const styles = StyleSheet.create({
   navbar: {
     height: 60,
-    backgroundColor: '#1f1f1f',
+    backgroundColor: '#131313',
     alignItems: 'flex-end',
     flexDirection: 'row',
     justifyContent: 'space-between',

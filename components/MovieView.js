@@ -70,7 +70,7 @@ const MovieView = ({ selectedMovie, genresList }) => {
 
     return (
       <ScrollView
-        style={styles.genres_cont}
+        contentContainerStyle={styles.genres_cont}
         horizontal={true}
         >
         {genreBlocks}
@@ -436,6 +436,7 @@ const styles = StyleSheet.create({
     maxWidth: 150,
     marginRight: 10,
     marginLeft: 10,
+
     shadowColor: "#000",
     shadowOffset: {
 	    width: 3,
@@ -455,14 +456,14 @@ const styles = StyleSheet.create({
     height: 50,
     paddingLeft: 10,
     justifyContent: 'center',
-    backgroundColor: '#1f1f1f'
+    backgroundColor: '#313131'
 
   },
   cast_actor_character: {
     height: 50,
     paddingLeft: 10,
     justifyContent: 'center',
-    backgroundColor: '#1f1f1f',
+    backgroundColor: '#313131',
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10
   },
@@ -477,7 +478,7 @@ const styles = StyleSheet.create({
     paddingRight: 2
   },
   cast_writers_heading: {
-    height: 20,
+    height: 30,
     paddingLeft: 10,
     justifyContent: 'center',
     backgroundColor: '#1f1f1f',

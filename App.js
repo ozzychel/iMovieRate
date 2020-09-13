@@ -52,10 +52,13 @@ export default function App() {
         query: query
       }
     })
+    .then(result => result.data.results.filter(movie =>
+      movie.release_date ? movie : null
+    ))
     .then((result) => {
       console.log('GET SUCCESS');
       // console.log(result.data.results);
-      setCurrentMovieList(result.data.results);
+      setCurrentMovieList(result);
     })
     .catch((err) => {
       console.log('GET FAILED');

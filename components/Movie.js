@@ -43,7 +43,7 @@ const Movie = ({ movie, getUserSelectedMovie, genresList }) => {
         {renderImage()}
         <View style={styles.title_cont}>
           <Text style={styles.title}>
-            {movie.title + ` (${movie.release_date.slice(0, 4)})`}
+            {movie.title + ` (${movie.release_date.slice(0,4)})`}
           </Text>
             <Text style={styles.genres_title}>{genres.join(', ')}</Text>
         </View>

@@ -16,14 +16,16 @@ const MovieMapper = ({ movieList, getUserSelectedMovie, genresList }) => {
   })
 
   return (
-    <ScrollView style={styles.cont}>{movies}</ScrollView>
+    <ScrollView
+    contentContainerStyle={styles.contentContainer}
+    >{movies}</ScrollView>
   )
 
 };
 
 const styles = StyleSheet.create({
-  cont: {
-    backgroundColor: '#131313'
+  contentContainer: {
+    backgroundColor: '#131313',
   }
 })
 

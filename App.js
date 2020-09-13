@@ -54,7 +54,7 @@ export default function App() {
     })
     .then((result) => {
       console.log('GET SUCCESS');
-      console.log(result.data.results);
+      // console.log(result.data.results);
       setCurrentMovieList(result.data.results);
     })
     .catch((err) => {

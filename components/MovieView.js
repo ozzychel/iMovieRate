@@ -1,11 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import axios from 'axios';
+import api_key from '../config.js';
 import moment from 'moment';
 
 const MovieView = ({ selectedMovie, genresList }) => {
   const movie = selectedMovie[0];
-  let runtime = moment.utc(moment.duration(movie.runtime, "minutes").asMilliseconds()).format(`H:mm`);
+  const [castList, setCastList] = useState([]);
+  const [topCastList, setTopCastList] = useState([]);
+
+  useEffect(() => {
+    getCastListFromServer(movie.id)
+  }, [])
+
+  const getCastListFromServer = (movieId) => {
+    axios.get(`https://api.themoviedb.org/3/movie/${movieId}/credits`, {
+      params: {
+        api_key
+      }
+    })
+    .then((result) => {
+      console.log('CREDITS GET SUCCESS');
+      setCastList(result.data.cast);
+      setTopCastList(result.data.cast.slice(0, 20))
+    })
+    .catch((err) => {
+      console.log('CAST GET ERROR', err)
+    })
+  }
+
+  const runtime = moment.utc(moment.duration(movie.runtime, "minutes").asMilliseconds()).format(`H:mm`);
 
   const renderGenres = (genresArr) => {
     let genreBlocks = [];
@@ -18,6 +42,8 @@ const MovieView = ({ selectedMovie, genresList }) => {
         </View>
         )
     })
+
+
     return (
       <ScrollView
         style={styles.genres_cont}
@@ -61,6 +87,26 @@ const MovieView = ({ selectedMovie, genresList }) => {
     null
   }
 
+  const renderActorImage = (file_path) => {
+    if (file_path) {
+      return (
+        <Image
+            style={styles.actor_image}
+            source={{
+              uri:`https://image.tmdb.org/t/p/w154${file_path}`
+            }}
+        />
+      )
+    } else {
+      return (
+        <Image
+        style={styles.actor_image}
+          source={require('../default.jpg')}
+        />
+      )
+    }
+  }
+
   const Separator = () => (
     <View style={styles.separator} />
   );
@@ -68,7 +114,10 @@ const MovieView = ({ selectedMovie, genresList }) => {
   const genres = [];
   movie.genres.forEach((obj) => {
     genres.push(genresList[obj.id]);
-  })
+  });
+
+  console.log('--------------TOP CAST------------',topCastList)
+
   return (
     // PICTURE CAROUSEL
     // TITLE
@@ -83,7 +132,7 @@ const MovieView = ({ selectedMovie, genresList }) => {
     // IMAGES
     // AWARDS
     // REVIEWS
-    <ScrollView>
+    <ScrollView contentContainerStyle={{height: 2000}}>
 
       <View style={styles.title_cont}>
         <View>
@@ -141,7 +190,7 @@ const MovieView = ({ selectedMovie, genresList }) => {
 
         <View style={styles.cast_heading}>
           <View style={styles.cast_heading_subtitle_cont}>
-            <Text style={styles.subtitle}>Cast</Text>
+            <Text style={styles.subtitle}>Top Billed Cast</Text>
           </View>
           <TouchableOpacity>
           <View style={styles.cast_heading_seeAllbutton_cont}>
@@ -151,9 +200,36 @@ const MovieView = ({ selectedMovie, genresList }) => {
         </View>
 
         <ScrollView
-          style={styles.cast_carousel}
+          //carousel
+          // style={styles.cast_carousel}
           horizontal={true}
-          ></ScrollView>
+          contentContainerStyle={styles.cast_carousel}
+          showsHorizontalScrollIndicator={false}
+          // onContentSizeChange={(w, h) => init(w)}
+          scrollEventThrottle={200}
+          // pagingEnabled
+          decelerationRate="fast"
+          >{topCastList.map((actor, i) => {
+            return (
+              <View key={i} style={styles.cast_actor_cont}>
+
+                <View style={styles.cast_actor_image}>
+                  {renderActorImage(actor.profile_path)}
+                </View>
+
+                <View style={styles.cast_actor_name}>
+                  <Text style={styles.cast_actor_name_text}>{actor.name}</Text>
+                </View>
+
+                <View style={styles.cast_actor_character}>
+                  <Text style={styles.cast_actor_character_text}>{actor.character}</Text>
+                </View>
+
+              </View>
+            )
+          })}
+
+          </ScrollView>
 
         <View><Text style={{color:'white'}}>Writers</Text></View>
 
@@ -256,7 +332,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderWidth: 2,
     borderColor: 'black',
-    backgroundColor: '#737373',
+    backgroundColor: '#313131',
     borderRadius: 5
 
   },
@@ -306,9 +382,57 @@ const styles = StyleSheet.create({
     fontWeight: '600'
   },
   cast_carousel: {
-    height: 30,
-    backgroundColor: '#737373'
+    backgroundColor: '#131313',
+    // backgroundColor: 'white',
+    justifyContent: 'space-between',
+    paddingTop: 15,
+    paddingBottom: 15
+  },
+  cast_actor_cont: {
+    height: 330,
+    maxWidth: 150,
+    marginRight: 10,
+    marginLeft: 10,
+    shadowColor: "#000",
+    shadowOffset: {
+	    width: 3,
+	    height: 3,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  actor_image: {
+    height: 225,
+    width: 150,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10
+  },
+  cast_actor_name: {
+    height: 50,
+    paddingLeft: 10,
+    justifyContent: 'center',
+    backgroundColor: '#1f1f1f'
+
+  },
+  cast_actor_character: {
+    height: 50,
+    paddingLeft: 10,
+    justifyContent: 'center',
+    backgroundColor: '#1f1f1f',
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10
+  },
+  cast_actor_name_text: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '600'
+  },
+  cast_actor_character_text: {
+    color: '#737373',
+    fontSize: 16
   }
+
 });
 
 export default MovieView;

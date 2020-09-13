@@ -165,6 +165,7 @@ const MovieView = ({ selectedMovie, genresList }) => {
         </View>
         <View style={styles.year_duration_cont}>
           <Text style={styles.year_duration_text}>{selectedMovie[0].release_date.slice(0,4)}</Text>
+  <Text style={styles.year_duration_text}>{movie_omdb['Rated']}</Text>
           <Text style={styles.year_duration_text}>{runtime + 'h'}</Text>
         </View>
       </View>
@@ -255,7 +256,7 @@ const MovieView = ({ selectedMovie, genresList }) => {
 
           </ScrollView>
 
-        <View style={styles.cast_writers}>
+        <View style={styles.cast_writers_heading}>
           <Text style={styles.cast_actor_name_text}>Director</Text>
         </View>
         <View style={styles.cast_writers}>
@@ -264,7 +265,7 @@ const MovieView = ({ selectedMovie, genresList }) => {
           </Text>
         </View>
 
-        <View style={styles.cast_writers}>
+        <View style={styles.cast_writers_heading}>
           <Text style={styles.cast_actor_name_text}>Writer</Text>
         </View>
         <View style={styles.cast_writers}>
@@ -314,6 +315,7 @@ const styles = StyleSheet.create({
   year_duration_text: {
     fontSize: 18,
     paddingLeft: 10,
+    paddingRight: 10,
     color: '#737373'
   },
   desc_main_cont: {
@@ -473,6 +475,12 @@ const styles = StyleSheet.create({
     color: '#737373',
     fontSize: 16,
     paddingRight: 2
+  },
+  cast_writers_heading: {
+    height: 20,
+    paddingLeft: 10,
+    justifyContent: 'center',
+    backgroundColor: '#1f1f1f',
   },
   cast_writers: {
     height: 40,

@@ -23,7 +23,7 @@ const MainCarousel = ({items, active, handleTabPress}) => {
         horizontal={true}
         contentContainerStyle={{
         }}
-        showsHorizontalScrollIndicator={true}//
+        showsHorizontalScrollIndicator={false}//
         // onContentSizeChange={(w, h) => init(w)}
         scrollEventThrottle={200}
         // pagingEnabled
@@ -36,8 +36,6 @@ const MainCarousel = ({items, active, handleTabPress}) => {
             onPress={()=> {
               setActiveTab(item.title)
               handleTabPress(item.title)
-              // Alert.alert(item.title)
-
             }}
             >
             <Text style={styles.itemText}>{item.title}</Text>
@@ -57,9 +55,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'black'
   },
   itemCont: {
-    // backgroundColor: '#131313',
     backgroundColor: 'black',
-    // backgroundColor: 'grey',
     padding: 7,
     marginLeft: 10,
     marginRight: 5

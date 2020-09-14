@@ -66,38 +66,25 @@ const MovieView = ({ selectedMovie, genresList }) => {
         </View>
         )
     })
-
-
-    return (
-      <ScrollView
-        contentContainerStyle={styles.genres_cont}
-        horizontal={true}
-        >
-        {genreBlocks}
-      </ScrollView>
-    )
+    return genreBlocks;
   }
 
   const renderImage = () => {
     if (movie_tmdb.poster_path) {
       return (
-        <View style={styles.poster_cont}>
         <Image
             style={styles.poster}
             source={{
               uri:`https://image.tmdb.org/t/p/w154${movie_tmdb.poster_path}`
             }}
         />
-        </View>
       )
     } else {
       return (
-        <View style={styles.poster_cont}>
         <Image
         source={require('../default.jpg')}
         style={styles.poster}
         />
-        </View>
       )
     }
   };
@@ -105,7 +92,8 @@ const MovieView = ({ selectedMovie, genresList }) => {
   const renderTagline = () => {
     return movie_tmdb.tagline ?
     <View style={styles.tagline_cont}>
-      <Text style={styles.tagline_text}>{`"${movie_tmdb.tagline}"`}</Text>
+      <Text style={styles.tagline_text}>{`"${movie_tmdb.tagline}"`}
+      </Text>
       <Separator/>
     </View> :
     null
@@ -115,16 +103,16 @@ const MovieView = ({ selectedMovie, genresList }) => {
     if (file_path) {
       return (
         <Image
-            style={styles.actor_image}
-            source={{
-              uri:`https://image.tmdb.org/t/p/w154${file_path}`
-            }}
+          style={styles.actor_image}
+          source={{
+            uri:`https://image.tmdb.org/t/p/w154${file_path}`
+          }}
         />
       )
     } else {
       return (
         <Image
-        style={styles.actor_image}
+          style={styles.actor_image}
           source={require('../default.jpg')}
         />
       )
@@ -160,25 +148,47 @@ const MovieView = ({ selectedMovie, genresList }) => {
       <View style={styles.title_cont}>
         <View>
           <Text style={styles.title_text}>
-              {selectedMovie[0].title}
+            {movie_tmdb.title}
           </Text>
         </View>
         <View style={styles.year_duration_cont}>
-          <Text style={styles.year_duration_text}>{selectedMovie[0].release_date.slice(0,4)}</Text>
-  <Text style={styles.year_duration_text}>{movie_omdb['Rated']}</Text>
-          <Text style={styles.year_duration_text}>{runtime + 'h'}</Text>
+          <Text style={styles.year_duration_text}>
+            {movie_tmdb.release_date.slice(0,4)}
+          </Text>
+          <Text style={styles.year_duration_text}>
+            {movie_omdb['Rated']}
+          </Text>
+          <Text style={styles.year_duration_text}>
+            {runtime + 'h'}
+          </Text>
         </View>
       </View>
-
       <Separator/>
-      <View style={styles.desc_main_cont}>
-          {renderImage()}
-        <View style={styles.genres_desc_cont}>
-            {renderGenres(genres)}
 
-            <ScrollView style={styles.desc_cont}>
-              <Text style={styles.desc_text}>{movie_tmdb.overview}</Text>
+      <View style={styles.desc_main_cont}>
+
+        <View style={styles.poster_cont}>
+          {renderImage()}
+        </View>
+
+        <View style={styles.genres_desc_cont}>
+            <ScrollView
+              showsHorizontalScrollIndicator={false}
+              style={styles.genres_cont}
+              horizontal={true}>
+                {renderGenres(genres)}
             </ScrollView>
+
+
+            <ScrollView
+              style={styles.desc_cont}
+              nestedScrollEnabled={true}
+              showsVerticalScrollIndicator={false}>
+              <Text style={styles.desc_scroll_text}>
+                {movie_tmdb.overview}
+              </Text>
+            </ScrollView>
+
 
         </View>
       </View>
@@ -186,7 +196,16 @@ const MovieView = ({ selectedMovie, genresList }) => {
 
       <View>
         {renderTagline()}
+        {/* {movie_tmdb.tagline ?
+          <View style={styles.tagline_cont}>
+            <Text style={styles.tagline_text}>
+              {`"${movie_tmdb.tagline}"`}
+          </Text>
+          <Separator/>
+          </View> : null} */}
       </View>
+
+
       <Separator/>
 
       <View style={styles.addWatchList_cont}>
@@ -209,7 +228,6 @@ const MovieView = ({ selectedMovie, genresList }) => {
       <Separator/>
 
 
-
       <View style={styles.cast_cont}>
 
         <View style={styles.cast_heading}>
@@ -224,8 +242,6 @@ const MovieView = ({ selectedMovie, genresList }) => {
         </View>
 
         <ScrollView
-          //carousel
-          // style={styles.cast_carousel}
           horizontal={true}
           contentContainerStyle={styles.cast_carousel}
           showsHorizontalScrollIndicator={false}
@@ -334,11 +350,14 @@ const styles = StyleSheet.create({
   genres_desc_cont: {
     width: '70%',
     margin: 5,
-    maxHeight: 138
+    maxHeight: 138,
   },
   genres_cont: {
     paddingTop: 7,
     paddingBottom: 7,
+  },
+  genres_scroll: {
+    backgroundColor: '#131313'
   },
   genres_block: {
     padding: 5,
@@ -352,10 +371,10 @@ const styles = StyleSheet.create({
     color: 'white'
   },
   desc_cont: {
+    maxHeight: 90,
     paddingBottom: 5,
-    maxHeight: 90
   },
-  desc_text: {
+  desc_scroll_text: {
     color: 'white',
     fontSize: 16
   },
@@ -406,6 +425,7 @@ const styles = StyleSheet.create({
   cast_cont: {
     marginTop: 20,
     backgroundColor: '#1f1f1f',
+    paddingBottom: 10
   },
   cast_heading: {
     flexDirection: 'row',
@@ -484,7 +504,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#1f1f1f',
   },
   cast_writers: {
-    height: 40,
     paddingLeft: 10,
     justifyContent: 'center',
     backgroundColor: '#1f1f1f',

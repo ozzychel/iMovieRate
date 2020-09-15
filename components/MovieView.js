@@ -5,6 +5,7 @@ import keys from '../config.js';
 import moment from 'moment';
 import InfoBlock from './MovieView_comp/InfoBlock';
 import CastBlock from './MovieView_comp/CastBlock';
+import RatingsBlock from './MovieView_comp/RatingsBlock';
 
 const MovieView = ({ selectedMovie, genresList }) => {
   const movie_tmdb = selectedMovie[0];
@@ -30,7 +31,7 @@ const MovieView = ({ selectedMovie, genresList }) => {
       }
     })
     .then((result) => {
-      console.log('OMDB GET SUCCESS', result.data);
+      console.log('OMDB GET SUCCESS');
       setMovie_omdb(result.data);
     })
     .catch((err) => {
@@ -62,26 +63,6 @@ const MovieView = ({ selectedMovie, genresList }) => {
     genres.push(genresList[obj.id]);
   });
 
-  // const renderActorImage = (file_path) => {
-  //   if (file_path) {
-  //     return (
-  //       <Image
-  //         style={styles.actor_image}
-  //         source={{
-  //           uri:`https://image.tmdb.org/t/p/w154${file_path}`
-  //         }}
-  //       />
-  //     )
-  //   } else {
-  //     return (
-  //       <Image
-  //         style={styles.actor_image}
-  //         source={require('../default.jpg')}
-  //       />
-  //     )
-  //   }
-  // }
-
   const Separator = () => (
     <View style={styles.separator} />
   );
@@ -94,7 +75,7 @@ const MovieView = ({ selectedMovie, genresList }) => {
     // ADD TO WATCHLIST
 
     // RATINGS BLOCK
-
+          ///Create renderImage helper function
     // CAST ACTORS
     // NEWS, UPDATES....
     // VIDEOS
@@ -141,12 +122,12 @@ const MovieView = ({ selectedMovie, genresList }) => {
           </View>
         </TouchableOpacity>
       </View>
-      <Separator/>
+      <Separator />
 
-      <View style={styles.ratings_cont}>
-        <Text style={{color:'#737373'}}>Ratings block</Text>
-      </View>
-      <Separator/>
+      <RatingsBlock
+        Separator={Separator}
+        movie_omdb={movie_omdb}
+      />
 
       <CastBlock
         Separator={Separator}

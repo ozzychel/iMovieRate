@@ -110,7 +110,15 @@ const styles = StyleSheet.create({
   cast_cont: {
     marginTop: 20,
     backgroundColor: '#1f1f1f',
-    paddingBottom: 10
+    paddingBottom: 10,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 7,
+    },
+    shadowOpacity: 0.41,
+    shadowRadius: 9.11,
+    elevation: 14,
   },
   cast_heading: {
     flexDirection: 'row',

@@ -3,7 +3,7 @@ import { View, Text, ScrollView, StyleSheet, Image } from 'react-native';
 
 const RatingsBlock = ({ movie_omdb }) => {
 
-  console.log(movie_omdb)
+  // console.log(movie_omdb)
 
   const getRottenTomatoes = () => {
     let result = 'N/A'
@@ -23,30 +23,40 @@ const RatingsBlock = ({ movie_omdb }) => {
 
         <View style={styles.rating_table_cont}>
           <View style={styles.rating_logo_cont}>
-            <Text style={styles.rating_text}>Logo</Text>
+            <Image
+              style={styles.imdb_logo}
+              source={{
+                uri:`https://ia.media-imdb.com/images/M/MV5BODc4MTA3NjkzNl5BMl5BcG5nXkFtZTgwMDg0MzQ2OTE@._V1_.png`
+            }}
+            />
           </View>
           <View style={styles.rating_text_cont}>
             <Text style={styles.rating_text}>{movie_omdb.imdbRating ? movie_omdb.imdbRating : 'N/A'} / 10</Text>
           </View>
         </View>
 
+
+
         <View style={styles.rating_table_cont}>
-          <View style={styles.rating_logo_cont}>
-            <Text style={styles.rating_text}>Logo</Text>
-          </View>
           <View style={styles.rating_text_cont}>
-            {getRottenTomatoes()}
+            <Text style={styles.metascore}>
+              {movie_omdb["Metascore"] ? movie_omdb["Metascore"] : 'N/A'}
+            </Text>
+          <View style={styles.rating_logo_cont}>
+            <Text style={styles.rating_text}>Metascore</Text>
+          </View>
           </View>
         </View>
 
         <View style={styles.rating_table_cont}>
           <View style={styles.rating_logo_cont}>
-            <Text style={styles.rating_text}>Logo</Text>
+          <Image
+              style={styles.rt_logo}
+              source={require('../../rotten.png')}
+            />
           </View>
           <View style={styles.rating_text_cont}>
-            <Text style={styles.rating_text}>
-              {movie_omdb["Metascore"] ? movie_omdb["Metascore"] : 'N/A'} / 100
-            </Text>
+            {getRottenTomatoes()}
           </View>
         </View>
 
@@ -62,27 +72,50 @@ const styles = StyleSheet.create({
   ratings_cont: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    borderColor: 'red',
-    borderWidth: 1,
-    padding: 5
+    backgroundColor: '#1f1f1f',
+    padding: 5,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 7,
+    },
+    shadowOpacity: 0.41,
+    shadowRadius: 9.11,
+    elevation: 14,
   },
   rating_table_cont: {
     width: '30%',
-    borderWidth: 2,
-    borderColor: 'lightgrey',
+    justifyContent: 'center',
+    paddingTop: 5
   },
   rating_logo_cont: {
-    borderColor:'green',
-    borderWidth: 2
+    alignItems:'center',
+    padding: 5
   },
   rating_text_cont: {
-    borderColor:'pink',
-    borderWidth: 2
+    alignItems: 'center'
   },
   rating_text: {
     color: 'white',
     fontSize: 16,
+    textAlign: 'center'
+  },
+  imdb_logo: {
+    width: 40,
+    height: 40
+  },
+  rt_logo: {
+    width: 40,
+    height: 40,
+    borderRadius: 5
+  },
+  metascore: {
+    color: 'white',
     textAlign: 'center',
+    fontSize: 16,
+    backgroundColor: 'green',
+    width: '40%',
+    marginTop:10
   }
 })
 

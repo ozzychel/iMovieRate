@@ -16,7 +16,7 @@ const InfoBlock = ({ movie_tmdb, genres, Separator }) => {
     } else {
       return (
         <Image
-          source={require('../../default.jpg')}
+          source={require('../../assets/default.jpg')}
           style={styles.poster}
         />
       )

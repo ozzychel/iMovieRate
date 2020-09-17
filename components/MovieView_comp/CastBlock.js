@@ -17,7 +17,7 @@ const CastBlock = ({ topCastList, movie_omdb }) => {
       return (
         <Image
           style={styles.actor_image}
-          source={require('../../default.jpg')}
+          source={require('../../assets/default.jpg')}
         />
       )
     }

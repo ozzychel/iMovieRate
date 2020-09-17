@@ -1,6 +1,8 @@
 import React from 'react';
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, FlatList } from 'react-native';
 import Movie from './Movie';
+
+
 
 const MovieMapper = ({ movieList, getUserSelectedMovie, genresList }) => {
   const movies = [];
@@ -17,7 +19,7 @@ const MovieMapper = ({ movieList, getUserSelectedMovie, genresList }) => {
 
   return (
     <ScrollView
-    contentContainerStyle={styles.contentContainer}
+      contentContainerStyle={styles.contentContainer}
     >{movies}</ScrollView>
   )
 

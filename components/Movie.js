@@ -1,30 +1,34 @@
 import React, { useState } from 'react';
 import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import RenderImage from './helperFunctions/RenderImage';
 
 const Movie = ({ movie, getUserSelectedMovie, genresList }) => {
-  const renderImage = () => {
-    if (movie.poster_path) {
-      return (
-        <View style={styles.poster_cont}>
-        <Image
-            style={styles.poster}
-            source={{
-              uri:`https://image.tmdb.org/t/p/w154${movie.poster_path}`
-            }}
-        />
-        </View>
-      )
-    } else {
-      return (
-        <View style={styles.poster_cont}>
-        <Image
-        source={require('../default.jpg')}
-        style={styles.poster}
-        />
-        </View>
-      )
-    }
-  };
+
+  console.log('MOVIE:',movie)
+
+  // const renderImage = () => {
+  //   if (movie.poster_path) {
+  //     return (
+  //       <View style={styles.poster_cont}>
+  //       <Image
+  //           style={styles.poster}
+  //           source={{
+  //             uri:`https://image.tmdb.org/t/p/w154${movie.poster_path}`
+  //           }}
+  //       />
+  //       </View>
+  //     )
+  //   } else {
+  //     return (
+  //       <View style={styles.poster_cont}>
+  //       <Image
+  //       source={require('../assets/default.jpg')}
+  //       style={styles.poster}
+  //       />
+  //       </View>
+  //     )
+  //   }
+  // };
 
   let genres = [];
   movie.genre_ids.forEach((id) => {
@@ -40,7 +44,13 @@ const Movie = ({ movie, getUserSelectedMovie, genresList }) => {
       >
 
       <View style={styles.container}>
-        {renderImage()}
+        <RenderImage
+          mainObj={movie}
+          propToLink='poster_path'
+          defaultImg={require('../assets/default.jpg')}
+          posterContStyle={styles.poster_cont}
+          posterStyle={styles.poster}
+        />
         <View style={styles.title_cont}>
           <Text style={styles.title}>
             {movie.title + ` (${movie.release_date.slice(0,4)})`}

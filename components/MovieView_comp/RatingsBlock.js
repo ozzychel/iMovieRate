@@ -3,8 +3,6 @@ import { View, Text, ScrollView, StyleSheet, Image } from 'react-native';
 
 const RatingsBlock = ({ movie_omdb }) => {
 
-  // console.log(movie_omdb)
-
   const getRottenTomatoes = () => {
     let result = 'N/A'
     if (movie_omdb && movie_omdb['Ratings'].length > 0) {
@@ -35,8 +33,6 @@ const RatingsBlock = ({ movie_omdb }) => {
           </View>
         </View>
 
-
-
         <View style={styles.rating_table_cont}>
           <View style={styles.rating_text_cont}>
             <Text style={styles.metascore}>
@@ -52,7 +48,7 @@ const RatingsBlock = ({ movie_omdb }) => {
           <View style={styles.rating_logo_cont}>
           <Image
               style={styles.rt_logo}
-              source={require('../../rotten.png')}
+              source={require('../../assets/rotten.png')}
             />
           </View>
           <View style={styles.rating_text_cont}>
@@ -65,7 +61,6 @@ const RatingsBlock = ({ movie_omdb }) => {
   } else {
     return null;
   }
-
 };
 
 const styles = StyleSheet.create({

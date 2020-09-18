@@ -61,7 +61,9 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
   },
   btn_cont: {
-    padding:4
+    padding:4,
+    borderBottomColor: '#131313',
+    borderBottomWidth: 2
   },
   btn_body: {
     borderWidth: 2,

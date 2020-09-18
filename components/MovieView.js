@@ -141,8 +141,9 @@ const MovieView = ({ selectedMovie, genresList }) => {
 
 const styles = StyleSheet.create({
   tab_cont: {
-    height: 2000,
-    backgroundColor: '#131313'
+    // height: 2000,
+    backgroundColor: '#131313',
+    paddingBottom: 150
   },
   separator: {
     marginVertical: 0.05,

@@ -57,7 +57,7 @@ export default function App() {
     ))
     .then((result) => {
       console.log('GET SUCCESS');
-      // console.log(result.data.results);
+      console.log('======MOVIE COUNT====== :',result.length);
       setCurrentMovieList(result);
     })
     .catch((err) => {

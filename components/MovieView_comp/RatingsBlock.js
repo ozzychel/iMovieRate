@@ -29,7 +29,9 @@ const RatingsBlock = ({ movie_omdb }) => {
             />
           </View>
           <View style={styles.rating_text_cont}>
-            <Text style={styles.rating_text}>{movie_omdb.imdbRating ? movie_omdb.imdbRating : 'N/A'} / 10</Text>
+            <Text style={styles.rating_text}>
+              {movie_omdb.imdbRating ? `${movie_omdb.imdbRating} / 10` : 'N/A'}
+            </Text>
           </View>
         </View>
 

@@ -65,7 +65,7 @@ const CastBlock = ({ topCastList, movie_omdb }) => {
 
         <View style={styles.cast_writers_name_cont}>
           <Text style={styles.cast_writers_name_text}>
-            {movie_omdb['Director']}
+            {movie_omdb['Director'] ? movie_omdb['Director'] : 'N/A'}
           </Text>
         </View>
 
@@ -75,7 +75,7 @@ const CastBlock = ({ topCastList, movie_omdb }) => {
 
         <View style={styles.cast_writers_name_cont}>
           <Text style={styles.cast_writers_name_text}>
-            {movie_omdb['Writer']}
+            {movie_omdb['Writer'] ? movie_omdb['Writer'] : 'N/A'}
           </Text>
         </View>
 
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
     opacity: 0.4
   },
   cast_actor_name: {
-    height: 40,
+    height: 50,
     paddingRight: 5,
     paddingLeft: 8,
     paddingTop: 10,

@@ -4,7 +4,7 @@ import RenderImage from './helperFunctions/RenderImage';
 
 const Movie = ({ movie, getUserSelectedMovie, genresList }) => {
 
-  console.log('MOVIE:',movie)
+  // console.log('MOVIE:',movie)
 
   const genres = [];
   movie.genre_ids.forEach((id) => {

@@ -36,7 +36,8 @@ const MainCarousel = ({items, currentTab, handleTabPress}) => {
 const styles = StyleSheet.create({
   container: {
     marginTop:1,
-    backgroundColor: 'black'
+    backgroundColor: 'black',
+    minHeight: 35
   },
   itemCont: {
     backgroundColor: 'black',

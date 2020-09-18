@@ -17,7 +17,10 @@ const SearchBar = ({ getUserInput, setModalVisible, changeView }) => {
     }
   }
   return (
-    <View style={styles.wrapper}>
+    <View style={Platform.OS === 'ios' ?
+      {marginTop: 140,backgroundColor: 'white'} :
+      {marginTop: 100,backgroundColor: 'white'}}
+    >
 
     <View style={styles.container}>
 
@@ -47,12 +50,6 @@ const SearchBar = ({ getUserInput, setModalVisible, changeView }) => {
 }
 
 const styles = StyleSheet.create({
-  wrapper: {
-    marginTop: 140,
-    backgroundColor: 'white'
-  },
-  container: {
-  },
   inputWrapper: {
     height: 30,
     marginHorizontal: 5,

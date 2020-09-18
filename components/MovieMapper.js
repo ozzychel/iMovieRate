@@ -15,25 +15,20 @@ const MovieMapper = ({ movieList, getUserSelectedMovie, genresList }) => {
     )
   })
 
-  let scrollHeight = movies.length * 150
-  console.log('LENGTH', movies.length)
-  console.log('SCROLLHEIGHT', scrollHeight)
-
   return (
       <View style={styles.scrollWrapper}>
         <ScrollView
           contentContainerStyle={styles.contentContainer}
         >{movies}</ScrollView>
+        <View style={{height: 300}}></View>
       </View>
   )
-
 };
 
 const styles = StyleSheet.create({
   contentContainer: {
-    paddingTop: 10,
     backgroundColor: '#131313',
-    paddingBottom: 600
+
   },
   scrollWrapper: {
     height: '100%',

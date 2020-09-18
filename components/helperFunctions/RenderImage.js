@@ -1,30 +1,43 @@
 import React, { useState, useEffect } from 'react';
-import { View, Image, Text, StyleSheet } from 'react-native';
+import { View, Image, Text, ActivityIndicator } from 'react-native';
 
-function RenderImage ({ mainObj, propToLink, defaultImg, posterContStyle, posterStyle }) {
-    let filePath = mainObj.[propToLink]
+function RenderImage ({ mainObj, baseUrl, propToLink, defaultImg, posterContStyle, posterStyle, spinnerSize='large', spinnerColor='#FFD700', spinnerBg='#1f1f1f'}) {
 
-    if (filePath) {
-      return (
-        <View style={posterContStyle}>
+  const [isLoading, setIsLoading] = useState(false);
+  const filePath = mainObj.[propToLink];
+
+  const LoadingView = () => {
+    return (
+      <View style={{
+        position: "absolute",
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        opacity: 0.7,
+        backgroundColor: spinnerBg,
+        justifyContent: "center",
+        alignItems: "center"
+      }}>
+        <ActivityIndicator size={spinnerSize} color={spinnerColor}/>
+      </View>
+    )
+  }
+
+    return (
+      <View style={posterContStyle}>
         <Image
-            style={posterStyle}
-            source={{
-              uri:`https://image.tmdb.org/t/p/w154${filePath}`
-            }}
-        />
-        </View>
-      )
-    } else {
-      return (
-        <View style={posterContStyle}>
-        <Image
-          source={defaultImg}
+          source={
+            filePath ? {uri:`${baseUrl}${filePath}`} : defaultImg
+          }
           style={posterStyle}
+          onLoadStart={ () => { setIsLoading(true) }}
+          onLoadEnd={ () => { setIsLoading(false)
+          }}
         />
-        </View>
-      )
-    }
+          {isLoading && <LoadingView/>}
+      </View>
+    )
   };
 
 export default RenderImage;

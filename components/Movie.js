@@ -6,31 +6,7 @@ const Movie = ({ movie, getUserSelectedMovie, genresList }) => {
 
   console.log('MOVIE:',movie)
 
-  // const renderImage = () => {
-  //   if (movie.poster_path) {
-  //     return (
-  //       <View style={styles.poster_cont}>
-  //       <Image
-  //           style={styles.poster}
-  //           source={{
-  //             uri:`https://image.tmdb.org/t/p/w154${movie.poster_path}`
-  //           }}
-  //       />
-  //       </View>
-  //     )
-  //   } else {
-  //     return (
-  //       <View style={styles.poster_cont}>
-  //       <Image
-  //       source={require('../assets/default.jpg')}
-  //       style={styles.poster}
-  //       />
-  //       </View>
-  //     )
-  //   }
-  // };
-
-  let genres = [];
+  const genres = [];
   movie.genre_ids.forEach((id) => {
     genres.push(genresList[id])
   })
@@ -46,6 +22,7 @@ const Movie = ({ movie, getUserSelectedMovie, genresList }) => {
       <View style={styles.container}>
         <RenderImage
           mainObj={movie}
+          baseUrl='https://image.tmdb.org/t/p/w154'
           propToLink='poster_path'
           defaultImg={require('../assets/default.jpg')}
           posterContStyle={styles.poster_cont}
@@ -105,7 +82,6 @@ const styles = StyleSheet.create({
     borderBottomColor: '#737373',
     borderBottomWidth: StyleSheet.hairlineWidth,
   }
-
 })
 
 export default Movie;

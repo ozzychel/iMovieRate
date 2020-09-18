@@ -1,27 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import RenderImage from '../helperFunctions/RenderImage';
 
 const CastBlock = ({ topCastList, movie_omdb }) => {
-
-  const renderActorImage = (file_path) => {
-    if (file_path) {
-      return (
-        <Image
-          style={styles.actor_image}
-          source={{
-            uri:`https://image.tmdb.org/t/p/w154${file_path}`
-          }}
-        />
-      )
-    } else {
-      return (
-        <Image
-          style={styles.actor_image}
-          source={require('../../assets/default.jpg')}
-        />
-      )
-    }
-  }
 
   return (
     <View>
@@ -51,9 +32,14 @@ const CastBlock = ({ topCastList, movie_omdb }) => {
             return (
               <View key={i} style={styles.cast_actor_cont}>
 
-                <View style={styles.cast_actor_image}>
-                  {renderActorImage(actor.profile_path)}
-                </View>
+                  <RenderImage
+                    mainObj={actor}
+                    baseUrl='https://image.tmdb.org/t/p/w154'
+                    propToLink='profile_path'
+                    defaultImg={require('../../assets/default.jpg')}
+                    posterContStyle={styles.cast_actor_image}
+                    posterStyle={styles.actor_image}
+                  />
 
                 <View style={styles.cast_actor_name}>
                   <Text style={styles.cast_actor_name_text}>

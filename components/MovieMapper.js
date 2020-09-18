@@ -2,8 +2,6 @@ import React from 'react';
 import { View, Text, ScrollView, StyleSheet, FlatList } from 'react-native';
 import Movie from './Movie';
 
-
-
 const MovieMapper = ({ movieList, getUserSelectedMovie, genresList }) => {
   const movies = [];
   movieList.forEach((movie, i) => {

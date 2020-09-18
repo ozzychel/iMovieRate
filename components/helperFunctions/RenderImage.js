@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Image, Text, ActivityIndicator } from 'react-native';
 
-function RenderImage ({ mainObj, baseUrl, propToLink, defaultImg, posterContStyle, posterStyle, spinnerSize='large', spinnerColor='#FFD700', spinnerBg='#1f1f1f'}) {
+function RenderImage ({ mainObj, baseUrl, propToLink, defaultImg, posterContStyle, posterStyle, spinnerSize='large', spinnerColor='#FFD700', spinnerBg='#1f1f1f', defPosterContStyle, defPosterStyle}) {
 
   const [isLoading, setIsLoading] = useState(false);
   const filePath = mainObj.[propToLink];
@@ -25,12 +25,12 @@ function RenderImage ({ mainObj, baseUrl, propToLink, defaultImg, posterContStyl
   }
 
     return (
-      <View style={posterContStyle}>
+      <View style={filePath ? posterContStyle : defPosterContStyle}>
         <Image
           source={
             filePath ? {uri:`${baseUrl}${filePath}`} : defaultImg
           }
-          style={posterStyle}
+          style={filePath ? posterStyle : defPosterStyle}
           onLoadStart={ () => { setIsLoading(true) }}
           onLoadEnd={ () => { setIsLoading(false)
           }}

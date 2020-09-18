@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Button, TextInput, Alert, Keyboard } from 'react-native';
+import { View, Text, StyleSheet, Button, TextInput, Alert, Keyboard, TouchableOpacity } from 'react-native';
 
 const SearchBar = ({ getUserInput }) => {
   const [inputValue, setInputValue] = useState('');
@@ -15,33 +15,75 @@ const SearchBar = ({ getUserInput }) => {
     }
   }
   return (
+    <View>
+
     <View style={styles.container}>
+
       <View style={styles.inputWrapper}>
         <TextInput
-          style={{fontSize:20}}
+          style={styles.input}
           value={inputValue}
           onChangeText={text => setInputValue(text)}
-        />
-      </View>
-      <View>
-        <Button
-          title='Search'
-          onPress={handleSearchPress}
+          placeholder="Search movie title..."
+          // placeholderTextColor="grey"
+          returnKeyType='search'
         />
       </View>
     </View>
+
+      <View style={styles.btn_cont}>
+        <TouchableOpacity
+          style={styles.btn_body}
+          onPress={handleSearchPress}
+          >
+          <Text style={styles.btn_text}>SEARCH</Text>
+        </TouchableOpacity>
+      </View>
+  </View>
+
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-
   },
   inputWrapper: {
     height: 30,
-    margin: 5,
-    borderBottomWidth: 1,
-    borderBottomColor: 'darkgrey'
+    marginHorizontal: 5,
+    marginTop: 10,
+    marginBottom: 5,
+    borderBottomWidth: 2,
+    borderBottomColor: 'darkgrey',
+    backgroundColor: 'white'
+  },
+  input: {
+    fontSize: 20,
+    paddingLeft: 5,
+  },
+  btn_cont: {
+    padding:4
+  },
+  btn_body: {
+    borderWidth: 2,
+    borderColor: '#131313',
+    borderRadius: 5,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#131313',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
+    elevation: 10,
+  },
+  btn_text: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: 'white'
   }
 })
 

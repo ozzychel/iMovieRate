@@ -27,6 +27,8 @@ const Movie = ({ movie, getUserSelectedMovie, genresList }) => {
           defaultImg={require('../assets/default.jpg')}
           posterContStyle={styles.poster_cont}
           posterStyle={styles.poster}
+          defPosterContStyle={styles.poster_cont}
+          defPosterStyle={styles.poster}
         />
         <View style={styles.title_cont}>
           <Text style={styles.title}>

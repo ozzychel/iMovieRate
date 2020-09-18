@@ -36,9 +36,11 @@ const CastBlock = ({ topCastList, movie_omdb }) => {
                     mainObj={actor}
                     baseUrl='https://image.tmdb.org/t/p/w154'
                     propToLink='profile_path'
-                    defaultImg={require('../../assets/default.jpg')}
+                    defaultImg={require('../../assets/noProfilePic3.png')}
                     posterContStyle={styles.cast_actor_image}
                     posterStyle={styles.actor_image}
+                    defPosterContStyle={styles.cast_actor_def_cont}
+                    defPosterStyle={styles.actor_def_image}
                   />
 
                 <View style={styles.cast_actor_name}>
@@ -149,7 +151,23 @@ const styles = StyleSheet.create({
     height: 225,
     width: 150,
     borderTopLeftRadius: 10,
-    borderTopRightRadius: 10
+    borderTopRightRadius: 10,
+  },
+  cast_actor_def_cont: {
+    height: 225,
+    width: 150,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#131313'
+  },
+  actor_def_image: {
+    height: 225,
+    width: 150,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    opacity: 0.4
   },
   cast_actor_name: {
     height: 50,
@@ -195,7 +213,8 @@ const styles = StyleSheet.create({
     color: '#737373',
     fontSize: 16,
     paddingRight: 1
-  }
+  },
+
 })
 
 export default CastBlock;

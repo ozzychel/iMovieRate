@@ -26,7 +26,7 @@ const MovieMapper = ({ movieList, getUserSelectedMovie, genresList }) => {
 const styles = StyleSheet.create({
   contentContainer: {
     backgroundColor: '#131313',
-  }
+  },
 })
 
 export default MovieMapper;

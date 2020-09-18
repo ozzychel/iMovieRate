@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Button, TextInput, Alert, Keyboard, TouchableOpacity } from 'react-native';
 
-const SearchBar = ({ getUserInput }) => {
+const SearchBar = ({ getUserInput, setModalVisible, changeView }) => {
   const [inputValue, setInputValue] = useState('');
 
   const handleSearchPress = () => {
@@ -10,12 +10,14 @@ const SearchBar = ({ getUserInput }) => {
       getUserInput(inputValue)
       setInputValue('')
       Keyboard.dismiss()
+      setModalVisible(false)
+      changeView('SEARCH')
     } else {
       Alert.alert('Search field cannot be empty!')
     }
   }
   return (
-    <View>
+    <View style={styles.wrapper}>
 
     <View style={styles.container}>
 
@@ -45,6 +47,10 @@ const SearchBar = ({ getUserInput }) => {
 }
 
 const styles = StyleSheet.create({
+  wrapper: {
+    marginTop: 140,
+    backgroundColor: 'white'
+  },
   container: {
   },
   inputWrapper: {

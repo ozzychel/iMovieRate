@@ -1,21 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 
-const MainCarousel = ({items, active, handleTabPress}) => {
-  // const { items, style } = props;
-  // const itemsPerInterval = props.itemsPerInterval === undefined
-  //   ? 1
-  //   : props.itemsPerInterval;
-
-  // const [intervals, setIntervals] = useState(1);
-  // const [width, setWidth] = useState(0);
-
-  // const init = (width) => {
-  //   setWidth(width);
-  //   const totalItems = items.length;
-  //   setIntervals(Math.ceil(totalItems / itemsPerInterval));
-  // }
-  const [activeTab, setActiveTab] = useState(active)
+const MainCarousel = ({items, currentTab, handleTabPress}) => {
 
   return (
     <View style={styles.container}>
@@ -34,16 +20,14 @@ const MainCarousel = ({items, active, handleTabPress}) => {
             key={i}
             style={styles.itemCont}
             onPress={()=> {
-              setActiveTab(item.title)
               handleTabPress(item.title)
             }}
             >
             <Text style={styles.itemText}>{item.title}</Text>
-            <View style={item.title === activeTab ? styles.bulletActive : styles.bullet}></View>
+            <View style={item.title === currentTab ? styles.bulletActive : styles.bullet}></View>
           </TouchableOpacity>
         )
       })}
-
       </ScrollView>
     </View>
   )

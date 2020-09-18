@@ -31,6 +31,7 @@ const MovieMapper = ({ movieList, getUserSelectedMovie, genresList }) => {
 
 const styles = StyleSheet.create({
   contentContainer: {
+    paddingTop: 10,
     backgroundColor: '#131313',
     paddingBottom: 600
   },

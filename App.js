@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Image, StatusBar, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Image, StatusBar, ScrollView, Modal, Alert, TouchableOpacity } from 'react-native';
 import NavBar from './components/NavBar';
 import axios from 'axios';
 import keys from './config.js';
 import Constants from "expo-constants";
 import MainCarousel from './components/MainCarousel';
 import SearchTab from './components/SearchTab';
+import HomeTab from './components/HomeTab';
+import SearchBar from './components/SearchBar';
 import MovieView from './components/MovieView';
 
 export default function App() {
@@ -17,7 +19,12 @@ export default function App() {
 
   const [genresList, setGenresList] = useState({});
 
-  const [currentTab, setCurrentTab] = useState('SEARCH');// <--
+  const [currentTab, setCurrentTab] = useState('HOME');// <--
+
+  const [modalVisible, setModalVisible] = useState(false);
+
+
+  console.log('====ACTIVE TAB====', currentTab)
 
   const getUserSelectedMovie = (id) => {
     getMovieDataById(id)
@@ -127,7 +134,9 @@ export default function App() {
       )
     }
     if (view === 'HOME' || !view) {
-      return (<Text>HOME SCREEN</Text>)
+      return (
+       <HomeTab />
+      )
     }
     if (view === 'MOVIES') {
       return (<Text>MOVIES SCREEN</Text>)
@@ -149,27 +158,45 @@ export default function App() {
     }
   }
 
+
   return (
 
     <View style={styles.container}>
       {renderStatusBar(Platform.OS)}
       <StatusBar barStyle='light-content'/>
-      <NavBar />
+      <NavBar setModalVisible={setModalVisible}/>
+
       <MainCarousel
         style="slides"
         itemsPerInterval={1}
         items={[
-          {title: 'SEARCH'},
           {title: 'HOME'},
+          {title: 'SEARCH'},
           {title: 'MOVIES'},
           {title: 'TV SHOWS'},
           {title: 'CELEBS'},
           {title: 'AWARDS & EVENTS'},
         ]
         }
-        active={currentTab}
+        currentTab={currentTab}
         handleTabPress={changeView}
       />
+      <Modal
+         animationType="slide"
+         transparent={true}
+         visible={modalVisible}
+         onRequestClose={() => {
+           Alert.alert("Modal has been closed.");
+         }}
+      >
+
+          <SearchBar
+            getUserInput={getUserInput}
+            setModalVisible={setModalVisible}
+            changeView={changeView}
+          />
+
+      </Modal>
       {renderView(currentTab)}
     </View>
   );
@@ -185,5 +212,5 @@ const styles = StyleSheet.create({
   androidBar: {
     backgroundColor: 'purple',
     height: 0
-  }
+  },
 });

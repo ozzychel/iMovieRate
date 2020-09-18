@@ -6,7 +6,6 @@ import MovieMapper from './MovieMapper';
 const SearchTab = ({getUserInput, movieList, getUserSelectedMovie, genresList}) => {
   return (
     <View>
-      <SearchBar getUserInput={getUserInput}/>
       {movieList.length > 0
       ?
       <MovieMapper
@@ -15,7 +14,7 @@ const SearchTab = ({getUserInput, movieList, getUserSelectedMovie, genresList}) 
         genresList={genresList}
       />
       :
-      <View style={{backgroundColor: '#1f1f1f', height: '80%'}}/>}
+      <View style={{backgroundColor: '#1f1f1f', height: '100%'}}/>}
     </View>
   )
 };

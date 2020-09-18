@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 
-const NavBar = (props) => {
+const NavBar = ({ setModalVisible }) => {
 
   return (
     <View style={styles.navbar}>
@@ -9,7 +9,11 @@ const NavBar = (props) => {
         <Text style={styles.titleText}>iMovieRate</Text>
       </View>
       <View style={styles.dotsCont}>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            setModalVisible(true)
+          }}
+        >
           <Text style={styles.titleText}>0 0 0</Text>
         </TouchableOpacity>
       </View>

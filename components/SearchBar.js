@@ -18,7 +18,7 @@ const SearchBar = ({ getUserInput, setModalVisible, changeView }) => {
   }
   return (
     <View style={Platform.OS === 'ios' ?
-      {marginTop: 140,backgroundColor: 'white'} :
+      {marginTop: 135,backgroundColor: 'white'} :
       {marginTop: 100,backgroundColor: 'white'}}
     >
 

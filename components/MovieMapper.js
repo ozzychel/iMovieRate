@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ScrollView, StyleSheet, FlatList } from 'react-native';
+import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import Movie from './Movie';
 
 const MovieMapper = ({ movieList, getUserSelectedMovie, genresList }) => {
@@ -20,7 +20,7 @@ const MovieMapper = ({ movieList, getUserSelectedMovie, genresList }) => {
         <ScrollView
           contentContainerStyle={styles.contentContainer}
         >{movies}</ScrollView>
-        <View style={{height: 300}}></View>
+        <View style={Platform.OS === 'ios' ? {height:300} : {height:200}}></View>
       </View>
   )
 };
@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
   scrollWrapper: {
     height: '100%',
     backgroundColor:'#1f1f1f',
+    paddingBottom: 'auto'
   }
 })
 

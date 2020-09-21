@@ -62,7 +62,7 @@ export default function App() {
     ))
     .then((result) => {
       console.log('GET SUCCESS');
-      console.log('======MOVIE COUNT====== :',result.length);
+      console.log('======MOVIE COUNT====== :',result);
       setCurrentMovieList(result);
     })
     .catch((err) => {
@@ -111,15 +111,6 @@ export default function App() {
     setCurrentTab(source);
   };
 
-  // const renderStatusBar = (OS) => {
-  //   // if (OS === 'ios') {
-  //     return (<View style={styles.iosBar}></View>);
-  //   // }
-  //   // if (OS === 'android') {
-  //   //   return (<View style={styles.androidBar}></View>);
-  //   // }
-  // };
-
   const renderView = (view) => {
     if (view === 'SEARCH') {
       return (
@@ -155,7 +146,6 @@ export default function App() {
       />)
     }
   }
-
 
   return (
 

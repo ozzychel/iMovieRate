@@ -8,15 +8,17 @@ const NavBar = ({ setModalVisible }) => {
       <View style={styles.titleCont}>
         <Text style={styles.titleText}>iMovieRate</Text>
       </View>
-      <View style={styles.dotsCont}>
         <TouchableOpacity
           onPress={() => {
             setModalVisible(true)
           }}
+          style={styles.dotsCont}
         >
-          <Text style={styles.titleText}>0 0 0</Text>
+          <View>
+            <Text style={styles.titleText}>&#128269;</Text>
+          </View>
         </TouchableOpacity>
-      </View>
+
     </View>
   )
 }
@@ -42,8 +44,8 @@ const styles = StyleSheet.create({
   },
   dotsCont: {
     width: '20%',
-    borderColor: 'white',
-    borderWidth: 1,
+    borderLeftColor: '#1f1f1f',
+    borderLeftWidth: 3,
     borderStyle: 'solid',
     marginRight: 5,
     justifyContent: 'center',

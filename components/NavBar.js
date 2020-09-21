@@ -20,9 +20,9 @@ const NavBar = ({ setModalVisible }) => {
           style={styles.dotsCont}
         >
               <FontAwesomeIcon
-                style={styles.search_icon}
-                icon={ faSearch }
-                size={ 24 }
+                icon={faSearch}
+                size={24}
+                color={'white'}
                 />
         </TouchableOpacity>
 
@@ -65,11 +65,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
-  search_icon: {
-    color: 'white',
-    fontSize: 20
-  }
-
 })
 
 export default NavBar;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 import keys from '../config.js';
@@ -67,7 +67,6 @@ const MovieView = ({ selectedMovie, genresList }) => {
     <View style={styles.separator} />
   );
 
-
   return (
     // PICTURE CAROUSEL
     // TITLE
@@ -82,7 +81,9 @@ const MovieView = ({ selectedMovie, genresList }) => {
     // IMAGES
     // AWARDS
     // REVIEWS
-    <ScrollView contentContainerStyle={styles.tab_cont}>
+    <ScrollView
+      contentContainerStyle={styles.tab_cont}
+    >
 
       <View style={styles.title_cont}>
         <View>
@@ -141,7 +142,6 @@ const MovieView = ({ selectedMovie, genresList }) => {
 
 const styles = StyleSheet.create({
   tab_cont: {
-    // height: 2000,
     backgroundColor: '#131313',
     paddingBottom: 150
   },
@@ -205,7 +205,7 @@ const styles = StyleSheet.create({
   ratings_cont: {
     backgroundColor: '#1f1f1f',
     height: 50
-  },
+  }
 });
 
 export default MovieView;

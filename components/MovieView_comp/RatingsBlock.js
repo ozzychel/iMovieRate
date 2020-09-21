@@ -3,19 +3,22 @@ import { View, Text, ScrollView, StyleSheet, Image } from 'react-native';
 
 const RatingsBlock = ({ movie_omdb }) => {
 
-  const getRottenTomatoes = () => {
-    let result = 'N/A'
-    if (movie_omdb && movie_omdb['Ratings'].length > 0) {
-      for (let i = 0; i < movie_omdb['Ratings'].length; i++) {
-        if (movie_omdb['Ratings'][i]['Source'] === 'Rotten Tomatoes') {
-          result = movie_omdb['Ratings'][i]['Value'];
+  const getRottenTomatoes = (movie) => {
+    let result = 'N/A';
+    if (!movie) {
+      return <Text>{result}</Text>
+    } else {
+      if (movie['Ratings'] && movie['Ratings'].length > 0) {
+        for (let i = 0; i < movie['Ratings'].length; i++) {
+          if (movie['Ratings'][i]['Source'] === 'Rotten Tomatoes') {
+            result = movie['Ratings'][i]['Value'];
+          }
         }
       }
+      return <Text style={styles.rating_text}>{result}</Text>
     }
-    return <Text style={styles.rating_text}>{result}</Text>
   };
 
-  if(Object.keys(movie_omdb).length > 0) {
     return (
       <View style={styles.ratings_cont}>
 
@@ -54,15 +57,12 @@ const RatingsBlock = ({ movie_omdb }) => {
             />
           </View>
           <View style={styles.rating_text_cont}>
-            {getRottenTomatoes()}
+            {getRottenTomatoes(movie_omdb)}
           </View>
         </View>
 
       </View>
     )
-  } else {
-    return null;
-  }
 };
 
 const styles = StyleSheet.create({

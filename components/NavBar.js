@@ -1,22 +1,29 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+
 const NavBar = ({ setModalVisible }) => {
 
   return (
     <View style={styles.navbar}>
+
       <View style={styles.titleCont}>
         <Text style={styles.titleText}>iMovieRate</Text>
       </View>
+
         <TouchableOpacity
           onPress={() => {
             setModalVisible(true)
           }}
           style={styles.dotsCont}
         >
-          <View>
-            <Text style={styles.titleText}>&#128269;</Text>
-          </View>
+              <FontAwesomeIcon
+                style={styles.search_icon}
+                icon={ faSearch }
+                size={ 24 }
+                />
         </TouchableOpacity>
 
     </View>
@@ -34,6 +41,7 @@ const styles = StyleSheet.create({
   },
   titleCont: {
     width: '45%',
+    height: '70%',
     borderWidth: 1,
     borderStyle: 'solid',
     borderColor: 'white',
@@ -42,8 +50,14 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'flex-start'
   },
+  titleText: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: 'white'
+  },
   dotsCont: {
     width: '20%',
+    height: '70%',
     borderLeftColor: '#1f1f1f',
     borderLeftWidth: 3,
     borderStyle: 'solid',
@@ -51,10 +65,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
-  titleText: {
-    fontSize: 24,
-    fontWeight: '700',
-    color: 'white'
+  search_icon: {
+    color: 'white',
+    fontSize: 20
   }
 
 })

@@ -4,13 +4,13 @@ import RenderImage from '../helperFunctions/RenderImage';
 
 const RecommendedBlock = ({ recommendedList, getUserSelectedMovie }) => {
 
-  return (
+  return recommendedList.length > 0 ? (
     <View>
       <View style={styles.main_cont}>
 
       <View style={styles.movie_heading}>
         <View style={styles.movie_heading_subtitle_cont}>
-          <Text style={styles.subtitle}>Recommended Movies</Text>
+          <Text style={styles.subtitle}>Similar Movies</Text>
         </View>
         <TouchableOpacity>
           <View style={styles.movie_heading_seeAllbutton_cont}>
@@ -27,59 +27,49 @@ const RecommendedBlock = ({ recommendedList, getUserSelectedMovie }) => {
         scrollEventThrottle={200}
         // pagingEnabled
         decelerationRate="fast"
-        >
-          {recommendedList.map((movie, i) => {
-            return (
+      >
+        {recommendedList.map((movie, i) => {
+          return (
+            <View key={i} style={styles.movie_cont}>
+              <TouchableOpacity
+                onPress={() => {
+                  getUserSelectedMovie(movie.id)
+                }}
+              >
+                <RenderImage
+                  mainObj={movie}
+                  baseUrl='https://image.tmdb.org/t/p/w154'
+                  propToLink='poster_path'
+                  defaultImg={require('../../assets/default.jpg')}
+                  posterContStyle={styles.movie_poster_cont}
+                  posterStyle={styles.poster_image}
+                  defPosterContStyle={styles.movie_def_cont}
+                  defPosterStyle={styles.movie_def_image}
+                />
 
-              <View key={i} style={styles.movie_cont}>
-                <TouchableOpacity
-                  onPress={() => {
-                    getUserSelectedMovie(movie.id)
-                  }}
-                >
+              <View style={styles.movie_title}>
+                <Text style={styles.movie_title_text}>
+                  {movie.title}
+                </Text>
+              </View>
 
-                  <RenderImage
-                    mainObj={movie}
-                    baseUrl='https://image.tmdb.org/t/p/w154'
-                    propToLink='poster_path'
-                    defaultImg={require('../../assets/default.jpg')}
-                    // posterContStyle={styles.cast_movie_image}
-                    posterStyle={styles.poster_image}
-                    defPosterContStyle={styles.movie_def_cont}
-                    defPosterStyle={styles.movie_def_image}
-                  />
+              <View style={styles.movie_date}>
+                <Text style={styles.movie_date_text}>
+                  {movie.release_date.slice(0,4)}
+                </Text>
+              </View>
 
-                <View style={styles.movie_title}>
-                  <Text style={styles.movie_title_text}>
-                    {movie.title}
-                  </Text>
-                </View>
-
-                <View style={styles.movie_date}>
-                  <Text style={styles.movie_date_text}>
-                    {movie.release_date.slice(0,4)}
-                  </Text>
-                </View>
-
-            </TouchableOpacity>
+              </TouchableOpacity>
             </View>
-           )
-        })}
+          )
+      })}
         </ScrollView>
-
       </View>
-
     </View>
-  )
+  ) : null;
 };
 
-
 const styles = StyleSheet.create({
-  // separator: {
-  //   marginVertical: 0.05,
-  //   borderBottomColor: '#737373',
-  //   borderBottomWidth: StyleSheet.hairlineWidth,
-  // },
   subtitle: {
     color: 'white',
     fontSize: 26
@@ -135,6 +125,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 3.84,
     elevation: 5,
+  },
+  movie_poster_cont: {
   },
   poster_image: {
     height: 225,

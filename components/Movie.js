@@ -8,14 +8,14 @@ const Movie = ({ movie, getUserSelectedMovie, genresList }) => {
 
   const genres = [];
   movie.genre_ids.forEach((id) => {
-    genres.push(genresList[id])
+    genres.push(genresList[id]);
   })
 
   return (
     <View>
       <TouchableOpacity
         onPress={() => {
-          getUserSelectedMovie(movie.id)
+          getUserSelectedMovie(movie.id);
         }}
       >
 

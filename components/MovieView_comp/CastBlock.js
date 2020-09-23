@@ -37,7 +37,7 @@ const CastBlock = ({ topCastList, movie_omdb }) => {
                     baseUrl='https://image.tmdb.org/t/p/w154'
                     propToLink='profile_path'
                     defaultImg={require('../../assets/noProfilePic.png')}
-                    posterContStyle={styles.cast_actor_image}
+                    posterContStyle={styles.actor_image_cont}
                     posterStyle={styles.actor_image}
                     defPosterContStyle={styles.cast_actor_def_cont}
                     defPosterStyle={styles.actor_def_image}
@@ -141,6 +141,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 3.84,
     elevation: 5,
+  },
+  actor_image_cont:{
   },
   actor_image: {
     height: 225,

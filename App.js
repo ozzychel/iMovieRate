@@ -29,8 +29,8 @@ export default function App() {
   const [totalPages, setTotalPages] = useState(0);
 
   const getUserSelectedMovie = (id) => {
-    console.log('SELECTED ID', id)
-    getMovieDataById(id)
+    console.log('SELECTED ID', id);
+    getMovieDataById(id);
   }
 
   const getUserInput = async (input) => {

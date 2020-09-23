@@ -6,6 +6,7 @@ import moment from 'moment';
 import InfoBlock from './MovieView_comp/InfoBlock';
 import CastBlock from './MovieView_comp/CastBlock';
 import RatingsBlock from './MovieView_comp/RatingsBlock';
+import RecommendedBlock from './MovieView_comp/RecommendedBlock';
 
 const MovieView = ({ selectedMovie, genresList }) => {
   const movie_tmdb = selectedMovie[0];
@@ -13,6 +14,7 @@ const MovieView = ({ selectedMovie, genresList }) => {
   const [crewList, setCrewList] = useState([]);
   const [topCastList, setTopCastList] = useState([]);
   const [movie_omdb, setMovie_omdb] = useState({});
+  const [recommendedList, setRecommendedList] = useState([]);
 
 
   useEffect(() => {
@@ -21,6 +23,10 @@ const MovieView = ({ selectedMovie, genresList }) => {
 
   useEffect(() => {
     getDataFromOMDB(movie_tmdb.imdb_id)
+  }, []);
+
+  useEffect(() => {
+    getRecommendedList(movie_tmdb.id)
   }, [])
 
   const getDataFromOMDB = (id) => {
@@ -54,7 +60,22 @@ const MovieView = ({ selectedMovie, genresList }) => {
     .catch((err) => {
       console.log('CAST GET ERROR', err)
     })
-  }
+  };
+
+  const getRecommendedList = (movieId) => {
+    axios.get(`https://api.themoviedb.org/3/movie/${movieId}/recommendations`, {
+      params: {
+        api_key: keys.tmdb_api_key
+      }
+    })
+    .then((result) => {
+      console.log('RECOMM GET SUCCESS', result.data.results);
+      setRecommendedList(result.data.results);
+    })
+    .catch((err) => {
+      console.log('RECOMM GET ERROR', err);
+    })
+  };
 
   const runtime = moment.utc(moment.duration(movie_tmdb.runtime, "minutes").asMilliseconds()).format(`H:mm`);
 
@@ -127,6 +148,10 @@ const MovieView = ({ selectedMovie, genresList }) => {
         Separator={Separator}
         topCastList={topCastList}
         movie_omdb={movie_omdb}
+      />
+
+      <RecommendedBlock
+        recommendedList={recommendedList}
       />
 
     </ScrollView>

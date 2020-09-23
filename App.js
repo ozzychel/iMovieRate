@@ -219,8 +219,8 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    // backgroundColor: '#131313',
-    // height: '100%'
+    backgroundColor: '#131313',
+    height: '100%'
   },
   iosBar: {
     backgroundColor: 'black',

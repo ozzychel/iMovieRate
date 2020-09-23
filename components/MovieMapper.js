@@ -35,7 +35,7 @@ const MovieMapper = ({ movieList, getUserSelectedMovie, genresList, getMoreMovie
         {movies}
         {renderLoadMoreBtn(totalPages, currentPage)}
         </ScrollView>
-        <View style={Platform.OS === 'ios' ? {height:300} : {height:200}}></View>
+        <View style={Platform.OS === 'ios' ? {height:160} : {height:110}}></View>
       </View>
   )
 };

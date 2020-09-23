@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
-
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
@@ -22,7 +21,7 @@ const NavBar = ({ setModalVisible }) => {
               <FontAwesomeIcon
                 icon={faSearch}
                 size={24}
-                color={'white'}
+                color={'#737373'}
                 />
         </TouchableOpacity>
 
@@ -44,7 +43,7 @@ const styles = StyleSheet.create({
     height: '70%',
     borderWidth: 1,
     borderStyle: 'solid',
-    borderColor: 'white',
+    borderColor: '#737373',
     marginLeft: 5,
     paddingLeft: 10,
     justifyContent: 'flex-end',
@@ -53,7 +52,7 @@ const styles = StyleSheet.create({
   titleText: {
     fontSize: 24,
     fontWeight: '700',
-    color: 'white'
+    color: '#737373'
   },
   dotsCont: {
     width: '20%',

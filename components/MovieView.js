@@ -69,13 +69,6 @@ const MovieView = ({ selectedMovie, genresList }) => {
 
   return (
     // PICTURE CAROUSEL
-    // TITLE
-    // DESCription BLOCK
-    // ADD TO WATCHLIST
-
-    // RATINGS BLOCK
-          ///Create renderImage helper function
-    // CAST ACTORS
     // NEWS, UPDATES....
     // VIDEOS
     // IMAGES
@@ -143,7 +136,7 @@ const MovieView = ({ selectedMovie, genresList }) => {
 const styles = StyleSheet.create({
   tab_cont: {
     backgroundColor: '#131313',
-    paddingBottom: 150
+    paddingBottom: 10
   },
   separator: {
     marginVertical: 0.05,

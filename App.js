@@ -24,6 +24,8 @@ export default function App() {
 
   const [modalVisible, setModalVisible] = useState(false);
 
+  const [totalPages, setTotalPages] = useState(0);
+
   const getUserSelectedMovie = (id) => {
     getMovieDataById(id)
   }
@@ -57,12 +59,15 @@ export default function App() {
         query: query
       }
     })
-    .then(result => result.data.results.filter(movie =>
-      movie.release_date ? movie : null
-    ))
+    .then((result) => {
+      setTotalPages(result.data.total_pages)
+      console.log('TOTAL PAGES:',totalPages)
+      return result.data.results.filter(movie => movie.release_date ? movie : null)
+    })
     .then((result) => {
       console.log('GET SUCCESS');
-      console.log('======MOVIE COUNT====== :',result);
+      console.log(result)
+      console.log('======MOVIE COUNT====== :',result.length);
       setCurrentMovieList(result);
     })
     .catch((err) => {
@@ -70,6 +75,10 @@ export default function App() {
       console.log(err);
     })
   };
+
+  const getMoreMovies = () => {
+    console.log('CLICKEd')
+  }
 
   const getGenresListFromApi = () => {
     axios.get(`https://api.themoviedb.org/3/genre/movie/list`, {
@@ -119,6 +128,8 @@ export default function App() {
           movieList={currentMovieList}
           getUserSelectedMovie={getUserSelectedMovie}
           genresList={genresList}
+          getMoreMovies={getMoreMovies}
+          totalPages={totalPages}
         />
       )
     }

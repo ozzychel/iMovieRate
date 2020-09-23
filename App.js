@@ -24,14 +24,17 @@ export default function App() {
 
   const [modalVisible, setModalVisible] = useState(false);
 
+  const [currPageNum, setCurrPageNum] = useState(1);
+
   const [totalPages, setTotalPages] = useState(0);
 
   const getUserSelectedMovie = (id) => {
     getMovieDataById(id)
   }
 
-  const getUserInput = (input) => {
-    setCurrentSearch(input)
+  const getUserInput = async (input) => {
+    let wait = await initSearchDefault();
+    setCurrentSearch(input);
   };
 
   useEffect(() => {
@@ -40,7 +43,7 @@ export default function App() {
 
   useEffect(() => {
     if (currentSearch) {
-      getMovieListFromServer(currentSearch)
+      getMovieListFromServer(currentSearch, currPageNum)
     }
   }, [currentSearch])
 
@@ -49,26 +52,33 @@ export default function App() {
       console.log('UE sel mov det WORKS')
       changeView('MOVIE VIEW')
     }
-  }, [selectedMovieDetails])
+  }, [selectedMovieDetails]);
 
-  const getMovieListFromServer = (query) => {
+  const initSearchDefault = () => {
+    setCurrPageNum(1);
+    setTotalPages(0);
+    setCurrentMovieList([]);
+  };
+
+  const getMovieListFromServer = (query, pageNum) => {
     console.log('QUERY', query)
     axios.get('https://api.themoviedb.org/3/search/movie', {
       params: {
         api_key: keys.tmdb_api_key,
-        query: query
+        query: query,
+        page: pageNum
       }
     })
     .then((result) => {
-      setTotalPages(result.data.total_pages)
-      console.log('TOTAL PAGES:',totalPages)
+      setTotalPages(result.data.total_pages);
+      setCurrPageNum(prev => prev + 1);
       return result.data.results.filter(movie => movie.release_date ? movie : null)
     })
     .then((result) => {
       console.log('GET SUCCESS');
-      console.log(result)
+      // console.log(result)
       console.log('======MOVIE COUNT====== :',result.length);
-      setCurrentMovieList(result);
+      setCurrentMovieList(prevState =>[...prevState, ...result]);
     })
     .catch((err) => {
       console.log('GET FAILED');
@@ -77,7 +87,9 @@ export default function App() {
   };
 
   const getMoreMovies = () => {
-    console.log('CLICKEd')
+    console.log('CURRENT',currPageNum)
+    console.log('TOTAL', totalPages)
+    getMovieListFromServer(currentSearch, currPageNum)
   }
 
   const getGenresListFromApi = () => {
@@ -130,6 +142,7 @@ export default function App() {
           genresList={genresList}
           getMoreMovies={getMoreMovies}
           totalPages={totalPages}
+          currentPage={currPageNum}
         />
       )
     }
@@ -161,7 +174,6 @@ export default function App() {
   return (
 
     <View style={styles.container}>
-      {/* {renderStatusBar(Platform.OS)} */}
       <View style={Platform.OS === 'ios' ? styles.iosBar : null}></View>
       <StatusBar barStyle='light-content'/>
       <NavBar setModalVisible={setModalVisible}/>
@@ -207,6 +219,8 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
+    // backgroundColor: '#131313',
+    // height: '100%'
   },
   iosBar: {
     backgroundColor: 'black',

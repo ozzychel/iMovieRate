@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import Movie from './Movie';
 
-const MovieMapper = ({ movieList, getUserSelectedMovie, genresList, getMoreMovies, totalPages }) => {
+const MovieMapper = ({ movieList, getUserSelectedMovie, genresList, getMoreMovies, totalPages, currentPage }) => {
   const movies = [];
   movieList.forEach((movie, i) => {
     movies.push(
@@ -15,8 +15,8 @@ const MovieMapper = ({ movieList, getUserSelectedMovie, genresList, getMoreMovie
     )
   })
 
-  const renderLoadMoreBtn = (qty) => {
-    return qty === 1 ? null :
+  const renderLoadMoreBtn = (total, current) => {
+    return (total > 1 && current <= total) ?
       (<TouchableOpacity
           onPress={ () => {
             getMoreMovies()
@@ -24,9 +24,8 @@ const MovieMapper = ({ movieList, getUserSelectedMovie, genresList, getMoreMovie
           <View style={styles.load_more_cont}>
             <Text style={styles.load_more_text}>Load more...</Text>
           </View>
-        </TouchableOpacity>)
+        </TouchableOpacity>) : null;
   }
-
 
   return (
       <View style={styles.scrollWrapper}>
@@ -34,7 +33,7 @@ const MovieMapper = ({ movieList, getUserSelectedMovie, genresList, getMoreMovie
           contentContainerStyle={styles.contentContainer}
         >
         {movies}
-        {renderLoadMoreBtn(totalPages)}
+        {renderLoadMoreBtn(totalPages, currentPage)}
         </ScrollView>
         <View style={Platform.OS === 'ios' ? {height:300} : {height:200}}></View>
       </View>

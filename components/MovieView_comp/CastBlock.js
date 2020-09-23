@@ -3,8 +3,8 @@ import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity } from 'rea
 import RenderImage from '../helperFunctions/RenderImage';
 
 const CastBlock = ({ topCastList, movie_omdb }) => {
-
-  return (
+  return topCastList.length > 0 ?
+    (
     <View>
       <View style={styles.cast_cont}>
 
@@ -82,7 +82,7 @@ const CastBlock = ({ topCastList, movie_omdb }) => {
       </View>
 
     </View>
-  )
+  ) : null;
 };
 
 const styles = StyleSheet.create({

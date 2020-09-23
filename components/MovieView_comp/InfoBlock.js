@@ -1,27 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, StyleSheet, Image } from 'react-native';
+import RenderImage from '../helperFunctions/RenderImage';
 
 const InfoBlock = ({ movie_tmdb, genres, Separator }) => {
-
-  const renderImage = () => {
-    if (movie_tmdb.poster_path) {
-      return (
-        <Image
-          style={styles.poster}
-          source={{
-            uri:`https://image.tmdb.org/t/p/w154${movie_tmdb.poster_path}`
-          }}
-        />
-      )
-    } else {
-      return (
-        <Image
-          source={require('../../assets/default.jpg')}
-          style={styles.poster}
-        />
-      )
-    }
-  };
 
   const renderGenres = (genresArr) => {
     let genreBlocks = [];
@@ -34,7 +15,14 @@ const InfoBlock = ({ movie_tmdb, genres, Separator }) => {
         </View>
         )
     })
-    return genreBlocks;
+    const notSpecified = (
+      <View key={1} style={styles.genres_block}>
+        <Text style={styles.genres_text}>
+          Genres are not specified
+        </Text>
+      </View>
+    )
+    return genresArr.length > 1 ? genreBlocks : notSpecified;
   };
 
   const renderTagline = () => {
@@ -50,9 +38,16 @@ const InfoBlock = ({ movie_tmdb, genres, Separator }) => {
   return (
     <View>
      <View style={styles.desc_main_cont}>
-        <View style={styles.poster_cont}>
-          {renderImage()}
-        </View>
+        <RenderImage
+          mainObj={movie_tmdb}
+          baseUrl='https://image.tmdb.org/t/p/w154'
+          propToLink='poster_path'
+          defaultImg={require('../../assets/default.jpg')}
+          posterContStyle={styles.poster_cont}
+          posterStyle={styles.poster}
+          defPosterContStyle={styles.poster_cont}
+          defPosterStyle={styles.poster}
+        />
         <View style={styles.genres_desc_cont}>
             <ScrollView
               showsHorizontalScrollIndicator={false}

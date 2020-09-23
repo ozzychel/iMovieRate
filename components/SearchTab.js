@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import MovieMapper from './MovieMapper';
 
-const SearchTab = ({getUserInput, movieList, getUserSelectedMovie, genresList, getMoreMovies, totalPages}) => {
+const SearchTab = ({getUserInput, movieList, getUserSelectedMovie, genresList, getMoreMovies, totalPages, currentPage, setCurrPageNum}) => {
   return (
     <View>
       {movieList.length > 0
@@ -13,6 +13,7 @@ const SearchTab = ({getUserInput, movieList, getUserSelectedMovie, genresList, g
         genresList={genresList}
         getMoreMovies={getMoreMovies}
         totalPages={totalPages}
+        currentPage={currentPage}
       />
       :
       <View style={{backgroundColor: '#1f1f1f', height: '100%', paddingTop:250}}/>}

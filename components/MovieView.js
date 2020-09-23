@@ -8,7 +8,7 @@ import CastBlock from './MovieView_comp/CastBlock';
 import RatingsBlock from './MovieView_comp/RatingsBlock';
 import RecommendedBlock from './MovieView_comp/RecommendedBlock';
 
-const MovieView = ({ selectedMovie, genresList }) => {
+const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie }) => {
   const movie_tmdb = selectedMovie[0];
   const [castList, setCastList] = useState([]);
   const [crewList, setCrewList] = useState([]);
@@ -16,18 +16,17 @@ const MovieView = ({ selectedMovie, genresList }) => {
   const [movie_omdb, setMovie_omdb] = useState({});
   const [recommendedList, setRecommendedList] = useState([]);
 
-
   useEffect(() => {
     getCastListFromServer(movie_tmdb.id)
-  }, []);
+  }, [movie_tmdb]);
 
   useEffect(() => {
     getDataFromOMDB(movie_tmdb.imdb_id)
-  }, []);
+  }, [movie_tmdb]);
 
   useEffect(() => {
     getRecommendedList(movie_tmdb.id)
-  }, [])
+  }, [movie_tmdb])
 
   const getDataFromOMDB = (id) => {
     axios.get(`http://www.omdbapi.com/`, {
@@ -69,7 +68,8 @@ const MovieView = ({ selectedMovie, genresList }) => {
       }
     })
     .then((result) => {
-      console.log('RECOMM GET SUCCESS', result.data.results);
+      // console.log('RECOMM GET SUCCESS', result.data.results);
+      console.log('GET RECOMM INVOKED')
       setRecommendedList(result.data.results);
     })
     .catch((err) => {
@@ -152,6 +152,7 @@ const MovieView = ({ selectedMovie, genresList }) => {
 
       <RecommendedBlock
         recommendedList={recommendedList}
+        getUserSelectedMovie={getUserSelectedMovie}
       />
 
     </ScrollView>

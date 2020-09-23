@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import RenderImage from '../helperFunctions/RenderImage';
 
-const RecommendedBlock = ({ recommendedList }) => {
+const RecommendedBlock = ({ recommendedList, getUserSelectedMovie }) => {
 
   return (
     <View>
@@ -30,7 +30,13 @@ const RecommendedBlock = ({ recommendedList }) => {
         >
           {recommendedList.map((movie, i) => {
             return (
+
               <View key={i} style={styles.movie_cont}>
+                <TouchableOpacity
+                  onPress={() => {
+                    getUserSelectedMovie(movie.id)
+                  }}
+                >
 
                   <RenderImage
                     mainObj={movie}
@@ -55,6 +61,7 @@ const RecommendedBlock = ({ recommendedList }) => {
                   </Text>
                 </View>
 
+            </TouchableOpacity>
             </View>
            )
         })}

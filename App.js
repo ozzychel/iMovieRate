@@ -29,6 +29,7 @@ export default function App() {
   const [totalPages, setTotalPages] = useState(0);
 
   const getUserSelectedMovie = (id) => {
+    console.log('SELECTED ID', id)
     getMovieDataById(id)
   }
 
@@ -167,6 +168,7 @@ export default function App() {
       return (<MovieView
         selectedMovie={selectedMovieDetails}
         genresList={genresList}
+        getUserSelectedMovie={getUserSelectedMovie}
       />)
     }
   }

@@ -7,6 +7,8 @@ import InfoBlock from './MovieView_comp/InfoBlock';
 import CastBlock from './MovieView_comp/CastBlock';
 import RatingsBlock from './MovieView_comp/RatingsBlock';
 import RecommendedBlock from './MovieView_comp/RecommendedBlock';
+import PictureCarousel from './MovieView_comp/PictureCarousel';
+import ImagesBlock from './MovieView_comp/ImagesBlock';
 
 const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie }) => {
   const movie_tmdb = selectedMovie[0];
@@ -15,6 +17,9 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie }) => {
   const [topCastList, setTopCastList] = useState([]);
   const [movie_omdb, setMovie_omdb] = useState({});
   const [recommendedList, setRecommendedList] = useState([]);
+  const [imageUrls, setImageUrls] = useState([])
+
+  const mockUser = 111;
 
   useEffect(() => {
     getCastListFromServer(movie_tmdb.id)
@@ -26,7 +31,49 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie }) => {
 
   useEffect(() => {
     getRecommendedList(movie_tmdb.id)
-  }, [movie_tmdb])
+  }, [movie_tmdb]);
+
+  useEffect(() => {
+    getMovieImages(movie_tmdb.title, movie_tmdb.release_date.slice(0,4))
+  }, [movie_tmdb]);
+
+  const getMovieImages = (title, date) => {
+    console.log('KP QUERY', title, date)
+    axios({
+      method: 'get',
+      url: `https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword?keyword=${title} ${date}&page=1`,
+      headers: {
+        'X-API-KEY': keys.kp_unof_api_key
+      }
+    })
+    .then((result) => {
+      return result.data.films.filter((movie) => {
+        return movie.nameEn.toLowerCase().split(' ').join('') === title.toLowerCase().split(' ').join('') && movie.year === date.toString();
+      })
+    })
+    .then((movie) => {
+      console.log('FILTERED KINOPOISK OBJ:', movie);
+      getImagesUrls(movie[0]['filmId']);
+    })
+    .catch((err) => {
+      console.log('KP GET ERROR', err)
+    })
+  }
+
+  const getImagesUrls = (id) => {
+    console.log('URL ID', id)
+    axios({
+      method: 'get',
+      url: `https://kinopoiskapiunofficial.tech/api/v2.1/films/${id}/frames`,
+      headers: {
+        'X-API-KEY': keys.kp_unof_api_key
+      }
+    })
+    .then((result) => {
+      // console.log(result.data)
+      setImageUrls(result.data.frames)
+    })
+  }
 
   const getDataFromOMDB = (id) => {
     axios.get(`http://www.omdbapi.com/`, {
@@ -99,6 +146,11 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie }) => {
       contentContainerStyle={styles.tab_cont}
     >
 
+      <PictureCarousel
+        movie_title={movie_tmdb.title}
+        release_date={movie_tmdb.release_date}
+      />
+
       <View style={styles.title_cont}>
         <View>
           <Text style={styles.title_text}>
@@ -126,7 +178,19 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie }) => {
       />
 
       <View style={styles.addWatchList_cont}>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={()=>{
+            axios.post(`http://localhost:9000/users/${mockUser}`, {
+                movieId: movie_tmdb.id,
+            })
+            .then((result) => {
+              console.log('POST SUCCESS', result.status);
+            })
+            .catch((err) => {
+              console.log('POST FAILED', err);
+            })
+          }}
+        >
           <View style={styles.addButton_cont}>
             <View style={styles.addButton_icon_cont}>
               <Text style={styles.addButton_icon_text}>+</Text>
@@ -153,6 +217,12 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie }) => {
       <RecommendedBlock
         recommendedList={recommendedList}
         getUserSelectedMovie={getUserSelectedMovie}
+      />
+
+      <ImagesBlock
+        movie_title={movie_tmdb.title}
+        release_date={movie_tmdb.release_date}
+        imageUrls={imageUrls}
       />
 
     </ScrollView>

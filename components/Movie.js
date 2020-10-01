@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import RenderImage from './helperFunctions/RenderImage';
 
 const Movie = ({ movie, getUserSelectedMovie, genresList }) => {

@@ -70,7 +70,7 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie }) => {
       }
     })
     .then((result) => {
-      // console.log(result.data)
+      console.log(result.data.frames)
       setImageUrls(result.data.frames)
     })
   }

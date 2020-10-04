@@ -3,6 +3,7 @@ import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity } from 'rea
 import RenderImage from '../helperFunctions/RenderImage';
 
 const CastBlock = ({ topCastList, movie_omdb }) => {
+
   return topCastList.length > 0 ?
     (
     <View>

@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import RenderImage from '../helperFunctions/RenderImage';
 
-const RecommendedBlock = ({ recommendedList, getUserSelectedMovie }) => {
+const RecommendedBlock = ({ recommendedList, getUserSelectedMovie, movieViewScrollTop }) => {
+
+  const scroll = React.createRef();
 
   return recommendedList.length > 0 ? (
     <View>
@@ -27,13 +29,16 @@ const RecommendedBlock = ({ recommendedList, getUserSelectedMovie }) => {
         scrollEventThrottle={200}
         // pagingEnabled
         decelerationRate="fast"
+        ref={scroll}
       >
         {recommendedList.map((movie, i) => {
           return (
             <View key={i} style={styles.movie_cont}>
               <TouchableOpacity
                 onPress={() => {
-                  getUserSelectedMovie(movie.id)
+                  getUserSelectedMovie(movie.id);
+                  movieViewScrollTop();
+                  scroll.current.scrollTo({x:0, animated: false});
                 }}
               >
                 <RenderImage
@@ -55,7 +60,7 @@ const RecommendedBlock = ({ recommendedList, getUserSelectedMovie }) => {
 
               <View style={styles.movie_date}>
                 <Text style={styles.movie_date_text}>
-                  {movie.release_date.slice(0,4)}
+                  {movie.release_date ? movie.release_date.slice(0,4) : ''}
                 </Text>
               </View>
 
@@ -116,7 +121,6 @@ const styles = StyleSheet.create({
     maxWidth: 150,
     marginRight: 10,
     marginLeft: 10,
-
     shadowColor: "#000",
     shadowOffset: {
 	    width: 3,

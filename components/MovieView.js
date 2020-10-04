@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity, Button } from 'react-native';
 import axios from 'axios';
 import keys from '../config.js';
 import moment from 'moment';
@@ -11,6 +11,12 @@ import PictureCarousel from './MovieView_comp/PictureCarousel';
 import ImagesBlock from './MovieView_comp/ImagesBlock';
 
 const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie }) => {
+
+  const scroll = React.createRef()
+  const movieViewScrollTop = () => {
+    scroll.current.scrollTo({y:0, animated: true});
+  }
+
   const movie_tmdb = selectedMovie[0];
   const [castList, setCastList] = useState([]);
   const [crewList, setCrewList] = useState([]);
@@ -51,9 +57,9 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie }) => {
         return movie.nameEn.toLowerCase().split(' ').join('') === title.toLowerCase().split(' ').join('') && movie.year === date.toString();
       })
     })
-    .then((movie) => {
-      console.log('FILTERED KINOPOISK OBJ:', movie);
-      getImagesUrls(movie[0]['filmId']);
+    .then((movies) => {
+      console.log('FILTERED KINOPOISK OBJ:', movies);
+      movies.length > 0 ? getImagesUrls(movies[0]['filmId']):null
     })
     .catch((err) => {
       console.log('KP GET ERROR', err)
@@ -144,12 +150,13 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie }) => {
     // REVIEWS
     <ScrollView
       contentContainerStyle={styles.tab_cont}
+      ref={scroll}
     >
 
-      <PictureCarousel
+      {/* <PictureCarousel
         movie_title={movie_tmdb.title}
         release_date={movie_tmdb.release_date}
-      />
+      /> */}
 
       <View style={styles.title_cont}>
         <View>
@@ -217,13 +224,13 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie }) => {
       <RecommendedBlock
         recommendedList={recommendedList}
         getUserSelectedMovie={getUserSelectedMovie}
+        movieViewScrollTop={movieViewScrollTop}
       />
 
       <ImagesBlock
         movie_title={movie_tmdb.title}
         release_date={movie_tmdb.release_date}
         imageUrls={imageUrls}
-        Separator={Separator}
       />
 
     </ScrollView>

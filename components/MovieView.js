@@ -223,6 +223,7 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie }) => {
         movie_title={movie_tmdb.title}
         release_date={movie_tmdb.release_date}
         imageUrls={imageUrls}
+        Separator={Separator}
       />
 
     </ScrollView>

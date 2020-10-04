@@ -4,14 +4,13 @@ import axios from 'axios';
 import keys from '../../config';
 import RenderImage from '../helperFunctions/RenderImage';
 
-const ImagesBlock = ({ movie_title, release_date, imageUrls}) => {
+const ImagesBlock = ({ movie_title, release_date, imageUrls }) => {
   console.log('LOG FROM IMAGEBLOCK', imageUrls.length)
 
   const thumbs = [];
-  const previewThumbs = imageUrls.slice(0,8);
+  const previewThumbs = imageUrls.slice(0,9);
   previewThumbs.forEach((thumb, i) => {
     thumbs.push(
-      // <View key={i}>
         <RenderImage
           key={i}
           mainObj={thumb}
@@ -20,7 +19,6 @@ const ImagesBlock = ({ movie_title, release_date, imageUrls}) => {
           posterContStyle={styles.thumb_image_cont}
           posterStyle={styles.thumb_image}
         />
-      // </View>
     )
   })
 
@@ -32,7 +30,7 @@ const ImagesBlock = ({ movie_title, release_date, imageUrls}) => {
       <View style={styles.subtitle_seeAllbutton_cont}>
 
         <View style={styles.subtitle_cont}>
-          <Text style={styles.subtitle_text}>Images</Text>
+          <Text style={styles.subtitle_text}>Images ({imageUrls.length})</Text>
         </View>
 
         <TouchableOpacity>
@@ -40,7 +38,6 @@ const ImagesBlock = ({ movie_title, release_date, imageUrls}) => {
             <Text style={styles.seeAllbutton_text}>SEE ALL</Text>
           </View>
         </TouchableOpacity>
-
       </View>
 
       <View style={styles.thumbs_board}>
@@ -49,20 +46,13 @@ const ImagesBlock = ({ movie_title, release_date, imageUrls}) => {
 
     </View>
 
-
-
     </View>
   )
   :
-  (<View>
-    <Text style={styles.test}>Images(0)</Text>
-  </View>)
+  null
 }
 
 const styles = StyleSheet.create({
-  test: {
-    color:'white'
-  },
   main_cont: {
     marginTop: 20,
     backgroundColor: '#1f1f1f',
@@ -106,15 +96,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#1f1f1f',
     paddingLeft: 5,
     paddingRight: 5
-
-    // height: 280,
-    // borderWidth: 1,
-    // borderColor: 'green'
   },
   thumb_image_cont: {
     marginTop: 8,
-    width: 180,
-
+    width: '30%',
     shadowColor: "#000",
     shadowOffset: {
 	    width: 3,
@@ -125,7 +110,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   thumb_image: {
-    width: 187,
+    width: '100%',
     height: 102
   },
 })
@@ -133,25 +118,3 @@ const styles = StyleSheet.create({
 export default ImagesBlock;
 
 
-// const Item = ({ preview_url }) => (
-//   <View style={styles.image_thumb_cont}>
-//     <Image
-//       style={styles.image_thumb}
-//       source={{uri:preview_url}}
-//     />
-//   </View>
-// );
-
-// const renderItem = ({ item }) => (
-//   <Item preview_url={item.preview} />
-// );
-
-// return imageUrls.length > 0 ? (
-//   <View>
-//     <FlatList
-//       data={imageUrls}
-//       renderItem={renderItem}
-//       keyExtractor={item => item.preview.slice(-14)}
-//     />
-//   </View>
-// )

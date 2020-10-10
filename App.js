@@ -121,7 +121,7 @@ export default function App() {
       }
     })
     .then((result) => {
-      console.log('++++++++++++ MOVIE DETAILS SUCCESS', result.data)
+      console.log('++++++++++++ MOVIE DETAILS SUCCESS')
       setSelectedMovieDetails(prevState => [result.data])
     })
     .catch((err) => {

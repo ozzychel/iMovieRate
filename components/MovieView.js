@@ -89,7 +89,7 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie }) => {
       }
     })
     .then((result) => {
-      console.log('OMDB GET SUCCESS', result.data);
+      console.log('OMDB GET SUCCESS');
       setMovie_omdb(result.data);
     })
     .catch((err) => {

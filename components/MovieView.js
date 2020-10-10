@@ -9,6 +9,7 @@ import RatingsBlock from './MovieView_comp/RatingsBlock';
 import RecommendedBlock from './MovieView_comp/RecommendedBlock';
 import PictureCarousel from './MovieView_comp/PictureCarousel';
 import ImagesBlock from './MovieView_comp/ImagesBlock';
+const MOCK_USER_ID = 111;
 
 const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie }) => {
 
@@ -25,7 +26,6 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie }) => {
   const [recommendedList, setRecommendedList] = useState([]);
   const [imageUrls, setImageUrls] = useState([])
 
-  const mockUser = 111;
 
   useEffect(() => {
     getCastListFromServer(movie_tmdb.id)
@@ -58,7 +58,7 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie }) => {
       })
     })
     .then((movies) => {
-      console.log('FILTERED KINOPOISK OBJ:', movies);
+      // console.log('FILTERED KINOPOISK OBJ:', movies);
       movies.length > 0 ? getImagesUrls(movies[0]['filmId']):null
     })
     .catch((err) => {
@@ -76,7 +76,7 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie }) => {
       }
     })
     .then((result) => {
-      console.log(result.data.frames)
+      // console.log(result.data.frames)
       setImageUrls(result.data.frames)
     })
   }
@@ -89,7 +89,7 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie }) => {
       }
     })
     .then((result) => {
-      console.log('OMDB GET SUCCESS');
+      console.log('OMDB GET SUCCESS', result.data);
       setMovie_omdb(result.data);
     })
     .catch((err) => {
@@ -187,7 +187,7 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie }) => {
       <View style={styles.addWatchList_cont}>
         <TouchableOpacity
           onPress={()=>{
-            axios.post(`http://localhost:9000/users/${mockUser}`, {
+            axios.post(`http://localhost:9000/users/${MOCK_USER_ID}`, {
                 movieId: movie_tmdb.id,
             })
             .then((result) => {

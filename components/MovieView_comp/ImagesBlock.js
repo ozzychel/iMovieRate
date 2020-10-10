@@ -8,7 +8,7 @@ const ImagesBlock = ({ movie_title, release_date, imageUrls }) => {
   console.log('LOG FROM IMAGEBLOCK', imageUrls.length)
 
   const thumbs = [];
-  const previewThumbs = imageUrls.slice(0,9);
+  const previewThumbs = imageUrls;
   previewThumbs.forEach((thumb, i) => {
     thumbs.push(
         <RenderImage

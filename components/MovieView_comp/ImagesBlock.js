@@ -1,26 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
 import axios from 'axios';
 import keys from '../../config';
 import RenderImage from '../helperFunctions/RenderImage';
 
-const ImagesBlock = ({ movie_title, release_date, imageUrls }) => {
-  console.log('LOG FROM IMAGEBLOCK', imageUrls.length)
+const windowWidth = Dimensions.get('window').width;
 
-  const thumbs = [];
+const ImagesBlock = ({ movie_title, release_date, imageUrls }) => {
+  console.log('IMAGE_URLS LENGTH', imageUrls.length)
+
   const previewThumbs = imageUrls;
-  previewThumbs.forEach((thumb, i) => {
-    thumbs.push(
-        <RenderImage
-          key={i}
-          mainObj={thumb}
-          baseUrl=''
-          propToLink='preview'
-          posterContStyle={styles.thumb_image_cont}
-          posterStyle={styles.thumb_image}
-        />
-    )
-  })
+  const thumbsPerBlock = 9;
+
+  const blocks = [];
+  for(let i = 0; i < previewThumbs.length; i += thumbsPerBlock) {
+    let inner = [];
+    blocks.push(previewThumbs.slice(i, i + thumbsPerBlock));
+  }
 
   return imageUrls.length > 0 ? (
     <View>
@@ -40,12 +36,28 @@ const ImagesBlock = ({ movie_title, release_date, imageUrls }) => {
         </TouchableOpacity>
       </View>
 
-      <View style={styles.thumbs_board}>
-        {thumbs}
-      </View>
+      <ScrollView
+        horizontal={true}
+        pagingEnabled
+      >
+       {blocks.map((block, i) => (
+          <View style={styles.scrollView_block} key={i}>
+            {block.map((thumb, i) => (
+              <TouchableOpacity key={i}>
+                <RenderImage
+                  mainObj={thumb}
+                  baseUrl=''
+                  propToLink='preview'
+                  posterContStyle={styles.thumb_image_cont}
+                  posterStyle={styles.thumb_image}
+                />
+              </TouchableOpacity>
+            ))}
+          </View>
+       ))}
+      </ScrollView>
 
     </View>
-
     </View>
   )
   :
@@ -88,31 +100,24 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600'
   },
-  thumbs_board: {
-    flex:1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around',
-    backgroundColor: '#1f1f1f',
-    paddingLeft: 5,
-    paddingRight: 5
-  },
   thumb_image_cont: {
-    marginTop: 8,
-    width: '30%',
-    shadowColor: "#000",
-    shadowOffset: {
-	    width: 3,
-	    height: 3,
-    },
-    shadowOpacity: 0.5,
-    shadowRadius: 3.84,
-    elevation: 5,
+    borderColor: '#1f1f1f',
+    borderWidth: 1,
+    width: Math.floor(windowWidth / 3) -1,
+    height: Math.floor(windowWidth / 3) -1,
   },
   thumb_image: {
     width: '100%',
-    height: 102
+    height: '100%'
   },
+  scrollView_block: {
+    borderColor: 'white',
+    width: windowWidth,
+    maxHeight: windowWidth*2,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    backgroundColor: '#1f1f1f'
+  }
 })
 
 export default ImagesBlock;

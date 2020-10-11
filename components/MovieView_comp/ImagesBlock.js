@@ -9,14 +9,23 @@ const windowWidth = Dimensions.get('window').width;
 const ImagesBlock = ({ movie_title, release_date, imageUrls }) => {
   console.log('IMAGE_URLS LENGTH', imageUrls.length)
 
+  const scroll = React.createRef();
+
   const previewThumbs = imageUrls;
   const thumbsPerBlock = 9;
-
   const blocks = [];
   for(let i = 0; i < previewThumbs.length; i += thumbsPerBlock) {
     let inner = [];
     blocks.push(previewThumbs.slice(i, i + thumbsPerBlock));
   }
+
+  const initScroll = () => {
+    scroll.current.scrollTo({x:0, animated: false});
+  }
+
+  useEffect(() => {
+    initScroll();
+  }, [blocks])
 
   return imageUrls.length > 0 ? (
     <View>
@@ -39,6 +48,7 @@ const ImagesBlock = ({ movie_title, release_date, imageUrls }) => {
       <ScrollView
         horizontal={true}
         pagingEnabled
+        ref={scroll}
       >
        {blocks.map((block, i) => (
           <View style={styles.scrollView_block} key={i}>

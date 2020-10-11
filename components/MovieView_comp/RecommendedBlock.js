@@ -25,9 +25,7 @@ const RecommendedBlock = ({ recommendedList, getUserSelectedMovie, movieViewScro
         horizontal={true}
         contentContainerStyle={styles.cast_carousel}
         showsHorizontalScrollIndicator={false}
-        // onContentSizeChange={(w, h) => init(w)}
         scrollEventThrottle={200}
-        // pagingEnabled
         decelerationRate="fast"
         ref={scroll}
       >

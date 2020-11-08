@@ -6,6 +6,12 @@ const RecommendedBlock = ({ recommendedList, getUserSelectedMovie, movieViewScro
 
   const scroll = React.createRef();
 
+  useEffect(() => {
+    if(recommendedList.length) {
+      scroll.current.scrollTo({x:0, animated: false});
+    }
+  }, [recommendedList])
+
   return recommendedList.length > 0 ? (
     <View>
       <View style={styles.main_cont}>
@@ -35,8 +41,6 @@ const RecommendedBlock = ({ recommendedList, getUserSelectedMovie, movieViewScro
               <TouchableOpacity
                 onPress={() => {
                   getUserSelectedMovie(movie.id);
-                  movieViewScrollTop();
-                  scroll.current.scrollTo({x:0, animated: false});
                 }}
               >
                 <RenderImage

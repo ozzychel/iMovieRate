@@ -11,6 +11,12 @@ const ImagesBlock = ({ movie_title, release_date, imageUrls }) => {
 
   const scroll = React.createRef();
 
+  useEffect(() => {
+    if(imageUrls.length) {
+      scroll.current.scrollTo({x:0, animated:false});
+    }
+  }, [imageUrls])
+
   const previewThumbs = imageUrls;
   const thumbsPerBlock = 9;
   const blocks = [];
@@ -18,14 +24,6 @@ const ImagesBlock = ({ movie_title, release_date, imageUrls }) => {
     let inner = [];
     blocks.push(previewThumbs.slice(i, i + thumbsPerBlock));
   }
-
-  const initScroll = () => {
-    scroll.current.scrollTo({x:0, animated: false});
-  }
-
-  useEffect(() => {
-    initScroll();
-  }, [blocks])
 
   return imageUrls.length > 0 ? (
     <View>

@@ -4,6 +4,14 @@ import RenderImage from '../helperFunctions/RenderImage';
 
 const CastBlock = ({ topCastList, movie_omdb }) => {
 
+  const scroll = React.createRef();
+
+  useEffect(() => {
+    if(topCastList.length) {
+      scroll.current.scrollTo({x:0, animated: false});
+    }
+  }, [topCastList])
+
   return topCastList.length > 0 ?
     (
     <View>
@@ -28,6 +36,7 @@ const CastBlock = ({ topCastList, movie_omdb }) => {
         scrollEventThrottle={200}
         // pagingEnabled
         decelerationRate="fast"
+        ref={scroll}
         >
           {topCastList.map((actor, i) => {
             return (

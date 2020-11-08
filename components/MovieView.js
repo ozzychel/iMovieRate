@@ -13,10 +13,7 @@ const MOCK_USER_ID = 111;
 
 const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie }) => {
 
-  const scroll = React.createRef()
-  const movieViewScrollTop = () => {
-    scroll.current.scrollTo({y:0, animated: true});
-  }
+  const scroll = React.createRef();
 
   const movie_tmdb = selectedMovie[0];
   const [castList, setCastList] = useState([]);
@@ -26,6 +23,9 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie }) => {
   const [recommendedList, setRecommendedList] = useState([]);
   const [imageUrls, setImageUrls] = useState([])
 
+  useEffect(() => {
+    scroll.current.scrollTo({y:0, animated:true})
+  }, [movie_tmdb])
 
   useEffect(() => {
     getCastListFromServer(movie_tmdb.id)
@@ -153,11 +153,6 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie }) => {
       ref={scroll}
     >
 
-      {/* <PictureCarousel
-        movie_title={movie_tmdb.title}
-        release_date={movie_tmdb.release_date}
-      /> */}
-
       <View style={styles.title_cont}>
         <View>
           <Text style={styles.title_text}>
@@ -224,7 +219,6 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie }) => {
       <RecommendedBlock
         recommendedList={recommendedList}
         getUserSelectedMovie={getUserSelectedMovie}
-        movieViewScrollTop={movieViewScrollTop}
       />
 
       <ImagesBlock

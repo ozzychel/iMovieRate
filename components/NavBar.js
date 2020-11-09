@@ -32,7 +32,7 @@ const NavBar = ({ setModalVisible }) => {
 const styles = StyleSheet.create({
   navbar: {
     height: 60,
-    backgroundColor: '#131313',
+    backgroundColor: 'black',
     alignItems: 'flex-end',
     flexDirection: 'row',
     justifyContent: 'space-between',

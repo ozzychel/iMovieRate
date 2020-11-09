@@ -60,8 +60,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'white'
   },
   input: {
-    fontSize: 20,
+    fontSize: 22,
     paddingLeft: 5,
+    paddingTop:10
   },
   btn_cont: {
     padding:4,

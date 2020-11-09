@@ -22,10 +22,6 @@ const ImagesBlock = ({ movie_title, release_date, imageUrls }) => {
     }
   }, [imageUrls])
 
-  useEffect(() => {
-    console.log('CURREENt', currentIndex)
-  }, [currentIndex])
-
   const previewThumbs = imageUrls;
   const thumbsPerBlock = 9;
   const blocks = [];
@@ -50,7 +46,6 @@ const ImagesBlock = ({ movie_title, release_date, imageUrls }) => {
     }
 
   }
-
 
   return imageUrls.length > 0 ? (
     <View>

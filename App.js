@@ -152,24 +152,27 @@ export default function App() {
        <HomeTab />
       )
     }
-    if (view === 'MOVIES') {
-      return (<Text>MOVIES SCREEN</Text>)
-    }
-    if (view === 'TV SHOWS') {
-      return (<Text>TV SHOWS SCREEN</Text>)
-    }
-    if (view === 'CELEBS') {
-      return (<Text>CELEBS SCREEN</Text>)
-    }
-    if (view === 'AWARDS & EVENTS') {
-      return (<Text>AWARDS SCREEN</Text>)
-    }
+    // if (view === 'MOVIES') {
+    //   return (<Text>MOVIES SCREEN</Text>)
+    // }
+    // if (view === 'TV SHOWS') {
+    //   return (<Text>TV SHOWS SCREEN</Text>)
+    // }
+    // if (view === 'CELEBS') {
+    //   return (<Text>CELEBS SCREEN</Text>)
+    // }
+    // if (view === 'AWARDS & EVENTS') {
+    //   return (<Text>AWARDS SCREEN</Text>)
+    // }
     if (view === 'MOVIE VIEW') {
       return (<MovieView
         selectedMovie={selectedMovieDetails}
         genresList={genresList}
         getUserSelectedMovie={getUserSelectedMovie}
       />)
+    }
+    if (view === 'WATCHLIST') {
+      return (<Text>WATCHLIST</Text>)
     }
   }
 
@@ -186,10 +189,12 @@ export default function App() {
         items={[
           {title: 'HOME'},
           {title: 'SEARCH'},
-          {title: 'MOVIES'},
-          {title: 'TV SHOWS'},
-          {title: 'CELEBS'},
-          {title: 'AWARDS & EVENTS'},
+          // {title: 'MOVIES'},
+          // {title: 'TV SHOWS'},
+          // {title: 'CELEBS'},
+          // {title: 'AWARDS & EVENTS'},
+          {title: 'MOVIE VIEW'},
+          {title: 'WATCHLIST'}
         ]
         }
         currentTab={currentTab}

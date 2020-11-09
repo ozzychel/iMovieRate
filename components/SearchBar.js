@@ -51,7 +51,7 @@ const SearchBar = ({ getUserInput, setModalVisible, changeView }) => {
 
 const styles = StyleSheet.create({
   inputWrapper: {
-    height: 30,
+    height: 40,
     marginHorizontal: 5,
     marginTop: 10,
     marginBottom: 5,

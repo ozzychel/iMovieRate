@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Dimensions } from
 import axios from 'axios';
 import keys from '../../config';
 import RenderImage from '../helperFunctions/RenderImage';
+import ImageView from 'react-native-image-viewing';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -11,11 +12,19 @@ const ImagesBlock = ({ movie_title, release_date, imageUrls }) => {
 
   const scroll = React.createRef();
 
+  const [visible, setIsVisible] = useState(false);
+
+  const [currentIndex, setCurrentIndex] = useState(0)
+
   useEffect(() => {
     if(imageUrls.length) {
-      scroll.current.scrollTo({x:0, animated:false});
+      scroll.current.scrollTo({x:0, animated: false});
     }
   }, [imageUrls])
+
+  useEffect(() => {
+    console.log('CURREENt', currentIndex)
+  }, [currentIndex])
 
   const previewThumbs = imageUrls;
   const thumbsPerBlock = 9;
@@ -24,6 +33,24 @@ const ImagesBlock = ({ movie_title, release_date, imageUrls }) => {
     let inner = [];
     blocks.push(previewThumbs.slice(i, i + thumbsPerBlock));
   }
+
+  const fullSizeImages = [];
+  for(let i = 0; i < previewThumbs.length; i++) {
+    fullSizeImages.push({uri:previewThumbs[i]['image']})
+  }
+  // console.log('FULL', fullSizeImages)
+  const calculateIndex = (i, j) => {
+    console.log(i,j)
+    if(i === 0) {
+      setCurrentIndex(j);
+      return;
+    } else {
+      setCurrentIndex(i * 9 + j)
+      return;
+    }
+
+  }
+
 
   return imageUrls.length > 0 ? (
     <View>
@@ -50,8 +77,14 @@ const ImagesBlock = ({ movie_title, release_date, imageUrls }) => {
       >
        {blocks.map((block, i) => (
           <View style={styles.scrollView_block} key={i}>
-            {block.map((thumb, i) => (
-              <TouchableOpacity key={i}>
+            {block.map((thumb, j) => (
+              <TouchableOpacity
+                key={j}
+                onPress={ event => {
+                  i === 0 ? setCurrentIndex(j) : setCurrentIndex(i * thumbsPerBlock + j);
+                  setIsVisible(true)
+                }}
+                >
                 <RenderImage
                   mainObj={thumb}
                   baseUrl=''
@@ -64,6 +97,13 @@ const ImagesBlock = ({ movie_title, release_date, imageUrls }) => {
           </View>
        ))}
       </ScrollView>
+
+      <ImageView
+        images={fullSizeImages}
+        imageIndex={currentIndex}
+        visible={visible}
+        onRequestClose={() => setIsVisible(false)}
+      />
 
     </View>
     </View>

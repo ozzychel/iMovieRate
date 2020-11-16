@@ -23,7 +23,7 @@ const CastBlock = ({ topCastList, movie_omdb }) => {
         </View>
         <TouchableOpacity>
           <View style={styles.cast_heading_seeAllbutton_cont}>
-            <Text style={styles.cast_heading_seeAllbutton_text}>SEE ALL</Text>
+            <Text style={styles.cast_heading_seeAllbutton_text}></Text>
           </View>
         </TouchableOpacity>
       </View>

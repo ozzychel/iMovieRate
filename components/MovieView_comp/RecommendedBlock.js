@@ -22,7 +22,7 @@ const RecommendedBlock = ({ recommendedList, getUserSelectedMovie, movieViewScro
         </View>
         <TouchableOpacity>
           <View style={styles.movie_heading_seeAllbutton_cont}>
-            <Text style={styles.movie_heading_seeAllbutton_text}>SEE ALL</Text>
+            <Text style={styles.movie_heading_seeAllbutton_text}></Text>
           </View>
         </TouchableOpacity>
       </View>

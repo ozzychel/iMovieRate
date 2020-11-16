@@ -11,7 +11,7 @@ import PictureCarousel from './MovieView_comp/PictureCarousel';
 import ImagesBlock from './MovieView_comp/ImagesBlock';
 const MOCK_USER_ID = 111;
 
-const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie }) => {
+const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie, changeView }) => {
 
   const scroll = React.createRef();
 
@@ -246,6 +246,7 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie }) => {
         movie_title={movie_tmdb.title}
         release_date={movie_tmdb.release_date}
         imageUrls={imageUrls}
+        changeView={changeView}
       />
 
     </ScrollView>

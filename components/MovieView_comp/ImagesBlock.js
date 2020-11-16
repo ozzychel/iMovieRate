@@ -7,14 +7,16 @@ import ImageView from 'react-native-image-viewing';
 
 const windowWidth = Dimensions.get('window').width;
 
-const ImagesBlock = ({ movie_title, release_date, imageUrls }) => {
+const ImagesBlock = ({ movie_title, release_date, imageUrls, changeView }) => {
   // console.log('IMAGE_URLS LENGTH', imageUrls.length)
 
   const scroll = React.createRef();
 
   const [visible, setIsVisible] = useState(false);
 
-  const [currentIndex, setCurrentIndex] = useState(0)
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     if(imageUrls.length) {
@@ -44,8 +46,12 @@ const ImagesBlock = ({ movie_title, release_date, imageUrls }) => {
       setCurrentIndex(i * 9 + j)
       return;
     }
+  };
 
-  }
+
+
+  console.log(imageUrls)
+  console.log('WIDTH', windowWidth)
 
   return imageUrls.length > 0 ? (
     <View>
@@ -58,9 +64,12 @@ const ImagesBlock = ({ movie_title, release_date, imageUrls }) => {
           <Text style={styles.subtitle_text}>Images ({imageUrls.length})</Text>
         </View>
 
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            setModalVisible(true)
+          }}
+        >
           <View style={styles.seeAllbutton_cont}>
-            <Text style={styles.seeAllbutton_text}>SEE ALL</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -160,6 +169,38 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     backgroundColor: '#1f1f1f'
+  },
+  modal_cont: {
+    backgroundColor: '#000000',
+    height: '100%',
+    paddingTop: 60,
+  },
+  close_btn_cont: {
+    borderWidth: 1,
+    backgroundColor: '#ffede5',
+    borderColor: "#1f1f1f",
+    position: 'absolute',
+    marginTop: '15%',
+    marginLeft: '85%',
+    textAlign: 'right',
+    zIndex: 6,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    opacity: 0.5
+  },
+  modal_cross: {
+    fontSize: 28,
+    fontWeight: '700',
+    color: '#1f1f1f'
+  },
+  modal_image_cont: {
+    width: windowWidth,
+    height: windowWidth
+  },
+  modal_image: {
+    width: windowWidth,
+    height: windowWidth
   }
 })
 

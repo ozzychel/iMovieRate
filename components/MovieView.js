@@ -40,25 +40,48 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie }) => {
   }, [movie_tmdb]);
 
   useEffect(() => {
-    getMovieImages(movie_tmdb.title, movie_tmdb.release_date.slice(0,4))
+    getMovieImages(movie_tmdb.title, movie_tmdb.release_date.slice(0,4), movie_tmdb.runtime)
   }, [movie_tmdb]);
 
-  const getMovieImages = (title, date) => {
-    console.log('KP QUERY', title, date)
+  const filterMovie = (arr, title, date, runtime) => {
+    let results = [];
+    const compareLength = (kp_leng, tmdb_leng) => {
+      let arr = kp_leng.split(':');
+      let h = arr[0];
+      let mm = arr[1];
+      let kp_num = parseInt(h) * 60 + parseInt(mm);
+      if (tmdb_leng * 0.9 <= kp_num || tmdb_leng * 1.1 >= kp_num) return true;
+      else return false;
+    };
+    for (let i = 0; i < arr.length; i++) {
+      let movie = arr[i];
+      if (movie.nameEn.split(' ').join('').toLowerCase() === title.split(' ').join('').toLowerCase()) {
+        if (movie.year == date) return [movie];
+        else results.push(movie);
+      }
+      if (movie.year == date) results.push(movie)
+    }
+    if (results.length === 1) return results;
+    for(let i = 0; i < results.length; i++) {
+      if(compareLength(results[i].filmLength, runtime)) return [results[i]]
+    }
+    return results;
+  };
+
+  const getMovieImages = (title, date, runtime) => {
+    console.log('KP QUERY INVOKED! QUERY: ', title, date)
     axios({
       method: 'get',
-      url: `https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword?keyword=${title} ${date}&page=1`,
+      url: `https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword?keyword=${title}&page=1`,
       headers: {
         'X-API-KEY': keys.kp_unof_api_key
       }
     })
     .then((result) => {
-      return result.data.films.filter((movie) => {
-        return movie.nameEn.toLowerCase().split(' ').join('') === title.toLowerCase().split(' ').join('') && movie.year === date.toString();
-      })
+      return filterMovie(result.data.films, title, date, runtime)
     })
     .then((movies) => {
-      // console.log('FILTERED KINOPOISK OBJ:', movies);
+      console.log('FILTERED KINOPOISK OBJ:', movies);
       movies.length > 0 ? getImagesUrls(movies[0]['filmId']):null
     })
     .catch((err) => {
@@ -76,7 +99,6 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie }) => {
       }
     })
     .then((result) => {
-      // console.log(result.data.frames)
       setImageUrls(result.data.frames)
     })
   }
@@ -121,7 +143,6 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie }) => {
       }
     })
     .then((result) => {
-      // console.log('RECOMM GET SUCCESS', result.data.results);
       console.log('GET RECOMM INVOKED')
       setRecommendedList(result.data.results);
     })

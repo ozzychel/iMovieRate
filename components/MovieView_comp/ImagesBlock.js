@@ -8,7 +8,7 @@ import ImageView from 'react-native-image-viewing';
 const windowWidth = Dimensions.get('window').width;
 
 const ImagesBlock = ({ movie_title, release_date, imageUrls }) => {
-  console.log('IMAGE_URLS LENGTH', imageUrls.length)
+  // console.log('IMAGE_URLS LENGTH', imageUrls.length)
 
   const scroll = React.createRef();
 

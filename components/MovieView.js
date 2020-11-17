@@ -9,9 +9,15 @@ import RatingsBlock from './MovieView_comp/RatingsBlock';
 import RecommendedBlock from './MovieView_comp/RecommendedBlock';
 import PictureCarousel from './MovieView_comp/PictureCarousel';
 import ImagesBlock from './MovieView_comp/ImagesBlock';
-const MOCK_USER_ID = 111;
+// const MOCK_USER_ID = "5fb33c61cb26d93d94e30407";
+// const MOCK_USER_FIRST_NAME = 'Mick';
+// const MOCK_USER_LAST_NAME = 'Jagger';
+// const MOCK_USER_EMAIL = 'mick.jagger@gmail.com';
+// const MOCK_USER_DOB = '07.26.1943'
 
-const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie, changeView }) => {
+const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie, changeView, MOCK_USER_ID }) => {
+
+  const userId = MOCK_USER_ID;
 
   const scroll = React.createRef();
 
@@ -47,8 +53,7 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie, changeView
     let results = [];
     const compareLength = (kp_leng, tmdb_leng) => {
       let arr = kp_leng.split(':');
-      let h = arr[0];
-      let mm = arr[1];
+      let h = arr[0], mm = arr[1];
       let kp_num = parseInt(h) * 60 + parseInt(mm);
       if (tmdb_leng * 0.9 <= kp_num || tmdb_leng * 1.1 >= kp_num) return true;
       else return false;
@@ -163,12 +168,7 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie, changeView
   );
 
   return (
-    // PICTURE CAROUSEL
-    // NEWS, UPDATES....
-    // VIDEOS
-    // IMAGES
-    // AWARDS
-    // REVIEWS
+
     <ScrollView
       contentContainerStyle={styles.tab_cont}
       ref={scroll}
@@ -203,7 +203,7 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie, changeView
       <View style={styles.addWatchList_cont}>
         <TouchableOpacity
           onPress={()=>{
-            axios.post(`http://localhost:9000/users/${MOCK_USER_ID}`, {
+            axios.post(`http://localhost:9000/users/${userId}`, {
                 movieId: movie_tmdb.id,
             })
             .then((result) => {

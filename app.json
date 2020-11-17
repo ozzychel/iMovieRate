@@ -20,13 +20,14 @@
     "ios": {
       "supportsTablet": true
     },
-    "androidNavigationBar": {
-      "visible": "sticky",
-      "barStyle": "dark-content",
-      "backgroundColor": "#1f1e1e"
-    },
     "web": {
       "favicon": "./assets/favicon.png"
     }
   }
 }
+
+// "androidNavigationBar": {
+//   "visible": "sticky",
+//   "barStyle": "dark-content",
+//   "backgroundColor": "#1f1e1e"
+// },

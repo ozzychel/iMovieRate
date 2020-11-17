@@ -9,8 +9,12 @@ import SearchTab from './components/SearchTab';
 import HomeTab from './components/HomeTab';
 import SearchBar from './components/SearchBar';
 import MovieView from './components/MovieView';
+import WatchList from './components/WatchList';
+const MOCK_USER_ID = "5fb33c61cb26d93d94e30407";
 
 export default function App() {
+
+  const [userList, setUserList] = useState([]);
 
   const [currentSearch, setCurrentSearch] = useState('');
 
@@ -43,6 +47,10 @@ export default function App() {
   }, [])
 
   useEffect(() => {
+    getUserListFromServer()
+  }, [])
+
+  useEffect(() => {
     if (currentSearch) {
       getMovieListFromServer(currentSearch, currPageNum)
     }
@@ -59,6 +67,17 @@ export default function App() {
     setCurrPageNum(1);
     setTotalPages(0);
     setCurrentMovieList([]);
+  };
+
+  const getUserListFromServer = () => {
+    axios.get(`http://localhost:9000/users/${MOCK_USER_ID}`)
+    .then((result) => {
+      console.log('USER LIST QUERY SUCCESS');
+      setUserList(result.data.wish_list)
+    })
+    .catch((err) => {
+      console.log('USER LIST QUERY FAILED', err);
+    })
   };
 
   const getMovieListFromServer = (query, pageNum) => {
@@ -88,8 +107,8 @@ export default function App() {
   };
 
   const getMoreMovies = () => {
-    console.log('CURRENT',currPageNum)
-    console.log('TOTAL', totalPages)
+    // console.log('CURRENT',currPageNum)
+    // console.log('TOTAL', totalPages)
     getMovieListFromServer(currentSearch, currPageNum)
   }
 
@@ -169,10 +188,15 @@ export default function App() {
         selectedMovie={selectedMovieDetails}
         genresList={genresList}
         getUserSelectedMovie={getUserSelectedMovie}
+        MOCK_USER_ID={MOCK_USER_ID}
       />)
     }
     if (view === 'WATCHLIST') {
-      return (<Text>WATCHLIST</Text>)
+      return (
+        <WatchList
+          userList={userList}
+        />
+        )
     }
   }
 

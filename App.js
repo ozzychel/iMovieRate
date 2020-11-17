@@ -10,7 +10,7 @@ import HomeTab from './components/HomeTab';
 import SearchBar from './components/SearchBar';
 import MovieView from './components/MovieView';
 import WatchList from './components/WatchList';
-const MOCK_USER_ID = "5fb33c61cb26d93d94e30407";
+const MOCK_USER_ID = "5fb3ff3931393d4d764ec58f";
 
 export default function App() {
 
@@ -34,6 +34,7 @@ export default function App() {
 
   const getUserSelectedMovie = (id) => {
     console.log('SELECTED ID', id);
+    console.log('GETUSERSELECTED INVOKED!!!')
     getMovieDataById(id);
   }
 
@@ -148,6 +149,8 @@ export default function App() {
     })
 };
 
+
+
   const changeView = (source) => {
     setCurrentTab(source);
   };
@@ -188,6 +191,7 @@ export default function App() {
         selectedMovie={selectedMovieDetails}
         genresList={genresList}
         getUserSelectedMovie={getUserSelectedMovie}
+        getUserListFromServer={getUserListFromServer}
         MOCK_USER_ID={MOCK_USER_ID}
       />)
     }
@@ -195,6 +199,9 @@ export default function App() {
       return (
         <WatchList
           userList={userList}
+          genresList={genresList}
+          selectedMovie={selectedMovieDetails}
+          getUserSelectedMovie={getUserSelectedMovie}
         />
         )
     }
@@ -217,8 +224,8 @@ export default function App() {
           // {title: 'TV SHOWS'},
           // {title: 'CELEBS'},
           // {title: 'AWARDS & EVENTS'},
-          {title: 'MOVIE VIEW'},
-          {title: 'WATCHLIST'}
+          {title: 'WATCHLIST'},
+          {title: 'MOVIE VIEW'}
         ]
         }
         currentTab={currentTab}

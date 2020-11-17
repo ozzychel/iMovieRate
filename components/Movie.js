@@ -3,7 +3,8 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import RenderImage from './helperFunctions/RenderImage';
 
 const Movie = ({ movie, getUserSelectedMovie, genresList }) => {
-
+  // console.log('MOVIE LOG', genresList)
+  console.log(movie)
   const genres = [];
   movie.genre_ids.forEach((id) => {
     genres.push(genresList[id]);

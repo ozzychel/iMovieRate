@@ -9,19 +9,16 @@ import RatingsBlock from './MovieView_comp/RatingsBlock';
 import RecommendedBlock from './MovieView_comp/RecommendedBlock';
 import PictureCarousel from './MovieView_comp/PictureCarousel';
 import ImagesBlock from './MovieView_comp/ImagesBlock';
-// const MOCK_USER_ID = "5fb33c61cb26d93d94e30407";
-// const MOCK_USER_FIRST_NAME = 'Mick';
-// const MOCK_USER_LAST_NAME = 'Jagger';
-// const MOCK_USER_EMAIL = 'mick.jagger@gmail.com';
-// const MOCK_USER_DOB = '07.26.1943'
 
-const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie, changeView, MOCK_USER_ID }) => {
+const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie, changeView, getUserListFromServer, MOCK_USER_ID }) => {
 
+  console.log('MV-SELECTED MOVIE: ', selectedMovie)
   const userId = MOCK_USER_ID;
 
   const scroll = React.createRef();
 
   const movie_tmdb = selectedMovie[0];
+
   const [castList, setCastList] = useState([]);
   const [crewList, setCrewList] = useState([]);
   const [topCastList, setTopCastList] = useState([]);
@@ -86,7 +83,7 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie, changeView
       return filterMovie(result.data.films, title, date, runtime)
     })
     .then((movies) => {
-      console.log('FILTERED KINOPOISK OBJ:', movies);
+      // console.log('FILTERED KINOPOISK OBJ:', movies);
       movies.length > 0 ? getImagesUrls(movies[0]['filmId']):null
     })
     .catch((err) => {
@@ -156,6 +153,23 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie, changeView
     })
   };
 
+  const addToWishList = () => {
+    axios.post(`http://localhost:9000/users/${userId}`, {
+        id: movie_tmdb.id,
+        title: movie_tmdb.title,
+        release_date: movie_tmdb.release_date,
+        genre_ids: movie_tmdb.genres.map((e) => e.id),
+        poster_path: movie_tmdb.poster_path
+    })
+    .then((result) => {
+      console.log('POST SUCCESS');
+      getUserListFromServer()
+    })
+    .catch((err) => {
+      console.log('POST FAILED', err);
+    })
+}
+
   const runtime = moment.utc(moment.duration(movie_tmdb.runtime, "minutes").asMilliseconds()).format(`H:mm`);
 
   const genres = [];
@@ -202,17 +216,7 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie, changeView
 
       <View style={styles.addWatchList_cont}>
         <TouchableOpacity
-          onPress={()=>{
-            axios.post(`http://localhost:9000/users/${userId}`, {
-                movieId: movie_tmdb.id,
-            })
-            .then((result) => {
-              console.log('POST SUCCESS', result.status);
-            })
-            .catch((err) => {
-              console.log('POST FAILED', err);
-            })
-          }}
+          onPress={addToWishList}
         >
           <View style={styles.addButton_cont}>
             <View style={styles.addButton_icon_cont}>

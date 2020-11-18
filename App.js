@@ -18,23 +18,14 @@ const api = require('./components/helperFunctions/server_requests');
 export default function App() {
 
   const [userList, setUserList] = useState([]);
-
   const [isLoading, setIsLoading] = useState(false);
-
   const [currentSearch, setCurrentSearch] = useState('');
-
   const [currentMovieList, setCurrentMovieList] = useState([]);
-
   const [selectedMovieDetails, setSelectedMovieDetails] = useState([]);
-
   const [genresList, setGenresList] = useState({});
-
   const [currentTab, setCurrentTab] = useState('HOME');// <--
-
   const [modalVisible, setModalVisible] = useState(false);
-
   const [currPageNum, setCurrPageNum] = useState(1);
-
   const [totalPages, setTotalPages] = useState(0);
 
   const getUserSelectedMovie = (id) => {
@@ -104,6 +95,7 @@ export default function App() {
   //   })
 // }
 
+// API REQUESTS TO GET, ADD AND REMOVE USER LISTS
   const addToList = (movie_tmdb) => {
     api.addToWishList(movie_tmdb, api.getUserListFromServer, setUserList);
   };
@@ -114,76 +106,92 @@ export default function App() {
 
   const deleteFromList = (movieId) => {
     api.deleteFromUserList(movieId, api.getUserListFromServer, setUserList);
-  }
-
+  };
+//________________________________________________
   const getMovieListFromServer = (query, pageNum) => {
-    console.log('QUERY', query)
-    axios.get('https://api.themoviedb.org/3/search/movie', {
-      params: {
-        api_key: keys.tmdb_api_key,
-        query: query,
-        page: pageNum
-      }
-    })
-    .then((result) => {
-      setTotalPages(result.data.total_pages);
-      setCurrPageNum(prev => prev + 1);
-      return result.data.results.filter(movie => movie.release_date ? movie : null)
-    })
-    .then((result) => {
-      console.log('GET SUCCESS');
-      // console.log(result)
-      console.log('======MOVIE COUNT====== :',result.length);
-      setCurrentMovieList(prevState =>[...prevState, ...result]);
-      setIsLoading(false)
-    })
-    .catch((err) => {
-      console.log('GET FAILED');
-      console.log(err);
-    })
+    api.getMovieListFromServer(query, pageNum, setTotalPages, setCurrPageNum, setCurrentMovieList, setIsLoading)
   };
 
   const getMoreMovies = () => {
-    // console.log('CURRENT',currPageNum)
-    // console.log('TOTAL', totalPages)
     getMovieListFromServer(currentSearch, currPageNum)
-  }
+  };
 
   const getGenresListFromApi = () => {
-    axios.get(`https://api.themoviedb.org/3/genre/movie/list`, {
-      params: {
-        api_key: keys.tmdb_api_key
-      }
-    })
-    .then((result) => {
-      console.log('GET GENRES SUCCESS')
-      let genresObj = {};
-      result.data.genres.forEach((item) => {
-        if(!genresObj[item.id]) {
-          genresObj[item.id] = item.name
-        }
-      })
-      setGenresList(genresObj)
-    })
-    .catch((err) => {
-      console.log('GENRES GET FAILED', err)
-    })
-  }
+    api.getGenresListFromApi(setGenresList);
+  };
 
   const getMovieDataById = (id) => {
-    axios.get(`https://api.themoviedb.org/3/movie/${id}`, {
-      params: {
-        api_key: keys.tmdb_api_key
-      }
-    })
-    .then((result) => {
-      console.log('++++++++++++ MOVIE DETAILS SUCCESS')
-      setSelectedMovieDetails(prevState => [result.data])
-    })
-    .catch((err) => {
-     console.log('------------ MOVIE DETAILS FAILED', err)
-    })
-};
+    api.getMovieDataById(id, setSelectedMovieDetails);
+  };
+
+  // const getMovieDataById = (id) => {
+  //   axios.get(`https://api.themoviedb.org/3/movie/${id}`, {
+  //     params: {
+  //       api_key: keys.tmdb_api_key
+  //     }
+  //   })
+  //   .then((result) => {
+  //     console.log('++++++++++++ MOVIE DETAILS SUCCESS')
+  //     setSelectedMovieDetails(prevState => [result.data])
+  //   })
+  //   .catch((err) => {
+  //    console.log('------------ MOVIE DETAILS FAILED', err)
+  //   })
+  // };
+
+
+  // const getGenresListFromApi = () => {
+  //   axios.get(`https://api.themoviedb.org/3/genre/movie/list`, {
+  //     params: {
+  //       api_key: keys.tmdb_api_key
+  //     }
+  //   })
+  //   .then((result) => {
+  //     console.log('GET GENRES SUCCESS')
+  //     let genresObj = {};
+  //     result.data.genres.forEach((item) => {
+  //       if(!genresObj[item.id]) {
+  //         genresObj[item.id] = item.name
+  //       }
+  //     })
+  //     setGenresList(genresObj)
+  //   })
+  //   .catch((err) => {
+  //     console.log('GENRES GET FAILED', err)
+  //   })
+  // }
+
+
+  // const getMovieListFromServer = (query, pageNum) => {
+  //   console.log('QUERY', query)
+  //   axios.get('https://api.themoviedb.org/3/search/movie', {
+  //     params: {
+  //       api_key: keys.tmdb_api_key,
+  //       query: query,
+  //       page: pageNum
+  //     }
+  //   })
+  //   .then((result) => {
+  //     setTotalPages(result.data.total_pages);
+  //     setCurrPageNum(prev => prev + 1);
+  //     return result.data.results.filter(movie => movie.release_date ? movie : null)
+  //   })
+  //   .then((result) => {
+  //     console.log('GET SUCCESS');
+  //     // console.log(result)
+  //     console.log('======MOVIE COUNT====== :',result.length);
+  //     setCurrentMovieList(prevState =>[...prevState, ...result]);
+  //     setIsLoading(false)
+  //   })
+  //   .catch((err) => {
+  //     console.log('GET FAILED');
+  //     console.log(err);
+  //   })
+  // };
+
+
+
+
 
   // const deleteFromList = (movieId) => {
   //   axios.patch(`http://192.168.1.93:9000/users/${keys.userId}`, {

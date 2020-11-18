@@ -11,8 +11,8 @@ import PictureCarousel from './MovieView_comp/PictureCarousel';
 import ImagesBlock from './MovieView_comp/ImagesBlock';
 
 const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie, changeView, getUserListFromServer, MOCK_USER_ID }) => {
-
-  console.log('MV-SELECTED MOVIE: ', selectedMovie)
+  // possible memory leak, explore ueseffect.
+  // console.log('MV-SELECTED MOVIE: ', selectedMovie)
   const userId = MOCK_USER_ID;
 
   const scroll = React.createRef();
@@ -154,7 +154,7 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie, changeView
   };
 
   const addToWishList = () => {
-    axios.post(`http://localhost:9000/users/${userId}`, {
+    axios.post(`http://192.168.1.93:9000/users/${userId}`, {
         id: movie_tmdb.id,
         title: movie_tmdb.title,
         release_date: movie_tmdb.release_date,
@@ -166,7 +166,7 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie, changeView
       getUserListFromServer()
     })
     .catch((err) => {
-      console.log('POST FAILED', err);
+      console.log('POST FAILED!!!', err);
     })
 }
 

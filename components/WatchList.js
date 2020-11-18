@@ -29,7 +29,7 @@ const WatchList = ({ userList, genresList, getUserSelectedMovie, currentTab, del
     </View>
   )
   :
-  (<View><Text>LIST IS EMPTY</Text></View>)
+  (<View style={styles.msg_cont}><Text style={styles.msg}>You don't have any saved lists yet, please start new search...</Text></View>)
 }
 
 const styles = StyleSheet.create({
@@ -42,7 +42,19 @@ const styles = StyleSheet.create({
     backgroundColor:'#1f1f1f',
     paddingBottom: 'auto'
   },
+  msg_cont: {
+    borderWidth: 2,
+    borderColor: '#1e1e1e',
+    marginTop: 5,
+    backgroundColor: '#1e1e1e',
+    padding: 10,
+    borderRadius: 8
+  },
+  msg: {
+    color:'white',
+    textAlign: 'center',
+    fontSize: 16,
+  }
 })
-
 
 export default WatchList;

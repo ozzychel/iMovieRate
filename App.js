@@ -10,7 +10,8 @@ import HomeTab from './components/HomeTab';
 import SearchBar from './components/SearchBar';
 import MovieView from './components/MovieView';
 import WatchList from './components/WatchList';
-const MOCK_USER_ID = "5fb3ff3931393d4d764ec58f";
+const MOCK_USER_ID = "5fb5675a1ae8707fc2e39e49";
+
 
 export default function App() {
 
@@ -73,7 +74,7 @@ export default function App() {
   };
 
   const getUserListFromServer = () => {
-    axios.get(`http://localhost:9000/users/${MOCK_USER_ID}`)
+    axios.get(`http://192.168.1.93:9000/users/${MOCK_USER_ID}`)
     .then((result) => {
       console.log('USER LIST QUERY SUCCESS');
       setUserList(result.data.wish_list)
@@ -153,7 +154,7 @@ export default function App() {
 };
 
   const deleteFromList = (movieId) => {
-    axios.patch(`http://localhost:9000/users/${MOCK_USER_ID}`, {
+    axios.patch(`http://192.168.1.93:9000/users/${MOCK_USER_ID}`, {
       movieId
     })
     .then((result) => {

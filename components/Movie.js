@@ -2,13 +2,27 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import RenderImage from './helperFunctions/RenderImage';
 
-const Movie = ({ movie, getUserSelectedMovie, genresList }) => {
-  // console.log('MOVIE LOG', genresList)
-  console.log(movie)
+const Movie = ({ movie, getUserSelectedMovie, genresList, currentTab, deleteFromList }) => {
   const genres = [];
   movie.genre_ids.forEach((id) => {
     genres.push(genresList[id]);
   })
+
+  const renderDelBtn = (tab) => {
+    return tab === 'WATCHLIST' ?
+      (<View style={styles.del_btn_cont}>
+        <TouchableOpacity
+          style={styles.del_btn_body}
+          onPress={() => {
+            deleteFromList(movie.id)
+          }}
+        >
+          <Text style={styles.del_btn_text}>X</Text>
+        </TouchableOpacity>
+      </View>)
+      :
+      (<View style={styles.del_btn_cont}></View>)
+  }
 
   return (
     <View>
@@ -17,7 +31,6 @@ const Movie = ({ movie, getUserSelectedMovie, genresList }) => {
           getUserSelectedMovie(movie.id);
         }}
       >
-
       <View style={styles.container}>
         <RenderImage
           mainObj={movie}
@@ -35,7 +48,7 @@ const Movie = ({ movie, getUserSelectedMovie, genresList }) => {
           </Text>
             <Text style={styles.genres_title}>{genres.join(', ')}</Text>
         </View>
-
+        {renderDelBtn(currentTab)}
       </View>
       <Separator />
       </TouchableOpacity>
@@ -61,7 +74,7 @@ const styles = StyleSheet.create({
     height: 138,
   },
   title_cont: {
-    width: '75%',
+    width: '60%',
     margin: 5,
   },
   title: {
@@ -82,6 +95,26 @@ const styles = StyleSheet.create({
     marginVertical: 2,
     borderBottomColor: '#737373',
     borderBottomWidth: StyleSheet.hairlineWidth,
+  },
+  del_btn_cont: {
+    width: '10%',
+    margin: 5,
+    marginRight: 10,
+    marginTop: 5
+
+  },
+  del_btn_body: {
+    borderColor:'#1e1e1e',
+    borderWidth:3,
+    width: '100%',
+    height: '30%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 50
+  },
+  del_btn_text: {
+    color: '#737373',
+    fontSize: 16,
   }
 })
 

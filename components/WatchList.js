@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView}
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView }
 from 'react-native';
 import axios from 'axios';
 import Movie from './Movie';
 
-const WatchList = ({ userList, genresList, getUserSelectedMovie }) => {
+const WatchList = ({ userList, genresList, getUserSelectedMovie, currentTab, deleteFromList }) => {
   console.log('WATCH USER LIST LOG', userList.length)
 
   const movies = userList.map((mov, i) => (
@@ -13,6 +13,8 @@ const WatchList = ({ userList, genresList, getUserSelectedMovie }) => {
       movie={mov}
       genresList={genresList}
       getUserSelectedMovie={getUserSelectedMovie}
+      currentTab={currentTab}
+      deleteFromList={deleteFromList}
     />
   ))
 

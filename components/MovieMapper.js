@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import Movie from './Movie';
 
-const MovieMapper = ({ movieList, getUserSelectedMovie, genresList, getMoreMovies, totalPages, currentPage }) => {
+const MovieMapper = ({ movieList, getUserSelectedMovie, genresList, getMoreMovies, totalPages, currentPage, currentTab }) => {
   const movies = [];
   movieList.forEach((movie, i) => {
     movies.push(
@@ -11,6 +11,7 @@ const MovieMapper = ({ movieList, getUserSelectedMovie, genresList, getMoreMovie
         movie={movieList[i]}
         getUserSelectedMovie={getUserSelectedMovie}
         genresList={genresList}
+        currentTab={currentTab}
       />
     )
   })

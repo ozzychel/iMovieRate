@@ -16,6 +16,8 @@ export default function App() {
 
   const [userList, setUserList] = useState([]);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const [currentSearch, setCurrentSearch] = useState('');
 
   const [currentMovieList, setCurrentMovieList] = useState([]);
@@ -100,6 +102,7 @@ export default function App() {
       // console.log(result)
       console.log('======MOVIE COUNT====== :',result.length);
       setCurrentMovieList(prevState =>[...prevState, ...result]);
+      setIsLoading(false)
     })
     .catch((err) => {
       console.log('GET FAILED');
@@ -149,7 +152,18 @@ export default function App() {
     })
 };
 
-
+  const deleteFromList = (movieId) => {
+    axios.patch(`http://localhost:9000/users/${MOCK_USER_ID}`, {
+      movieId
+    })
+    .then((result) => {
+      console.log('PATCH SUCCESS', result.data);
+      getUserListFromServer();
+    })
+    .catch((err) => {
+      console.log('PATCH FAILED', err);
+    })
+  }
 
   const changeView = (source) => {
     setCurrentTab(source);
@@ -166,6 +180,9 @@ export default function App() {
           getMoreMovies={getMoreMovies}
           totalPages={totalPages}
           currentPage={currPageNum}
+          setModalVisible={setModalVisible}
+          isLoading={isLoading}
+          currentTab={currentTab}
         />
       )
     }
@@ -187,13 +204,13 @@ export default function App() {
     //   return (<Text>AWARDS SCREEN</Text>)
     // }
     if (view === 'MOVIE VIEW') {
-      return (<MovieView
+      return selectedMovieDetails.length ? (<MovieView
         selectedMovie={selectedMovieDetails}
         genresList={genresList}
         getUserSelectedMovie={getUserSelectedMovie}
         getUserListFromServer={getUserListFromServer}
         MOCK_USER_ID={MOCK_USER_ID}
-      />)
+      />) : (<View></View>)
     }
     if (view === 'WATCHLIST') {
       return (
@@ -202,6 +219,8 @@ export default function App() {
           genresList={genresList}
           selectedMovie={selectedMovieDetails}
           getUserSelectedMovie={getUserSelectedMovie}
+          currentTab={currentTab}
+          deleteFromList={deleteFromList}
         />
         )
     }
@@ -239,13 +258,15 @@ export default function App() {
       >
         <TouchableOpacity
           style={styles.modal_outside}
-          onPressOut={() => { setModalVisible(false) }}
-
+          onPressOut={() => {
+            setModalVisible(!modalVisible)
+          }}
         >
           <SearchBar
             getUserInput={getUserInput}
             setModalVisible={setModalVisible}
             changeView={changeView}
+            setIsLoading={setIsLoading}
           />
         </TouchableOpacity>
 

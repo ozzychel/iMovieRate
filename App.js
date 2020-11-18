@@ -10,7 +10,9 @@ import HomeTab from './components/HomeTab';
 import SearchBar from './components/SearchBar';
 import MovieView from './components/MovieView';
 import WatchList from './components/WatchList';
-const MOCK_USER_ID = "5fb5675a1ae8707fc2e39e49";
+
+const api = require('./components/helperFunctions/server_requests');
+// const keys.userId = "5fb5675a1ae8707fc2e39e49";
 
 
 export default function App() {
@@ -51,7 +53,8 @@ export default function App() {
   }, [])
 
   useEffect(() => {
-    getUserListFromServer()
+    // api.getUserListFromServer(setUserList)
+    getUserList()
   }, [])
 
   useEffect(() => {
@@ -73,16 +76,45 @@ export default function App() {
     setCurrentMovieList([]);
   };
 
-  const getUserListFromServer = () => {
-    axios.get(`http://192.168.1.93:9000/users/${MOCK_USER_ID}`)
-    .then((result) => {
-      console.log('USER LIST QUERY SUCCESS');
-      setUserList(result.data.wish_list)
-    })
-    .catch((err) => {
-      console.log('USER LIST QUERY FAILED', err);
-    })
+  // const getUserListFromServer = () => {
+  //   axios.get(`http://192.168.1.93:9000/users/${keys.userId}`)
+  //   .then((result) => {
+  //     console.log('USER LIST QUERY SUCCESS');
+  //     setUserList(result.data.wish_list)
+  //   })
+  //   .catch((err) => {
+  //     console.log('USER LIST QUERY FAILED', err);
+  //   })
+  // };
+
+  // const addToWishList = (movie_tmdb) => {
+  //   axios.post(`http://192.168.1.93:9000/users/${keys.userId}`, {
+  //       id: movie_tmdb.id,
+  //       title: movie_tmdb.title,
+  //       release_date: movie_tmdb.release_date,
+  //       genre_ids: movie_tmdb.genres.map((e) => e.id),
+  //       poster_path: movie_tmdb.poster_path
+  //   })
+  //   .then((result) => {
+  //     console.log('POST SUCCESS');
+  //     api.getUserListFromServer(setUserList)
+  //   })
+  //   .catch((err) => {
+  //     console.log('POST FAILED!!!', err);
+  //   })
+// }
+
+  const addToList = (movie_tmdb) => {
+    api.addToWishList(movie_tmdb, api.getUserListFromServer, setUserList);
   };
+
+  const getUserList = () => {
+    api.getUserListFromServer(setUserList);
+  };
+
+  const deleteFromList = (movieId) => {
+    api.deleteFromUserList(movieId, api.getUserListFromServer, setUserList);
+  }
 
   const getMovieListFromServer = (query, pageNum) => {
     console.log('QUERY', query)
@@ -153,18 +185,20 @@ export default function App() {
     })
 };
 
-  const deleteFromList = (movieId) => {
-    axios.patch(`http://192.168.1.93:9000/users/${MOCK_USER_ID}`, {
-      movieId
-    })
-    .then((result) => {
-      console.log('PATCH SUCCESS', result.data);
-      getUserListFromServer();
-    })
-    .catch((err) => {
-      console.log('PATCH FAILED', err);
-    })
-  }
+  // const deleteFromList = (movieId) => {
+  //   axios.patch(`http://192.168.1.93:9000/users/${keys.userId}`, {
+  //     movieId
+  //   })
+  //   .then((result) => {
+  //     console.log('PATCH SUCCESS', result.data);
+  //     // api.getUserListFromServer(setUserList);
+  //     getUserList();
+  //   })
+  //   .catch((err) => {
+  //     console.log('PATCH FAILED', err);
+  //   })
+  // }
+
 
   const changeView = (source) => {
     setCurrentTab(source);
@@ -205,12 +239,13 @@ export default function App() {
     //   return (<Text>AWARDS SCREEN</Text>)
     // }
     if (view === 'MOVIE VIEW') {
-      return selectedMovieDetails.length ? (<MovieView
+      return selectedMovieDetails.length ?
+      (<MovieView
         selectedMovie={selectedMovieDetails}
         genresList={genresList}
         getUserSelectedMovie={getUserSelectedMovie}
-        getUserListFromServer={getUserListFromServer}
-        MOCK_USER_ID={MOCK_USER_ID}
+        // getUserListFromServer={api.getUserListFromServer}
+        addToList={addToList}
       />) : (<View></View>)
     }
     if (view === 'WATCHLIST') {

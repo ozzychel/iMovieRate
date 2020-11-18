@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-around'
   },
   poster_cont: {
     margin: 5,
@@ -98,10 +98,7 @@ const styles = StyleSheet.create({
   },
   del_btn_cont: {
     width: '10%',
-    margin: 5,
-    marginRight: 10,
-    marginTop: 5
-
+    margin: 7,
   },
   del_btn_body: {
     borderColor:'#1e1e1e',
@@ -115,6 +112,7 @@ const styles = StyleSheet.create({
   del_btn_text: {
     color: '#737373',
     fontSize: 16,
+
   }
 })
 

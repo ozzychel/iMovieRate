@@ -9,11 +9,10 @@ import RatingsBlock from './MovieView_comp/RatingsBlock';
 import RecommendedBlock from './MovieView_comp/RecommendedBlock';
 import PictureCarousel from './MovieView_comp/PictureCarousel';
 import ImagesBlock from './MovieView_comp/ImagesBlock';
+const api = require('./helperFunctions/server_requests');
 
-const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie, changeView, getUserListFromServer, MOCK_USER_ID }) => {
+const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie, changeView, addToList }) => {
   // possible memory leak, explore ueseffect.
-  // console.log('MV-SELECTED MOVIE: ', selectedMovie)
-  const userId = MOCK_USER_ID;
 
   const scroll = React.createRef();
 
@@ -153,22 +152,22 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie, changeView
     })
   };
 
-  const addToWishList = () => {
-    axios.post(`http://192.168.1.93:9000/users/${userId}`, {
-        id: movie_tmdb.id,
-        title: movie_tmdb.title,
-        release_date: movie_tmdb.release_date,
-        genre_ids: movie_tmdb.genres.map((e) => e.id),
-        poster_path: movie_tmdb.poster_path
-    })
-    .then((result) => {
-      console.log('POST SUCCESS');
-      getUserListFromServer()
-    })
-    .catch((err) => {
-      console.log('POST FAILED!!!', err);
-    })
-}
+//   const addToWishList = () => {
+//     axios.post(`http://192.168.1.93:9000/users/${keys.userId}`, {
+//         id: movie_tmdb.id,
+//         title: movie_tmdb.title,
+//         release_date: movie_tmdb.release_date,
+//         genre_ids: movie_tmdb.genres.map((e) => e.id),
+//         poster_path: movie_tmdb.poster_path
+//     })
+//     .then((result) => {
+//       console.log('POST SUCCESS');
+//       getUserListFromServer()
+//     })
+//     .catch((err) => {
+//       console.log('POST FAILED!!!', err);
+//     })
+// }
 
   const runtime = moment.utc(moment.duration(movie_tmdb.runtime, "minutes").asMilliseconds()).format(`H:mm`);
 
@@ -216,7 +215,7 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie, changeView
 
       <View style={styles.addWatchList_cont}>
         <TouchableOpacity
-          onPress={addToWishList}
+          onPress={() => { addToList(movie_tmdb) }}
         >
           <View style={styles.addButton_cont}>
             <View style={styles.addButton_icon_cont}>

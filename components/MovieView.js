@@ -15,9 +15,7 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie, changeView
   // possible memory leak, explore ueseffect.
 
   const scroll = React.createRef();
-
   const movie_tmdb = selectedMovie[0];
-
   const [castList, setCastList] = useState([]);
   const [crewList, setCrewList] = useState([]);
   const [topCastList, setTopCastList] = useState([]);
@@ -45,129 +43,25 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie, changeView
     getMovieImages(movie_tmdb.title, movie_tmdb.release_date.slice(0,4), movie_tmdb.runtime)
   }, [movie_tmdb]);
 
-  const filterMovie = (arr, title, date, runtime) => {
-    let results = [];
-    const compareLength = (kp_leng, tmdb_leng) => {
-      let arr = kp_leng.split(':');
-      let h = arr[0], mm = arr[1];
-      let kp_num = parseInt(h) * 60 + parseInt(mm);
-      if (tmdb_leng * 0.9 <= kp_num || tmdb_leng * 1.1 >= kp_num) return true;
-      else return false;
-    };
-    for (let i = 0; i < arr.length; i++) {
-      let movie = arr[i];
-      if (movie.nameEn.split(' ').join('').toLowerCase() === title.split(' ').join('').toLowerCase()) {
-        if (movie.year == date) return [movie];
-        else results.push(movie);
-      }
-      if (movie.year == date) results.push(movie)
-    }
-    if (results.length === 1) return results;
-    for(let i = 0; i < results.length; i++) {
-      if(compareLength(results[i].filmLength, runtime)) return [results[i]]
-    }
-    return results;
+  const getDataFromOMDB = (id) => {
+    api.getDataFromOMDB(id, setMovie_omdb);
   };
 
-  const getMovieImages = (title, date, runtime) => {
-    console.log('KP QUERY INVOKED! QUERY: ', title, date)
-    axios({
-      method: 'get',
-      url: `https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword?keyword=${title}&page=1`,
-      headers: {
-        'X-API-KEY': keys.kp_unof_api_key
-      }
-    })
-    .then((result) => {
-      return filterMovie(result.data.films, title, date, runtime)
-    })
-    .then((movies) => {
-      // console.log('FILTERED KINOPOISK OBJ:', movies);
-      movies.length > 0 ? getImagesUrls(movies[0]['filmId']):null
-    })
-    .catch((err) => {
-      console.log('KP GET ERROR', err)
-    })
-  }
-
-  const getImagesUrls = (id) => {
-    console.log('URL ID', id)
-    axios({
-      method: 'get',
-      url: `https://kinopoiskapiunofficial.tech/api/v2.1/films/${id}/frames`,
-      headers: {
-        'X-API-KEY': keys.kp_unof_api_key
-      }
-    })
-    .then((result) => {
-      setImageUrls(result.data.frames)
-    })
-  }
-
-  const getDataFromOMDB = (id) => {
-    axios.get(`http://www.omdbapi.com/`, {
-      params: {
-        i: id,
-        apikey: keys.omdb_api_key
-      }
-    })
-    .then((result) => {
-      console.log('OMDB GET SUCCESS');
-      setMovie_omdb(result.data);
-    })
-    .catch((err) => {
-      console.log('OMDB GETT ERROR', err)
-    })
-  }
-
   const getCastListFromServer = (movieId) => {
-    axios.get(`https://api.themoviedb.org/3/movie/${movieId}/credits`, {
-      params: {
-        api_key: keys.tmdb_api_key
-      }
-    })
-    .then((result) => {
-      console.log('CREDITS GET SUCCESS');
-      setCastList(result.data.cast);
-      setCrewList(result.data.crew);
-      setTopCastList(result.data.cast.slice(0, 20))
-    })
-    .catch((err) => {
-      console.log('CAST GET ERROR', err)
-    })
+    api.getCastListFromServer(movieId, setCastList, setCrewList, setTopCastList);
   };
 
   const getRecommendedList = (movieId) => {
-    axios.get(`https://api.themoviedb.org/3/movie/${movieId}/recommendations`, {
-      params: {
-        api_key: keys.tmdb_api_key
-      }
-    })
-    .then((result) => {
-      console.log('GET RECOMM INVOKED')
-      setRecommendedList(result.data.results);
-    })
-    .catch((err) => {
-      console.log('RECOMM GET ERROR', err);
-    })
+    api.getRecommendedList(movieId, setRecommendedList);
   };
 
-//   const addToWishList = () => {
-//     axios.post(`http://192.168.1.93:9000/users/${keys.userId}`, {
-//         id: movie_tmdb.id,
-//         title: movie_tmdb.title,
-//         release_date: movie_tmdb.release_date,
-//         genre_ids: movie_tmdb.genres.map((e) => e.id),
-//         poster_path: movie_tmdb.poster_path
-//     })
-//     .then((result) => {
-//       console.log('POST SUCCESS');
-//       getUserListFromServer()
-//     })
-//     .catch((err) => {
-//       console.log('POST FAILED!!!', err);
-//     })
-// }
+  const getMovieImages = (title, date, runtime) => {
+    api.getMovieImages(title, date, runtime, getImagesUrls)
+  };
+
+  const getImagesUrls = (id) => {
+    api.getImagesUrls(id, setImageUrls);
+  };
 
   const runtime = moment.utc(moment.duration(movie_tmdb.runtime, "minutes").asMilliseconds()).format(`H:mm`);
 
@@ -181,12 +75,10 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie, changeView
   );
 
   return (
-
     <ScrollView
       contentContainerStyle={styles.tab_cont}
       ref={scroll}
     >
-
       <View style={styles.title_cont}>
         <View>
           <Text style={styles.title_text}>
@@ -325,3 +217,111 @@ const styles = StyleSheet.create({
 });
 
 export default MovieView;
+
+
+// const getImagesUrls = (id) => {
+  //   console.log('URL ID', id)
+  //   axios({
+  //     method: 'get',
+  //     url: `https://kinopoiskapiunofficial.tech/api/v2.1/films/${id}/frames`,
+  //     headers: {
+  //       'X-API-KEY': keys.kp_unof_api_key
+  //     }
+  //   })
+  //   .then((result) => {
+  //     setImageUrls(result.data.frames)
+  //   })
+  // };
+
+  // const getMovieImages = (title, date, runtime) => {
+  //   console.log('KP QUERY INVOKED! QUERY: ', title, date)
+  //   axios({
+  //     method: 'get',
+  //     url: `https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword?keyword=${title}&page=1`,
+  //     headers: {
+  //       'X-API-KEY': keys.kp_unof_api_key
+  //     }
+  //   })
+  //   .then((result) => {
+  //     return filterMovie(result.data.films, title, date, runtime)
+  //   })
+  //   .then((movies) => {
+  //     // console.log('FILTERED KINOPOISK OBJ:', movies);
+  //     movies.length > 0 ? getImagesUrls(movies[0]['filmId']):null
+  //   })
+  //   .catch((err) => {
+  //     console.log('KP GET ERROR', err)
+  //   })
+  // }
+
+  // const getRecommendedList = (movieId) => {
+  //   axios.get(`https://api.themoviedb.org/3/movie/${movieId}/recommendations`, {
+  //     params: {
+  //       api_key: keys.tmdb_api_key
+  //     }
+  //   })
+  //   .then((result) => {
+  //     console.log('GET RECOMM INVOKED')
+  //     setRecommendedList(result.data.results);
+  //   })
+  //   .catch((err) => {
+  //     console.log('RECOMM GET ERROR', err);
+  //   })
+  // };
+
+  // const getCastListFromServer = (movieId) => {
+  //   axios.get(`https://api.themoviedb.org/3/movie/${movieId}/credits`, {
+  //     params: {
+  //       api_key: keys.tmdb_api_key
+  //     }
+  //   })
+  //   .then((result) => {
+  //     console.log('CREDITS GET SUCCESS');
+  //     setCastList(result.data.cast);
+  //     setCrewList(result.data.crew);
+  //     setTopCastList(result.data.cast.slice(0, 20))
+  //   })
+  //   .catch((err) => {
+  //     console.log('CAST GET ERROR', err)
+  //   })
+  // };
+
+  // const getDataFromOMDB = (id) => {
+  //   axios.get(`http://www.omdbapi.com/`, {
+  //     params: {
+  //       i: id,
+  //       apikey: keys.omdb_api_key
+  //     }
+  //   })
+  //   .then((result) => {
+  //     console.log('OMDB GET SUCCESS');
+  //     setMovie_omdb(result.data);
+  //   })
+  //   .catch((err) => {
+  //     console.log('OMDB GETT ERROR', err)
+  //   })
+  // }
+
+  // const filterMovie = (arr, title, date, runtime) => {
+  //   let results = [];
+  //   const compareLength = (kp_leng, tmdb_leng) => {
+  //     let arr = kp_leng.split(':');
+  //     let h = arr[0], mm = arr[1];
+  //     let kp_num = parseInt(h) * 60 + parseInt(mm);
+  //     if (tmdb_leng * 0.9 <= kp_num || tmdb_leng * 1.1 >= kp_num) return true;
+  //     else return false;
+  //   };
+  //   for (let i = 0; i < arr.length; i++) {
+  //     let movie = arr[i];
+  //     if (movie.nameEn.split(' ').join('').toLowerCase() === title.split(' ').join('').toLowerCase()) {
+  //       if (movie.year == date) return [movie];
+  //       else results.push(movie);
+  //     }
+  //     if (movie.year == date) results.push(movie)
+  //   }
+  //   if (results.length === 1) return results;
+  //   for(let i = 0; i < results.length; i++) {
+  //     if(compareLength(results[i].filmLength, runtime)) return [results[i]]
+  //   }
+  //   return results;
+  // };

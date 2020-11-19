@@ -12,8 +12,6 @@ import MovieView from './components/MovieView';
 import WatchList from './components/WatchList';
 
 const api = require('./components/helperFunctions/server_requests');
-// const keys.userId = "5fb5675a1ae8707fc2e39e49";
-
 
 export default function App() {
 
@@ -44,7 +42,6 @@ export default function App() {
   }, [])
 
   useEffect(() => {
-    // api.getUserListFromServer(setUserList)
     getUserList()
   }, [])
 
@@ -67,7 +64,149 @@ export default function App() {
     setCurrentMovieList([]);
   };
 
-  // const getUserListFromServer = () => {
+  const addToList = (movie_tmdb) => {
+    api.addToWishList(movie_tmdb, api.getUserListFromServer, setUserList);
+  };
+
+  const getUserList = () => {
+    api.getUserListFromServer(setUserList);
+  };
+
+  const deleteFromList = (movieId) => {
+    api.deleteFromUserList(movieId, api.getUserListFromServer, setUserList);
+  };
+
+  const getMovieListFromServer = (query, pageNum) => {
+    api.getMovieListFromServer(query, pageNum, setTotalPages, setCurrPageNum, setCurrentMovieList, setIsLoading)
+  };
+
+  const getMoreMovies = () => {
+    getMovieListFromServer(currentSearch, currPageNum)
+  };
+
+  const getGenresListFromApi = () => {
+    api.getGenresListFromApi(setGenresList);
+  };
+
+  const getMovieDataById = (id) => {
+    api.getMovieDataById(id, setSelectedMovieDetails);
+  };
+
+  const changeView = (source) => {
+    setCurrentTab(source);
+  };
+
+  const renderView = (view) => {
+    if (view === 'SEARCH') {
+      return (
+        <SearchTab
+          getUserInput={getUserInput}
+          movieList={currentMovieList}
+          getUserSelectedMovie={getUserSelectedMovie}
+          genresList={genresList}
+          getMoreMovies={getMoreMovies}
+          totalPages={totalPages}
+          currentPage={currPageNum}
+          setModalVisible={setModalVisible}
+          isLoading={isLoading}
+          currentTab={currentTab}
+        />
+      )
+    }
+    if (view === 'HOME' || !view) {
+      return (
+       <HomeTab />
+      )
+    }
+
+    if (view === 'MOVIE VIEW') {
+      return selectedMovieDetails.length ?
+      (<MovieView
+        selectedMovie={selectedMovieDetails}
+        genresList={genresList}
+        getUserSelectedMovie={getUserSelectedMovie}
+        addToList={addToList}
+      />) : (<View></View>)
+    }
+    if (view === 'WATCHLIST') {
+      return (
+        <WatchList
+          userList={userList}
+          genresList={genresList}
+          selectedMovie={selectedMovieDetails}
+          getUserSelectedMovie={getUserSelectedMovie}
+          currentTab={currentTab}
+          deleteFromList={deleteFromList}
+        />
+        )
+    }
+  };
+
+  return (
+
+    <View style={styles.container}>
+      <View style={Platform.OS === 'ios' ? styles.iosBar : null}></View>
+      <StatusBar barStyle='light-content'/>
+      <NavBar setModalVisible={setModalVisible}/>
+
+      <MainCarousel
+        style="slides"
+        itemsPerInterval={1}
+        items={[
+          {title: 'HOME'},
+          {title: 'SEARCH'},
+          {title: 'WATCHLIST'},
+          {title: 'MOVIE VIEW'}
+        ]
+        }
+        currentTab={currentTab}
+        handleTabPress={changeView}
+      />
+      <Modal
+         animationType="slide"
+         transparent={true}
+         visible={modalVisible}
+         onRequestClose={() => { setModalVisible(false) }}
+      >
+        <TouchableOpacity
+          style={styles.modal_outside}
+          onPressOut={() => {
+            setModalVisible(!modalVisible)
+          }}
+        >
+          <SearchBar
+            getUserInput={getUserInput}
+            setModalVisible={setModalVisible}
+            changeView={changeView}
+            setIsLoading={setIsLoading}
+          />
+        </TouchableOpacity>
+
+      </Modal>
+      {renderView(currentTab)}
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#131313',
+    height: '100%'
+  },
+  iosBar: {
+    backgroundColor: 'black',
+    height: 40
+  },
+  androidBar: {
+    backgroundColor: 'black',
+    height: 0
+  },
+  modal_outside: {
+    height: '100%'
+  }
+});
+
+// const getUserListFromServer = () => {
   //   axios.get(`http://192.168.1.93:9000/users/${keys.userId}`)
   //   .then((result) => {
   //     console.log('USER LIST QUERY SUCCESS');
@@ -95,36 +234,7 @@ export default function App() {
   //   })
 // }
 
-// API REQUESTS TO GET, ADD AND REMOVE USER LISTS
-  const addToList = (movie_tmdb) => {
-    api.addToWishList(movie_tmdb, api.getUserListFromServer, setUserList);
-  };
-
-  const getUserList = () => {
-    api.getUserListFromServer(setUserList);
-  };
-
-  const deleteFromList = (movieId) => {
-    api.deleteFromUserList(movieId, api.getUserListFromServer, setUserList);
-  };
-//________________________________________________
-  const getMovieListFromServer = (query, pageNum) => {
-    api.getMovieListFromServer(query, pageNum, setTotalPages, setCurrPageNum, setCurrentMovieList, setIsLoading)
-  };
-
-  const getMoreMovies = () => {
-    getMovieListFromServer(currentSearch, currPageNum)
-  };
-
-  const getGenresListFromApi = () => {
-    api.getGenresListFromApi(setGenresList);
-  };
-
-  const getMovieDataById = (id) => {
-    api.getMovieDataById(id, setSelectedMovieDetails);
-  };
-
-  // const getMovieDataById = (id) => {
+// const getMovieDataById = (id) => {
   //   axios.get(`https://api.themoviedb.org/3/movie/${id}`, {
   //     params: {
   //       api_key: keys.tmdb_api_key
@@ -189,10 +299,6 @@ export default function App() {
   //   })
   // };
 
-
-
-
-
   // const deleteFromList = (movieId) => {
   //   axios.patch(`http://192.168.1.93:9000/users/${keys.userId}`, {
   //     movieId
@@ -206,134 +312,3 @@ export default function App() {
   //     console.log('PATCH FAILED', err);
   //   })
   // }
-
-
-  const changeView = (source) => {
-    setCurrentTab(source);
-  };
-
-  const renderView = (view) => {
-    if (view === 'SEARCH') {
-      return (
-        <SearchTab
-          getUserInput={getUserInput}
-          movieList={currentMovieList}
-          getUserSelectedMovie={getUserSelectedMovie}
-          genresList={genresList}
-          getMoreMovies={getMoreMovies}
-          totalPages={totalPages}
-          currentPage={currPageNum}
-          setModalVisible={setModalVisible}
-          isLoading={isLoading}
-          currentTab={currentTab}
-        />
-      )
-    }
-    if (view === 'HOME' || !view) {
-      return (
-       <HomeTab />
-      )
-    }
-    // if (view === 'MOVIES') {
-    //   return (<Text>MOVIES SCREEN</Text>)
-    // }
-    // if (view === 'TV SHOWS') {
-    //   return (<Text>TV SHOWS SCREEN</Text>)
-    // }
-    // if (view === 'CELEBS') {
-    //   return (<Text>CELEBS SCREEN</Text>)
-    // }
-    // if (view === 'AWARDS & EVENTS') {
-    //   return (<Text>AWARDS SCREEN</Text>)
-    // }
-    if (view === 'MOVIE VIEW') {
-      return selectedMovieDetails.length ?
-      (<MovieView
-        selectedMovie={selectedMovieDetails}
-        genresList={genresList}
-        getUserSelectedMovie={getUserSelectedMovie}
-        // getUserListFromServer={api.getUserListFromServer}
-        addToList={addToList}
-      />) : (<View></View>)
-    }
-    if (view === 'WATCHLIST') {
-      return (
-        <WatchList
-          userList={userList}
-          genresList={genresList}
-          selectedMovie={selectedMovieDetails}
-          getUserSelectedMovie={getUserSelectedMovie}
-          currentTab={currentTab}
-          deleteFromList={deleteFromList}
-        />
-        )
-    }
-  }
-
-  return (
-
-    <View style={styles.container}>
-      <View style={Platform.OS === 'ios' ? styles.iosBar : null}></View>
-      <StatusBar barStyle='light-content'/>
-      <NavBar setModalVisible={setModalVisible}/>
-
-      <MainCarousel
-        style="slides"
-        itemsPerInterval={1}
-        items={[
-          {title: 'HOME'},
-          {title: 'SEARCH'},
-          // {title: 'MOVIES'},
-          // {title: 'TV SHOWS'},
-          // {title: 'CELEBS'},
-          // {title: 'AWARDS & EVENTS'},
-          {title: 'WATCHLIST'},
-          {title: 'MOVIE VIEW'}
-        ]
-        }
-        currentTab={currentTab}
-        handleTabPress={changeView}
-      />
-      <Modal
-         animationType="slide"
-         transparent={true}
-         visible={modalVisible}
-         onRequestClose={() => { setModalVisible(false) }}
-      >
-        <TouchableOpacity
-          style={styles.modal_outside}
-          onPressOut={() => {
-            setModalVisible(!modalVisible)
-          }}
-        >
-          <SearchBar
-            getUserInput={getUserInput}
-            setModalVisible={setModalVisible}
-            changeView={changeView}
-            setIsLoading={setIsLoading}
-          />
-        </TouchableOpacity>
-
-      </Modal>
-      {renderView(currentTab)}
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#131313',
-    height: '100%'
-  },
-  iosBar: {
-    backgroundColor: 'black',
-    height: 40
-  },
-  androidBar: {
-    backgroundColor: 'black',
-    height: 0
-  },
-  modal_outside: {
-    height: '100%'
-  }
-});

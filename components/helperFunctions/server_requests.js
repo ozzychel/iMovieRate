@@ -38,7 +38,6 @@ const deleteFromUserList = (movieId, callback, setter) => {
   })
   .then((result) => {
     console.log('PATCH SUCCESS', result.data);
-    // api.getUserListFromServer(setUserList);
     callback(setter);
   })
   .catch((err) => {
@@ -65,8 +64,7 @@ const getMovieListFromServer = (query, pageNum, setTotalPages, setCurrPageNum, s
   })
   .then((result) => {
     console.log('GET SUCCESS');
-    // console.log(result)
-    console.log('======MOVIE COUNT====== :',result.length);
+    console.log('======MOVIE COUNT====== :', result.length);
     setCurrentMovieList(prevState =>[...prevState, ...result]);
     setIsLoading(false)
   })
@@ -93,7 +91,7 @@ const getGenresListFromApi = (setter) => {
     setter(genresObj);
   })
   .catch((err) => {
-    console.log('GENRES GET FAILED', err)
+    console.log('GET GENRES FAILED', err)
   })
 };
 
@@ -104,11 +102,127 @@ const getMovieDataById = (id, setter) => {
     }
   })
   .then((result) => {
-    console.log('++++++++++++ MOVIE DETAILS SUCCESS')
+    console.log('GET MOVIE DETAILS SUCCESS')
     setter(prevState => [result.data])
   })
   .catch((err) => {
-   console.log('------------ MOVIE DETAILS FAILED', err)
+   console.log('GET MOVIE DETAILS FAILED', err)
+  })
+};
+
+const getCastListFromServer = (movieId, setCastList, setCrewList, setTopCastList) => {
+  axios.get(`https://api.themoviedb.org/3/movie/${movieId}/credits`, {
+    params: {
+      api_key: keys.tmdb_api_key
+    }
+  })
+  .then((result) => {
+    console.log('GET CASTLIST SUCCESS');
+    setCastList(result.data.cast);
+    setCrewList(result.data.crew);
+    setTopCastList(result.data.cast.slice(0, 20))
+  })
+  .catch((err) => {
+    console.log('GET CAST ERROR', err)
+  })
+};
+
+const getRecommendedList = (movieId, callback) => {
+  axios.get(`https://api.themoviedb.org/3/movie/${movieId}/recommendations`, {
+    params: {
+      api_key: keys.tmdb_api_key
+    }
+  })
+  .then((result) => {
+    console.log('GET RECOMMENDEDLIST SUCCESS', result.data);
+    callback(result.data.results);
+  })
+  .catch((err) => {
+    console.log('GET RECOMMENDEDLIST ERROR', err);
+  })
+};
+
+// --------------------------------------------------------
+// OMDB API CALLS
+// --------------------------------------------------------
+
+const getDataFromOMDB = (id, callback) => {
+  axios.get(`http://www.omdbapi.com/`, {
+    params: {
+      i: id,
+      apikey: keys.omdb_api_key
+    }
+  })
+  .then((result) => {
+    console.log('OMDB GET SUCCESS');
+    callback(result.data);
+  })
+  .catch((err) => {
+    console.log('OMDB GETT ERROR', err)
+  })
+}
+
+// --------------------------------------------------------
+// KINOPOISK API CALLS AND HELPERS
+// --------------------------------------------------------
+const filterMovie = (arr, title, date, runtime) => {
+  let results = [];
+  const compareLength = (kp_leng, tmdb_leng) => {
+    let arr = kp_leng.split(':');
+    let h = arr[0], mm = arr[1];
+    let kp_num = parseInt(h) * 60 + parseInt(mm);
+    if (tmdb_leng * 0.9 <= kp_num || tmdb_leng * 1.1 >= kp_num) return true;
+    else return false;
+  };
+  for (let i = 0; i < arr.length; i++) {
+    let movie = arr[i];
+    if (movie.nameEn.split(' ').join('').toLowerCase() === title.split(' ').join('').toLowerCase()) {
+      if (movie.year == date) return [movie];
+      else results.push(movie);
+    }
+    if (movie.year == date) results.push(movie)
+  }
+  if (results.length === 1) return results;
+  for(let i = 0; i < results.length; i++) {
+    if(compareLength(results[i].filmLength, runtime)) return [results[i]]
+  }
+  return results;
+};
+
+const getMovieImages = (title, date, runtime, callback) => {
+  console.log('KP QUERY INVOKED! QUERY: ', title, date)
+  axios({
+    method: 'get',
+    url: `https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword?keyword=${title}&page=1`,
+    headers: {
+      'X-API-KEY': keys.kp_unof_api_key
+    }
+  })
+  .then((result) => {
+    return filterMovie(result.data.films, title, date, runtime);
+  })
+  .then((movies) => {
+    movies.length > 0 ? callback(movies[0]['filmId']) : null
+  })
+  .catch((err) => {
+    console.log('KP GET ERROR', err);
+  })
+};
+
+const getImagesUrls = (id, callback) => {
+  console.log('URL ID', id)
+  axios({
+    method: 'get',
+    url: `https://kinopoiskapiunofficial.tech/api/v2.1/films/${id}/frames`,
+    headers: {
+      'X-API-KEY': keys.kp_unof_api_key
+    }
+  })
+  .then((result) => {
+    callback(result.data.frames);
+  })
+  .catch((err) => {
+    console.log('GET IMAGE_URLS FAILED', err);
   })
 };
 
@@ -118,6 +232,11 @@ module.exports = {
   deleteFromUserList,
   getMovieListFromServer,
   getGenresListFromApi,
-  getMovieDataById
+  getMovieDataById,
+  getDataFromOMDB,
+  getCastListFromServer,
+  getRecommendedList,
+  getMovieImages,
+  getImagesUrls
 }
 

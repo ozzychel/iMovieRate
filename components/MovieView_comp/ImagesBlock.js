@@ -56,14 +56,6 @@ const ImagesBlock = ({ movie_title, release_date, imageUrls, changeView }) => {
           <Text style={styles.subtitle_text}>Images ({imageUrls.length})</Text>
         </View>
 
-        <TouchableOpacity
-          onPress={() => {
-            setModalVisible(true)
-          }}
-        >
-          <View style={styles.seeAllbutton_cont}>
-          </View>
-        </TouchableOpacity>
       </View>
 
       <ScrollView
@@ -136,13 +128,6 @@ const styles = StyleSheet.create({
   subtitle_text: {
     color: 'white',
     fontSize: 26
-  },
-  seeAllbutton_text: {
-    paddingTop: 3,
-    justifyContent: 'flex-end',
-    color: '#1472f1',
-    fontSize: 18,
-    fontWeight: '600'
   },
   thumb_image_cont: {
     borderColor: '#1f1f1f',

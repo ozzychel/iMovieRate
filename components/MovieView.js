@@ -7,8 +7,8 @@ import InfoBlock from './MovieView_comp/InfoBlock';
 import CastBlock from './MovieView_comp/CastBlock';
 import RatingsBlock from './MovieView_comp/RatingsBlock';
 import RecommendedBlock from './MovieView_comp/RecommendedBlock';
-import PictureCarousel from './MovieView_comp/PictureCarousel';
 import ImagesBlock from './MovieView_comp/ImagesBlock';
+import AddToListButtonBlock from './MovieView_comp/AddToListButtonBlock';
 const api = require('./helperFunctions/server_requests');
 
 const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie, changeView, addToList }) => {
@@ -105,7 +105,7 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie, changeView
         Separator={Separator}
       />
 
-      <View style={styles.addWatchList_cont}>
+      {/* <View style={styles.addWatchList_cont}>
         <TouchableOpacity
           onPress={() => { addToList(movie_tmdb) }}
         >
@@ -118,7 +118,12 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie, changeView
             </View>
           </View>
         </TouchableOpacity>
-      </View>
+      </View> */}
+      <AddToListButtonBlock
+        addToList={addToList}
+        movie_tmdb={movie_tmdb}
+      />
+
       <Separator />
 
       <RatingsBlock

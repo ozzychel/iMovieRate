@@ -9,7 +9,7 @@ import RatingsBlock from './MovieView_comp/RatingsBlock';
 import RecommendedBlock from './MovieView_comp/RecommendedBlock';
 import ImagesBlock from './MovieView_comp/ImagesBlock';
 import AddToListButtonBlock from './MovieView_comp/AddToListButtonBlock';
-const api = require('./helperFunctions/server_requests');
+const api = require('./helperFunctions/serverRequests');
 
 const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie, changeView, addToList }) => {
   // possible memory leak, explore ueseffect.
@@ -105,25 +105,10 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie, changeView
         Separator={Separator}
       />
 
-      {/* <View style={styles.addWatchList_cont}>
-        <TouchableOpacity
-          onPress={() => { addToList(movie_tmdb) }}
-        >
-          <View style={styles.addButton_cont}>
-            <View style={styles.addButton_icon_cont}>
-              <Text style={styles.addButton_icon_text}>+</Text>
-            </View>
-            <View style={styles.addButton_text_cont}>
-              <Text style={styles.addButton_text}>ADD TO WATCHLIST</Text>
-            </View>
-          </View>
-        </TouchableOpacity>
-      </View> */}
       <AddToListButtonBlock
         addToList={addToList}
         movie_tmdb={movie_tmdb}
       />
-
       <Separator />
 
       <RatingsBlock

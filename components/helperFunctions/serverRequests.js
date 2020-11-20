@@ -21,7 +21,8 @@ const addToWishList = (movie_tmdb, callback, setter) => {
       title: movie_tmdb.title,
       release_date: movie_tmdb.release_date,
       genre_ids: movie_tmdb.genres.map((e) => e.id),
-      poster_path: movie_tmdb.poster_path
+      poster_path: movie_tmdb.poster_path,
+      inList: true
   })
   .then((result) => {
     console.log('POST SUCCESS');
@@ -48,7 +49,22 @@ const deleteFromUserList = (movieId, callback, setter) => {
 // --------------------------------------------------------
 // TMDB API CALLS
 // --------------------------------------------------------
-const getMovieListFromServer = (query, pageNum, setTotalPages, setCurrPageNum, setCurrentMovieList, setIsLoading) => {
+const checkIfInList = (movieObj, userList) => {
+  let hash = {};
+  for (let i = 0; i < userList.length; i++) {
+    if (hash[userList[i].id] === undefined) {
+      hash[userList[i].id] = true;
+    }
+  }
+  if (hash[movieObj.id.toString()]) {
+    movieObj.inList = true;
+  } else {
+    movieObj.inList = false;
+  }
+  return movieObj;
+}
+
+const getMovieListFromServer = (query, pageNum, setTotalPages, setCurrPageNum, setCurrentMovieList, setIsLoading, userList) => {
   console.log('QUERY', query)
   axios.get('https://api.themoviedb.org/3/search/movie', {
     params: {
@@ -62,10 +78,10 @@ const getMovieListFromServer = (query, pageNum, setTotalPages, setCurrPageNum, s
     setCurrPageNum(prev => prev + 1);
     return result.data.results.filter(movie => movie.release_date ? movie : null)
   })
-  .then((result) => {
+  .then((filtered) => {
     console.log('GET SUCCESS');
-    console.log('======MOVIE COUNT====== :', result.length);
-    setCurrentMovieList(prevState =>[...prevState, ...result]);
+    console.log('======MOVIE COUNT====== :', filtered.length);
+    setCurrentMovieList(prevState =>[...prevState, ...filtered]);
     setIsLoading(false)
   })
   .catch((err) => {
@@ -95,15 +111,18 @@ const getGenresListFromApi = (setter) => {
   })
 };
 
-const getMovieDataById = (id, setter) => {
+const getMovieDataById = (id, setter, userList) => {
   axios.get(`https://api.themoviedb.org/3/movie/${id}`, {
     params: {
       api_key: keys.tmdb_api_key
     }
   })
   .then((result) => {
-    console.log('GET MOVIE DETAILS SUCCESS')
-    setter(prevState => [result.data])
+    return checkIfInList(result.data, userList)
+  })
+  .then((result) => {
+    console.log('GET MOVIE DETAILS SUCCESS', result)
+    setter(prevState => [result])
   })
   .catch((err) => {
    console.log('GET MOVIE DETAILS FAILED', err)
@@ -134,7 +153,7 @@ const getRecommendedList = (movieId, callback) => {
     }
   })
   .then((result) => {
-    console.log('GET RECOMMENDEDLIST SUCCESS', result.data);
+    console.log('GET RECOMMENDEDLIST SUCCESS');
     callback(result.data.results);
   })
   .catch((err) => {

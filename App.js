@@ -11,9 +11,10 @@ import SearchBar from './components/SearchBar';
 import MovieView from './components/MovieView';
 import WatchList from './components/WatchList';
 
-const api = require('./components/helperFunctions/server_requests');
+const api = require('./components/helperFunctions/serverRequests');
 
 export default function App() {
+  // search doesn't rerender and tab cleared if you type same search string!!!
 
   const [userList, setUserList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -28,7 +29,7 @@ export default function App() {
 
   const getUserSelectedMovie = (id) => {
     console.log('SELECTED ID', id);
-    console.log('GETUSERSELECTED INVOKED!!!')
+    console.log('GET USERSELECTED INVOKED!!!')
     getMovieDataById(id);
   }
 
@@ -38,18 +39,18 @@ export default function App() {
   };
 
   useEffect(() => {
-    getGenresListFromApi()
-  }, [])
+    getGenresListFromApi();
+  }, []);
 
   useEffect(() => {
-    getUserList()
-  }, [])
+    getUserList();
+  }, []);
 
   useEffect(() => {
     if (currentSearch) {
       getMovieListFromServer(currentSearch, currPageNum)
     }
-  }, [currentSearch])
+  }, [currentSearch]);
 
   useEffect(() => {
     if (selectedMovieDetails.length > 0) {
@@ -77,11 +78,12 @@ export default function App() {
   };
 
   const getMovieListFromServer = (query, pageNum) => {
-    api.getMovieListFromServer(query, pageNum, setTotalPages, setCurrPageNum, setCurrentMovieList, setIsLoading)
+    api.getMovieListFromServer(query, pageNum, setTotalPages, setCurrPageNum, setCurrentMovieList, setIsLoading, userList)
   };
 
   const getMoreMovies = () => {
-    getMovieListFromServer(currentSearch, currPageNum)
+    getMovieListFromServer(currentSearch, currPageNum,
+      setTotalPages, setCurrPageNum, setCurrentMovieList, setIsLoading, userList)
   };
 
   const getGenresListFromApi = () => {
@@ -89,7 +91,7 @@ export default function App() {
   };
 
   const getMovieDataById = (id) => {
-    api.getMovieDataById(id, setSelectedMovieDetails);
+    api.getMovieDataById(id, setSelectedMovieDetails, userList);
   };
 
   const changeView = (source) => {

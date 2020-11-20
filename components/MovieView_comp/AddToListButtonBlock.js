@@ -6,14 +6,16 @@ const AddToListButtonBlock = ({ addToList, movie_tmdb }) => {
   return (
     <View style={styles.addWatchList_cont}>
         <TouchableOpacity
+          disabled={movie_tmdb.inList ? true : false}
           onPress={() => { addToList(movie_tmdb) }}
         >
-          <View style={styles.addButton_cont}>
+          <View style={movie_tmdb.inList ? styles.addButton_cont_inlist : styles.addButton_cont}>
             <View style={styles.addButton_icon_cont}>
-              <Text style={styles.addButton_icon_text}>+</Text>
+              <Text style={movie_tmdb.inList ? styles.addButton_icon_text_inlist : styles.addButton_icon_text}>{movie_tmdb.inList ? '✔' : '+'}</Text>
             </View>
             <View style={styles.addButton_text_cont}>
-              <Text style={styles.addButton_text}>ADD TO WATCHLIST</Text>
+              <Text style={styles.addButton_text}>
+                {movie_tmdb.inList ? 'IN YOUR WATCHLIST' : 'ADD TO WATCHLIST'}</Text>
             </View>
           </View>
         </TouchableOpacity>
@@ -29,9 +31,14 @@ const styles = StyleSheet.create({
   addButton_cont: {
     flexDirection: 'row',
     justifyContent: 'center',
+    backgroundColor: '#006400',
+    borderRadius: 5
+  },
+  addButton_cont_inlist: {
+    flexDirection: 'row',
+    justifyContent: 'center',
     backgroundColor: '#313131',
     borderRadius: 5
-
   },
   addButton_icon_cont: {
     alignItems: 'flex-end',
@@ -41,6 +48,10 @@ const styles = StyleSheet.create({
   addButton_icon_text: {
     color: 'white',
     fontSize: 22
+  },
+  addButton_icon_text_inlist: {
+    color: 'green',
+    fontSize: 16
   },
   addButton_text_cont: {
     alignItems: 'flex-start',

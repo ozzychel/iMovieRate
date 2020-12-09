@@ -14,7 +14,6 @@ import WatchList from './components/WatchList';
 const api = require('./components/helperFunctions/serverRequests');
 
 export default function App() {
-  // search doesn't rerender and tab cleared if you type same search string!!!
 
   const [userList, setUserList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);

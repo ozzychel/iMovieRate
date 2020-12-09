@@ -242,9 +242,9 @@ const filterMovie = (arr, title, date, runtime) => {
 };
 
 const getMovieImages = (title, date, runtime, callback) => {
-  console.log('KP QUERY INVOKED! QUERY: ', title, date)
+  console.log('KP QUERY INVOKED! QUERY: ', 'TITLE:',title,'DATE:', date)
   axios({
-    method: 'get',
+    method: 'GET',
     url: `https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword?keyword=${title}&page=1`,
     headers: {
       'X-API-KEY': keys.kp_unof_api_key

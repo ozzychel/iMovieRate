@@ -171,7 +171,7 @@ const getTrending = (timeWindow, callback1, callback2) => {
   .then((result) => {
     console.log(`GET TRENDING ${timeWindow} SUCESS`);
     if (timeWindow === 'day') callback1(result.data.results);
-    if (timeWindow === 'week') callback2(result.data.results);
+    if (timeWindow === 'week') callback2(result.data.results.reverse());
   })
   .catch((err) => {
     console.log(`GET TRENDING ${timeWindow} FAILED`, err);

@@ -2,25 +2,23 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import RenderImage from '../helperFunctions/RenderImage';
 
-const TrendingToday = ({ trendingDayList, trendingWeekList, getUserSelectedMovie }) => {
-  console.log('TRENDING DAY LENGTH:', trendingDayList.length)
-  console.log('TRENDING WEEK LENGTH:', trendingWeekList.length)
+const TrendingMovCarousel = ({ trendingList, getUserSelectedMovie, carouselHeader }) => {
 
   const scroll = React.createRef();
 
   useEffect(() => {
-    if(trendingDayList.length) {
+    if(trendingList.length) {
       scroll.current.scrollTo({x:0, animated: false});
     }
-  }, [trendingDayList])
+  }, [trendingList])
 
-  return trendingDayList.length > 0 ? (
+  return trendingList.length > 0 ? (
     <View>
       <View style={styles.main_cont}>
 
       <View style={styles.movie_heading}>
         <View style={styles.movie_heading_subtitle_cont}>
-          <Text style={styles.subtitle}>Trending Movies</Text>
+          <Text style={styles.subtitle}>{carouselHeader}</Text>
         </View>
         <TouchableOpacity>
           <View style={styles.movie_heading_seeAllbutton_cont}>
@@ -37,7 +35,7 @@ const TrendingToday = ({ trendingDayList, trendingWeekList, getUserSelectedMovie
         decelerationRate="fast"
         ref={scroll}
       >
-        {trendingDayList.map((movie, i) => {
+        {trendingList.map((movie, i) => {
           return (
             <View key={i} style={styles.movie_cont}>
               <TouchableOpacity
@@ -192,4 +190,4 @@ const styles = StyleSheet.create({
 })
 
 
-export default TrendingToday;
+export default TrendingMovCarousel;

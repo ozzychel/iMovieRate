@@ -55,7 +55,8 @@ const MovieCarousel = ({ movieList, getUserSelectedMovie, carouselHeader }) => {
                 />
 
               <View style={styles.movie_title}>
-                <Text style={styles.movie_title_text}>
+                <Text style={movie.title.length < 30 ? styles.movie_title_text : styles.movie_title_text_long}
+                >
                   {movie.title}
                 </Text>
               </View>
@@ -77,10 +78,6 @@ const MovieCarousel = ({ movieList, getUserSelectedMovie, carouselHeader }) => {
 };
 
 const styles = StyleSheet.create({
-  // main_wrapper: {
-  //   backgroundColor: '#1f1f1f',
-  //   height: '100%'
-  // },
   subtitle: {
     color: 'white',
     fontSize: 26
@@ -181,6 +178,11 @@ const styles = StyleSheet.create({
   movie_title_text: {
     color: 'white',
     fontSize: 16,
+    fontWeight: '600',
+  },
+  movie_title_text_long: {
+    color: 'white',
+    fontSize: 13,
     fontWeight: '600',
   },
   movie_date_text: {

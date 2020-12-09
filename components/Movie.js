@@ -47,9 +47,6 @@ const Movie = ({ movie, getUserSelectedMovie, genresList, currentTab, deleteFrom
             {movie.title + ` (${movie.release_date.slice(0,4)})`}
           </Text>
             <Text style={styles.genres_title}>{genres.join(', ')}</Text>
-
-                  {/* <Text style={{color:'white', fontSize:16}}>{!movie.inList ? 'not' : 'IN LIST'}</Text> */}
-
         </View>
         {renderDelBtn(currentTab)}
       </View>

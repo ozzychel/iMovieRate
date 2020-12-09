@@ -8,11 +8,11 @@ import CastBlock from './MovieView_comp/CastBlock';
 import RatingsBlock from './MovieView_comp/RatingsBlock';
 import MovieCarousel from './helperFunctions/MovieCarousel'
 import ImagesBlock from './MovieView_comp/ImagesBlock';
+import TrailerBlock from './MovieView_comp/TrailerBlock';
 import AddToListButtonBlock from './MovieView_comp/AddToListButtonBlock';
 const api = require('./helperFunctions/serverRequests');
 
 const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie, changeView, addToList }) => {
-  // possible memory leak, explore ueseffect.
 
   const scroll = React.createRef();
   const movie_tmdb = selectedMovie[0];
@@ -21,7 +21,8 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie, changeView
   const [topCastList, setTopCastList] = useState([]);
   const [movie_omdb, setMovie_omdb] = useState({});
   const [recommendedList, setRecommendedList] = useState([]);
-  const [imageUrls, setImageUrls] = useState([])
+  const [imageUrls, setImageUrls] = useState([]);
+  const [movieTrailer, setMovieTrailer] = useState([]);
 
   useEffect(() => {
     scroll.current.scrollTo({y:0, animated:true})
@@ -43,6 +44,10 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie, changeView
     getMovieImages(movie_tmdb.title, movie_tmdb.release_date.slice(0,4), movie_tmdb.runtime)
   }, [movie_tmdb]);
 
+  useEffect(() => {
+    getMovieTrailer(movie_tmdb.id);
+  }, [movie_tmdb])
+
   const getDataFromOMDB = (id) => {
     api.getDataFromOMDB(id, setMovie_omdb);
   };
@@ -63,6 +68,10 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie, changeView
     api.getImagesUrls(id, setImageUrls);
   };
 
+  const getMovieTrailer = (id) => {
+    api.getMovieTrailer(id, setMovieTrailer);
+  }
+
   const runtime = moment.utc(moment.duration(movie_tmdb.runtime, "minutes").asMilliseconds()).format(`H:mm`);
 
   const genres = [];
@@ -77,6 +86,7 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie, changeView
   return (
     <ScrollView
       contentContainerStyle={styles.tab_cont}
+      showsVerticalScrollIndicator={false}
       ref={scroll}
     >
       <View style={styles.title_cont}>
@@ -120,6 +130,10 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie, changeView
         Separator={Separator}
         topCastList={topCastList}
         movie_omdb={movie_omdb}
+      />
+
+      <TrailerBlock
+        movieTrailer={movieTrailer}
       />
 
       <MovieCarousel

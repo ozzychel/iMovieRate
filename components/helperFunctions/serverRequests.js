@@ -162,6 +162,22 @@ const getRecommendedList = (movieId, callback) => {
   })
 };
 
+const getMovieTrailer = (id, setter) => {
+  console.log("++++++", id);
+  axios.get(`https://api.themoviedb.org/3/movie/${id}/videos`, {
+    params: {
+      api_key: keys.tmdb_api_key
+    }
+  })
+  .then((result) => {
+    console.log('GET MOVIE TRAILER SUCCESS', result.data.results);
+    setter(result.data.results);
+  })
+  .catch((err) => {
+    console.log('GET MOVIE TRAILER ERROR', err);
+  })
+}
+
 const getTrending = (timeWindow, callback1, callback2) => {
   axios.get(`https://api.themoviedb.org/3/trending/movie/${timeWindow}`, {
     params: {
@@ -291,6 +307,7 @@ module.exports = {
   getCastListFromServer,
   getRecommendedList,
   getMovieImages,
-  getImagesUrls
+  getImagesUrls,
+  getMovieTrailer
 }
 

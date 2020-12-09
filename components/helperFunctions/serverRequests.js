@@ -178,6 +178,22 @@ const getTrending = (timeWindow, callback1, callback2) => {
   })
 };
 
+const getNowPlaying = (callback) => {
+  axios.get(`https://api.themoviedb.org/3/movie/now_playing/`, {
+    params: {
+      api_key: keys.tmdb_api_key,
+      language: "en-US"
+    }
+  })
+  .then((result) => {
+    console.log('GET NOW PLAYING SUCESS');
+    callback(result.data.results);
+  })
+  .catch((err) => {
+    console.log('GET NOW PLAYING FAILED', err);
+  })
+}
+
 // --------------------------------------------------------
 // OMDB API CALLS
 // --------------------------------------------------------
@@ -264,6 +280,7 @@ const getImagesUrls = (id, callback) => {
 
 module.exports = {
   getTrending,
+  getNowPlaying,
   getUserListFromServer,
   addToWishList,
   deleteFromUserList,

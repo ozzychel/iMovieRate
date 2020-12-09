@@ -28,6 +28,7 @@ export default function App() {
   const [totalPages, setTotalPages] = useState(0);
   const [trendingDayList, setTrendingDayList] = useState([]);
   const [trendingWeekList, setTrendingWeekList] = useState([]);
+  const [nowPlayingList, setNowPlaying] = useState([]);
 
   const getUserSelectedMovie = (id) => {
     console.log('GETSELECTED ID', id);
@@ -43,6 +44,7 @@ export default function App() {
   useEffect(() => {
     getTrending('day');
     getTrending('week');
+    getNowPlaying();
   }, [])
 
   useEffect(() => {
@@ -105,6 +107,10 @@ export default function App() {
     api.getTrending(timeWindow, setTrendingDayList, setTrendingWeekList);
   }
 
+  const getNowPlaying = () => {
+    api.getNowPlaying(setNowPlaying);
+  }
+
   const changeView = (source) => {
     setCurrentTab(source);
   };
@@ -131,6 +137,7 @@ export default function App() {
        <HomeTab
         trendingDayList={trendingDayList}
         trendingWeekList={trendingWeekList}
+        nowPlayingList={nowPlayingList}
         getUserSelectedMovie={getUserSelectedMovie}
        />
       )

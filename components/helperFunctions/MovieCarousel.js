@@ -2,17 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import RenderImage from '../helperFunctions/RenderImage';
 
-const TrendingMovCarousel = ({ trendingList, getUserSelectedMovie, carouselHeader }) => {
+const MovieCarousel = ({ movieList, getUserSelectedMovie, carouselHeader }) => {
 
   const scroll = React.createRef();
 
   useEffect(() => {
-    if(trendingList.length) {
+    if(movieList.length) {
       scroll.current.scrollTo({x:0, animated: false});
     }
-  }, [trendingList])
+  }, [movieList])
 
-  return trendingList.length > 0 ? (
+  return movieList.length > 0 ? (
     <View>
       <View style={styles.main_cont}>
 
@@ -35,7 +35,7 @@ const TrendingMovCarousel = ({ trendingList, getUserSelectedMovie, carouselHeade
         decelerationRate="fast"
         ref={scroll}
       >
-        {trendingList.map((movie, i) => {
+        {movieList.map((movie, i) => {
           return (
             <View key={i} style={styles.movie_cont}>
               <TouchableOpacity
@@ -190,4 +190,4 @@ const styles = StyleSheet.create({
 })
 
 
-export default TrendingMovCarousel;
+export default MovieCarousel;

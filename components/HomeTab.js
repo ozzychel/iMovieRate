@@ -1,23 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
-import TrendingMovCarousel from './HomeTab_comp/TrendingMovCarousel';
+import MovieCarousel from './helperFunctions/MovieCarousel';
 
-const HomeTab = ({trendingDayList, trendingWeekList, getUserSelectedMovie}) => {
+const HomeTab = ({trendingDayList, trendingWeekList, getUserSelectedMovie, nowPlayingList}) => {
   return (
     <ScrollView>
-      <TrendingMovCarousel
-        trendingList={trendingDayList}
+      <MovieCarousel
+        movieList={nowPlayingList}
+        getUserSelectedMovie={getUserSelectedMovie}
+        carouselHeader="In Theatres Now"
+      />
+
+      <MovieCarousel
+        movieList={trendingDayList}
         getUserSelectedMovie={getUserSelectedMovie}
         carouselHeader="Trending Today"
       />
 
-      <TrendingMovCarousel
-        trendingList={trendingWeekList}
+      <MovieCarousel
+        movieList={trendingWeekList}
         getUserSelectedMovie={getUserSelectedMovie}
-        carouselHeader="Treending This Week"
+        carouselHeader="Trending This Week"
       />
     </ScrollView>
-
   )
 }
 

@@ -28,6 +28,7 @@ export default function App() {
   const [trendingDayList, setTrendingDayList] = useState([]);
   const [trendingWeekList, setTrendingWeekList] = useState([]);
   const [nowPlayingList, setNowPlaying] = useState([]);
+  const [wrongInput, setWrongInput] = useState(false);
 
   const getUserSelectedMovie = (id) => {
     console.log('GETSELECTED ID', id);
@@ -36,23 +37,26 @@ export default function App() {
   }
 
   const getUserInput = async (input) => {
+    console.log("!!!!!!!!!!INPUT", input);
     let wait = await initSearchDefault();
     setCurrentSearch(input);
   };
 
   useEffect(() => {
+    getUserList();
+    getGenresListFromApi();
     getTrending('day');
     getTrending('week');
     getNowPlaying();
   }, [])
 
-  useEffect(() => {
-    getGenresListFromApi();
-  }, []);
+  // useEffect(() => {
+  //   getGenresListFromApi();
+  // }, []);
 
-  useEffect(() => {
-    getUserList();
-  }, []);
+  // useEffect(() => {
+  //   getUserList();
+  // }, []);
 
   useEffect(() => {
     if (currentSearch) {
@@ -86,7 +90,7 @@ export default function App() {
   };
 
   const getMovieListFromServer = (query, pageNum) => {
-    api.getMovieListFromServer(query, pageNum, setTotalPages, setCurrPageNum, setCurrentMovieList, setIsLoading, userList)
+    api.getMovieListFromServer(query, pageNum, setTotalPages, setCurrPageNum, setCurrentMovieList, setIsLoading, userList, setWrongInput)
   };
 
   const getMoreMovies = () => {
@@ -128,6 +132,7 @@ export default function App() {
           setModalVisible={setModalVisible}
           isLoading={isLoading}
           currentTab={currentTab}
+          wrongInput={wrongInput}
         />
       )
     }

@@ -64,7 +64,7 @@ const checkIfInList = (movieObj, userList) => {
   return movieObj;
 }
 
-const getMovieListFromServer = (query, pageNum, setTotalPages, setCurrPageNum, setCurrentMovieList, setIsLoading, userList) => {
+const getMovieListFromServer = (query, pageNum, setTotalPages, setCurrPageNum, setCurrentMovieList, setIsLoading, userList, setWrongInput) => {
   console.log('QUERY', query)
   axios.get('https://api.themoviedb.org/3/search/movie', {
     params: {
@@ -74,6 +74,12 @@ const getMovieListFromServer = (query, pageNum, setTotalPages, setCurrPageNum, s
     }
   })
   .then((result) => {
+    console.log('SERVER RESPONCE!!!!', result.data.results)
+    if (result.data.results.length === 0) {
+      setWrongInput(true);
+    } else {
+      setWrongInput(false);
+    }
     setTotalPages(result.data.total_pages);
     setCurrPageNum(prev => prev + 1);
     return result.data.results.filter(movie => movie.release_date ? movie : null)
@@ -188,7 +194,7 @@ const getOfficialTrailer = (arr) => {
     if (regex.test(arr[i].name)) return [arr[i]];
   }
   return arr;
-}
+};
 
 const getTrending = (timeWindow, callback1, callback2) => {
   axios.get(`https://api.themoviedb.org/3/trending/movie/${timeWindow}`, {

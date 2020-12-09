@@ -1,20 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import TrendingToday from './HomeTab_comp/TrendingToday';
 
-const HomeTab = () => {
-
+const HomeTab = ({trendingDayList, trendingWeekList, getUserSelectedMovie}) => {
   return (
-    <View style={styles.main_wrapper}>
-      <Text style={{color:'white'}}>HOME SCREEN</Text>
-    </View>
+    <TrendingToday
+      trendingDayList={trendingDayList}
+      trendingWeekList={trendingWeekList}
+      getUserSelectedMovie={getUserSelectedMovie}
+    />
   )
-};
-
-const styles = StyleSheet.create({
-  main_wrapper: {
-    backgroundColor: '#1f1f1f',
-    height: '100%'
-  }
-})
+}
 
 export default HomeTab;

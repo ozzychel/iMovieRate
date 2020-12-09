@@ -111,21 +111,22 @@ const getGenresListFromApi = (setter) => {
   })
 };
 
-const getMovieDataById = (id, setter, userList) => {
+const getMovieDataById = (id, setter, userList, alert) => {
   axios.get(`https://api.themoviedb.org/3/movie/${id}`, {
     params: {
       api_key: keys.tmdb_api_key
     }
   })
   .then((result) => {
-    return checkIfInList(result.data, userList)
+    return checkIfInList(result.data, userList);
   })
   .then((result) => {
-    console.log('GET MOVIE DETAILS SUCCESS', result)
-    setter(prevState => [result])
+    console.log('GET MOVIE DETAILS SUCCESS');
+    setter(prevState => [result]);
   })
   .catch((err) => {
-   console.log('GET MOVIE DETAILS FAILED', err)
+   console.log('GET MOVIE DETAILS FAILED', err);
+   alert('We don\'t have info on this movie yet! Please try again later!')
   })
 };
 
@@ -158,6 +159,22 @@ const getRecommendedList = (movieId, callback) => {
   })
   .catch((err) => {
     console.log('GET RECOMMENDEDLIST ERROR', err);
+  })
+};
+
+const getTrending = (timeWindow, callback1, callback2) => {
+  axios.get(`https://api.themoviedb.org/3/trending/movie/${timeWindow}`, {
+    params: {
+      api_key: keys.tmdb_api_key
+    }
+  })
+  .then((result) => {
+    console.log(`GET TRENDING ${timeWindow} SUCESS`);
+    if (timeWindow === 'day') callback1(result.data.results);
+    if (timeWindow === 'week') callback2(result.data.results);
+  })
+  .catch((err) => {
+    console.log(`GET TRENDING ${timeWindow} FAILED`, err);
   })
 };
 
@@ -246,6 +263,7 @@ const getImagesUrls = (id, callback) => {
 };
 
 module.exports = {
+  getTrending,
   getUserListFromServer,
   addToWishList,
   deleteFromUserList,

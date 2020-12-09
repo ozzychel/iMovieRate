@@ -170,12 +170,24 @@ const getMovieTrailer = (id, setter) => {
     }
   })
   .then((result) => {
-    console.log('GET MOVIE TRAILER SUCCESS', result.data.results);
-    setter(result.data.results);
+    console.log('GET MOVIE TRAILER SUCCESS');
+    return getOfficialTrailer(result.data.results);
+  })
+  .then((result) => {
+    setter(result);
   })
   .catch((err) => {
     console.log('GET MOVIE TRAILER ERROR', err);
   })
+};
+
+const getOfficialTrailer = (arr) => {
+  if (arr.length <= 1) return arr;
+  let regex = /official/gi;
+  for (let i = 0; i < arr.length; i++) {
+    if (regex.test(arr[i].name)) return [arr[i]];
+  }
+  return arr;
 }
 
 const getTrending = (timeWindow, callback1, callback2) => {

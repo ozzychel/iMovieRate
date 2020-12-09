@@ -6,7 +6,7 @@ import moment from 'moment';
 import InfoBlock from './MovieView_comp/InfoBlock';
 import CastBlock from './MovieView_comp/CastBlock';
 import RatingsBlock from './MovieView_comp/RatingsBlock';
-import RecommendedBlock from './MovieView_comp/RecommendedBlock';
+import MovieCarousel from './helperFunctions/MovieCarousel'
 import ImagesBlock from './MovieView_comp/ImagesBlock';
 import AddToListButtonBlock from './MovieView_comp/AddToListButtonBlock';
 const api = require('./helperFunctions/serverRequests');
@@ -122,9 +122,10 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie, changeView
         movie_omdb={movie_omdb}
       />
 
-      <RecommendedBlock
-        recommendedList={recommendedList}
+      <MovieCarousel
+        movieList={recommendedList}
         getUserSelectedMovie={getUserSelectedMovie}
+        carouselHeader="Similar Movies"
       />
 
       <ImagesBlock

@@ -7,7 +7,7 @@ import ImageView from 'react-native-image-viewing';
 
 const windowWidth = Dimensions.get('window').width;
 
-const ImagesBlock = ({ movie_title, release_date, imageUrls, changeView }) => {
+const ImagesBlock = ({ movie_title, release_date, imageUrls }) => {
 
   const scroll = React.createRef();
 
@@ -47,57 +47,54 @@ const ImagesBlock = ({ movie_title, release_date, imageUrls, changeView }) => {
 
   return imageUrls.length > 0 ? (
     <View>
+      <View style={styles.main_cont}>
 
-    <View style={styles.main_cont}>
+        <View style={styles.subtitle_seeAllbutton_cont}>
 
-      <View style={styles.subtitle_seeAllbutton_cont}>
+          <View style={styles.subtitle_cont}>
+            <Text style={styles.subtitle_text}>Images ({imageUrls.length})</Text>
+          </View>
 
-        <View style={styles.subtitle_cont}>
-          <Text style={styles.subtitle_text}>Images ({imageUrls.length})</Text>
         </View>
 
+        <ScrollView
+          horizontal={true}
+          pagingEnabled
+          ref={scroll}
+        >
+        {blocks.map((block, i) => (
+            <View style={styles.scrollView_block} key={i}>
+              {block.map((thumb, j) => (
+                <TouchableOpacity
+                  key={j}
+                  onPress={ event => {
+                    i === 0 ? setCurrentIndex(j) : setCurrentIndex(i * thumbsPerBlock + j);
+                    setIsVisible(true)
+                  }}
+                  >
+                  <RenderImage
+                    mainObj={thumb}
+                    baseUrl=''
+                    propToLink='preview'
+                    posterContStyle={styles.thumb_image_cont}
+                    posterStyle={styles.thumb_image}
+                  />
+                </TouchableOpacity>
+              ))}
+            </View>
+        ))}
+        </ScrollView>
+
+        <ImageView
+          images={fullSizeImages}
+          imageIndex={currentIndex}
+          visible={visible}
+          onRequestClose={() => setIsVisible(false)}
+        />
+
       </View>
-
-      <ScrollView
-        horizontal={true}
-        pagingEnabled
-        ref={scroll}
-      >
-       {blocks.map((block, i) => (
-          <View style={styles.scrollView_block} key={i}>
-            {block.map((thumb, j) => (
-              <TouchableOpacity
-                key={j}
-                onPress={ event => {
-                  i === 0 ? setCurrentIndex(j) : setCurrentIndex(i * thumbsPerBlock + j);
-                  setIsVisible(true)
-                }}
-                >
-                <RenderImage
-                  mainObj={thumb}
-                  baseUrl=''
-                  propToLink='preview'
-                  posterContStyle={styles.thumb_image_cont}
-                  posterStyle={styles.thumb_image}
-                />
-              </TouchableOpacity>
-            ))}
-          </View>
-       ))}
-      </ScrollView>
-
-      <ImageView
-        images={fullSizeImages}
-        imageIndex={currentIndex}
-        visible={visible}
-        onRequestClose={() => setIsVisible(false)}
-      />
-
     </View>
-    </View>
-  )
-  :
-  null
+  ) : null
 }
 
 const styles = StyleSheet.create({

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import RenderImage from '../helperFunctions/RenderImage';
 
-const MovieCarousel = ({ movieList, getUserSelectedMovie, carouselHeader }) => {
+const MovieCarousel = ({ movieList, carouselHeader, changeView, getSelectedMovie }) => {
 
   const scroll = React.createRef();
 
@@ -40,7 +40,9 @@ const MovieCarousel = ({ movieList, getUserSelectedMovie, carouselHeader }) => {
             <View key={i} style={styles.movie_cont}>
               <TouchableOpacity
                 onPress={() => {
-                  getUserSelectedMovie(movie.id);
+                  // getUserSelectedMovie(movie.id);
+                  getSelectedMovie(movie.id);
+                  changeView('MOVIE VIEW');
                 }}
               >
                 <RenderImage
@@ -61,11 +63,17 @@ const MovieCarousel = ({ movieList, getUserSelectedMovie, carouselHeader }) => {
                 </Text>
               </View>
 
-              <View style={styles.movie_date}>
-                <Text style={styles.movie_date_text}>
-                  {movie.release_date ? movie.release_date.slice(0,4) : ''}
-                </Text>
-              </View>
+                <View style={styles.footer_cont}>
+                  <View style={styles.movie_date_cont}>
+                    <Text style={styles.movie_date_text}>
+                      {movie.release_date ? movie.release_date.slice(0,4) : ''}
+                    </Text>
+                  </View>
+                  <View style={styles.star_cont}>
+                    {movie.inList ? (<Text style={styles.star_cont_text}>★</Text>) : null}
+                  </View>
+                </View>
+
 
               </TouchableOpacity>
             </View>
@@ -165,15 +173,32 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     backgroundColor: '#313131'
   },
-  movie_date: {
+  footer_cont: {
     height: 30,
     paddingRight: 5,
     paddingLeft: 8,
     paddingBottom: 10,
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     backgroundColor: '#313131',
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
+
+    // borderColor: 'red',
+    // borderWidth: 1,
+    display: 'flex',
+    flexDirection: 'row'
+  },
+  movie_date_cont: {
+    // borderWidth:1,
+    // borderColor: 'yellow'
+  },
+  star_cont: {
+    // borderColor: 'green',
+    // borderWidth: 1
+  },
+  star_cont_text: {
+    color: 'green',
+    fontSize: 16
   },
   movie_title_text: {
     color: 'white',
@@ -189,6 +214,7 @@ const styles = StyleSheet.create({
     color: '#737373',
     fontSize: 15,
   },
+
 })
 
 

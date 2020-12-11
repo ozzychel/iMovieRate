@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, Platform, Dimensions } from 'react-native';
 import { WebView } from 'react-native-webview';
-import keys from '../../config';
 
 const TrailerBlock = ({movieTrailer}) => {
   const windowWidth = Dimensions.get('window').width;

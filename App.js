@@ -15,104 +15,115 @@ const api = require('./components/helperFunctions/serverRequests');
 
 export default function App() {
 
-  const [userList, setUserList] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [currentSearch, setCurrentSearch] = useState('');
-  const [currentMovieList, setCurrentMovieList] = useState([]);
-  const [selectedMovieDetails, setSelectedMovieDetails] = useState([]);
-  const [genresList, setGenresList] = useState({});
-  const [currentTab, setCurrentTab] = useState('HOME');// <--
   const [modalVisible, setModalVisible] = useState(false);
-  const [currPageNum, setCurrPageNum] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
+  const [currentTab, setCurrentTab] = useState('HOME');
+  const [genresList, setGenresList] = useState({});
   const [trendingDayList, setTrendingDayList] = useState([]);
   const [trendingWeekList, setTrendingWeekList] = useState([]);
   const [nowPlayingList, setNowPlaying] = useState([]);
-  const [wrongInput, setWrongInput] = useState(false);
-
-  const getUserSelectedMovie = (id) => {
-    console.log('GETSELECTED ID', id);
-    console.log('GET USERSELECTED INVOKED!!!')
-    getMovieDataById(id);
-  }
-
-  const getUserInput = async (input) => {
-    console.log("!!!!!!!!!!INPUT", input);
-    let wait = await initSearchDefault();
-    setCurrentSearch(input);
-  };
+  const [userList, setUserList] = useState([]);
+  const [selectedMovie, setSelectedMovie] = useState([]);
 
   useEffect(() => {
-    getUserList();
-    getGenresListFromApi();
-    getTrending('day');
-    getTrending('week');
-    getNowPlaying();
-  }, [])
-
-  // useEffect(() => {
-  //   getGenresListFromApi();
-  // }, []);
-
-  // useEffect(() => {
-  //   getUserList();
-  // }, []);
+    if(!userList.length) getUserList();
+    if(!genresList.length) getGenresList();
+  }, []);
 
   useEffect(() => {
-    if (currentSearch) {
-      getMovieListFromServer(currentSearch, currPageNum)
+    if(selectedMovie.length) {
+      getMovieDataById(selectedMovie[0]['id']);
     }
-  }, [currentSearch]);
+      getTrending('day');
+      getTrending('week');
+      getNowPlaying();
+  }, [userList]);
 
-  useEffect(() => {
-    if (selectedMovieDetails.length > 0) {
-      console.log('UE sel mov det WORKS')
-      changeView('MOVIE VIEW')
-    }
-  }, [selectedMovieDetails]);
-
-  const initSearchDefault = () => {
-    setCurrPageNum(1);
-    setTotalPages(0);
-    setCurrentMovieList([]);
-  };
-
-  const addToList = (movie_tmdb) => {
-    api.addToWishList(movie_tmdb, api.getUserListFromServer, setUserList);
-  };
-
-  const getUserList = () => {
-    api.getUserListFromServer(setUserList);
-  };
-
-  const deleteFromList = (movieId) => {
-    api.deleteFromUserList(movieId, api.getUserListFromServer, setUserList);
-  };
-
-  const getMovieListFromServer = (query, pageNum) => {
-    api.getMovieListFromServer(query, pageNum, setTotalPages, setCurrPageNum, setCurrentMovieList, setIsLoading, userList, setWrongInput)
-  };
-
-  const getMoreMovies = () => {
-    getMovieListFromServer(currentSearch, currPageNum,
-      setTotalPages, setCurrPageNum, setCurrentMovieList, setIsLoading, userList)
-  };
-
-  const getGenresListFromApi = () => {
+  const getGenresList = () => {
+    console.log('!!! getGenres() invoked')
     api.getGenresListFromApi(setGenresList);
   };
 
-  const getMovieDataById = (id) => {
-    api.getMovieDataById(id, setSelectedMovieDetails, userList, Alert.alert);
+  const getUserList = () => {
+    console.log('!!! getUserList() invoked')
+    api.getUserListFromServer(setUserList);
   };
 
   const getTrending = (timeWindow) => {
-    api.getTrending(timeWindow, setTrendingDayList, setTrendingWeekList);
-  }
+    console.log('!!! getTrending() invoked')
+    api.getTrending(timeWindow, userList, setTrendingDayList, setTrendingWeekList);
+  };
 
   const getNowPlaying = () => {
-    api.getNowPlaying(setNowPlaying);
+    console.log('!!! getNowPlaying() invoked')
+    api.getNowPlaying(userList, setNowPlaying);
+  };
+
+  const getSelectedMovie = (id) => {
+    console.log('SELECTED ID', id)
+    getMovieDataById(id)
+  };
+
+  const getMovieDataById = (id) => {
+    console.log('!!! getMovieDataById() invoked')
+    api.getMovieDataById(id, userList, setSelectedMovie, Alert.alert);
+  };
+
+  const addToList = (movie_tmdb) => {
+    console.log('!!! addToList() invoked');
+    api.addToWishList(movie_tmdb, getUserList);
+  };
+
+  const deleteFromList = (id) => {
+    console.log("!!! deleteFromList() invoked");
+    api.deleteFromWishList(id, getUserList);
   }
+
+  // CONSOLE LOGS
+  console.log('== APP LOG == GENRES LIST:', Object.keys(genresList).length);
+  console.log('== APP LOG == USER LIST:', userList.length);
+  console.log('== APP LOG == TRENDING DAY:', trendingDayList.length);
+  console.log('== APP LOG == TRENDING WEEK:', trendingWeekList.length);
+  console.log('== APP LOG == NOW PLAYING:', nowPlayingList.length);
+  console.log('== APP LOG == SELECTED_MOVIE:', selectedMovie.length);
+  console.log("-----------------------------------")
+  console.log('== APP LOG == *CURRENT TAB*:', currentTab)
+  console.log("-----------------------------------")
+  // -------------------
+
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [currentSearch, setCurrentSearch] = useState('');
+  // const [currentMovieList, setCurrentMovieList] = useState([]);
+  // const [modalVisible, setModalVisible] = useState(false);
+  // const [currPageNum, setCurrPageNum] = useState(1);
+  // const [totalPages, setTotalPages] = useState(0);
+  // const [wrongInput, setWrongInput] = useState(false);
+
+  // const getUserInput = async (input) => {
+  //   console.log("!!!!!!!!!!INPUT", input);
+  //   let wait = await initSearchDefault();
+  //   setCurrentSearch(input);
+  // };
+
+  // useEffect(() => {
+  //   if (currentSearch) {
+  //     getMovieListFromServer(currentSearch, currPageNum)
+  //   }
+  // }, [currentSearch]);
+
+  // const initSearchDefault = () => {
+  //   setCurrPageNum(1);
+  //   setTotalPages(0);
+  //   setCurrentMovieList([]);
+  // };
+
+  // const getMovieListFromServer = (query, pageNum) => {
+  //   api.getMovieListFromServer(query, pageNum, setTotalPages, setCurrPageNum, setCurrentMovieList, setIsLoading, userList, setWrongInput);
+  // };
+
+  // const getMoreMovies = () => {
+  //   getMovieListFromServer(currentSearch, currPageNum,
+  //     setTotalPages, setCurrPageNum, setCurrentMovieList, setIsLoading, userList);
+  // };
 
   const changeView = (source) => {
     setCurrentTab(source);
@@ -120,21 +131,22 @@ export default function App() {
 
   const renderView = (view) => {
     if (view === 'SEARCH') {
-      return (
-        <SearchTab
-          getUserInput={getUserInput}
-          movieList={currentMovieList}
-          getUserSelectedMovie={getUserSelectedMovie}
-          genresList={genresList}
-          getMoreMovies={getMoreMovies}
-          totalPages={totalPages}
-          currentPage={currPageNum}
-          setModalVisible={setModalVisible}
-          isLoading={isLoading}
-          currentTab={currentTab}
-          wrongInput={wrongInput}
-        />
-      )
+      return (<View><Text style={{color:'white'}}>Search</Text></View>)
+      // return (
+      //   <SearchTab
+      //     getUserInput={getUserInput}
+      //     movieList={currentMovieList}
+      //     getUserSelectedMovie={getUserSelectedMovie}
+      //     genresList={genresList}
+      //     getMoreMovies={getMoreMovies}
+      //     totalPages={totalPages}
+      //     currentPage={currPageNum}
+      //     setModalVisible={setModalVisible}
+      //     isLoading={isLoading}
+      //     currentTab={currentTab}
+      //     wrongInput={wrongInput}
+      //   />
+      // )
     }
     if (view === 'HOME' || !view) {
       return (
@@ -142,28 +154,31 @@ export default function App() {
         trendingDayList={trendingDayList}
         trendingWeekList={trendingWeekList}
         nowPlayingList={nowPlayingList}
-        getUserSelectedMovie={getUserSelectedMovie}
+        changeView={changeView}
+        getSelectedMovie={getSelectedMovie}
        />
       )
     }
 
     if (view === 'MOVIE VIEW') {
-      return selectedMovieDetails.length ?
+      return selectedMovie.length ?
       (<MovieView
-        selectedMovie={selectedMovieDetails}
+        selectedMovie={selectedMovie}
         genresList={genresList}
-        getUserSelectedMovie={getUserSelectedMovie}
+        userList={userList}
         addToList={addToList}
-      />) : (<View></View>)
+        getSelectedMovie={getSelectedMovie}
+        changeView={changeView}
+      />) : (<View style={styles.msg_cont}><Text style={styles.msg_text}>Nothing to display! Please search the movie...</Text></View>)
     }
     if (view === 'WATCHLIST') {
       return (
         <WatchList
           userList={userList}
           genresList={genresList}
-          selectedMovie={selectedMovieDetails}
-          getUserSelectedMovie={getUserSelectedMovie}
           currentTab={currentTab}
+          getSelectedMovie={getSelectedMovie}
+          changeView={changeView}
           deleteFromList={deleteFromList}
         />
         )
@@ -182,13 +197,13 @@ export default function App() {
         itemsPerInterval={1}
         items={[
           {title: 'HOME'},
-          {title: 'SEARCH'},
+          // {title: 'SEARCH'},
           {title: 'WATCHLIST'},
           {title: 'MOVIE VIEW'}
         ]
         }
         currentTab={currentTab}
-        handleTabPress={changeView}
+        changeView={changeView}
       />
       <Modal
          animationType="slide"
@@ -202,12 +217,12 @@ export default function App() {
             setModalVisible(!modalVisible)
           }}
         >
-          <SearchBar
+          {/* <SearchBar
             getUserInput={getUserInput}
             setModalVisible={setModalVisible}
             changeView={changeView}
             setIsLoading={setIsLoading}
-          />
+          /> */}
         </TouchableOpacity>
 
       </Modal>
@@ -231,117 +246,23 @@ const styles = StyleSheet.create({
   },
   modal_outside: {
     height: '100%'
+  },
+  msg_cont: {
+    borderWidth: 2,
+    borderColor: '#1e1e1e',
+    marginTop: 5,
+    backgroundColor: '#1e1e1e',
+    padding: 10,
+    borderRadius: 8
+  },
+  msg_text: {
+    color:'white',
+    textAlign: 'center',
+    fontSize: 16,
   }
 });
 
-// const getUserListFromServer = () => {
-  //   axios.get(`http://192.168.1.93:9000/users/${keys.userId}`)
-  //   .then((result) => {
-  //     console.log('USER LIST QUERY SUCCESS');
-  //     setUserList(result.data.wish_list)
-  //   })
-  //   .catch((err) => {
-  //     console.log('USER LIST QUERY FAILED', err);
-  //   })
-  // };
-
-  // const addToWishList = (movie_tmdb) => {
-  //   axios.post(`http://192.168.1.93:9000/users/${keys.userId}`, {
-  //       id: movie_tmdb.id,
-  //       title: movie_tmdb.title,
-  //       release_date: movie_tmdb.release_date,
-  //       genre_ids: movie_tmdb.genres.map((e) => e.id),
-  //       poster_path: movie_tmdb.poster_path
-  //   })
-  //   .then((result) => {
-  //     console.log('POST SUCCESS');
-  //     api.getUserListFromServer(setUserList)
-  //   })
-  //   .catch((err) => {
-  //     console.log('POST FAILED!!!', err);
-  //   })
-// }
-
-// const getMovieDataById = (id) => {
-  //   axios.get(`https://api.themoviedb.org/3/movie/${id}`, {
-  //     params: {
-  //       api_key: keys.tmdb_api_key
-  //     }
-  //   })
-  //   .then((result) => {
-  //     console.log('++++++++++++ MOVIE DETAILS SUCCESS')
-  //     setSelectedMovieDetails(prevState => [result.data])
-  //   })
-  //   .catch((err) => {
-  //    console.log('------------ MOVIE DETAILS FAILED', err)
-  //   })
-  // };
-
-
-  // const getGenresListFromApi = () => {
-  //   axios.get(`https://api.themoviedb.org/3/genre/movie/list`, {
-  //     params: {
-  //       api_key: keys.tmdb_api_key
-  //     }
-  //   })
-  //   .then((result) => {
-  //     console.log('GET GENRES SUCCESS')
-  //     let genresObj = {};
-  //     result.data.genres.forEach((item) => {
-  //       if(!genresObj[item.id]) {
-  //         genresObj[item.id] = item.name
-  //       }
-  //     })
-  //     setGenresList(genresObj)
-  //   })
-  //   .catch((err) => {
-  //     console.log('GENRES GET FAILED', err)
-  //   })
-  // }
-
-
-  // const getMovieListFromServer = (query, pageNum) => {
-  //   console.log('QUERY', query)
-  //   axios.get('https://api.themoviedb.org/3/search/movie', {
-  //     params: {
-  //       api_key: keys.tmdb_api_key,
-  //       query: query,
-  //       page: pageNum
-  //     }
-  //   })
-  //   .then((result) => {
-  //     setTotalPages(result.data.total_pages);
-  //     setCurrPageNum(prev => prev + 1);
-  //     return result.data.results.filter(movie => movie.release_date ? movie : null)
-  //   })
-  //   .then((result) => {
-  //     console.log('GET SUCCESS');
-  //     // console.log(result)
-  //     console.log('======MOVIE COUNT====== :',result.length);
-  //     setCurrentMovieList(prevState =>[...prevState, ...result]);
-  //     setIsLoading(false)
-  //   })
-  //   .catch((err) => {
-  //     console.log('GET FAILED');
-  //     console.log(err);
-  //   })
-  // };
-
-  // const deleteFromList = (movieId) => {
-  //   axios.patch(`http://192.168.1.93:9000/users/${keys.userId}`, {
-  //     movieId
-  //   })
-  //   .then((result) => {
-  //     console.log('PATCH SUCCESS', result.data);
-  //     // api.getUserListFromServer(setUserList);
-  //     getUserList();
-  //   })
-  //   .catch((err) => {
-  //     console.log('PATCH FAILED', err);
-  //   })
-  // }
-
-//   var dummy = [
+//   var mockData = [
 //     {
 //         "overview": "Armed with only one word - Tenet - and fighting for the survival of the entire world, the Protagonist journeys through a twilight world of international espionage on a mission that will unfold in something beyond real time.",
 //         "release_date": "2020-08-22",

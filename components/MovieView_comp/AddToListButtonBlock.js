@@ -1,30 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
-const AddToListButtonBlock = ({ addToList, movie_tmdb }) => {
-  const [isClicked, setIsClicked] = useState(false);
-
-  useEffect(() => {
-  }, []);
+const AddToListButtonBlock = ({ movie_tmdb, addToList }) => {
 
   return (
     <View style={styles.addWatchList_cont}>
         <TouchableOpacity
-          disabled={isClicked || movie_tmdb.inList ? true : false}
+          disabled={movie_tmdb.inList ? true : false}
           onPress={() => {
             addToList(movie_tmdb)
-            setIsClicked(true)
           }}
         >
-          <View style={isClicked || movie_tmdb.inList ? styles.addButton_cont_inlist : styles.addButton_cont}>
+          <View style={movie_tmdb.inList ? styles.addButton_cont_inlist : styles.addButton_cont}>
             <View style={styles.addButton_icon_cont}>
-              <Text style={isClicked || movie_tmdb.inList ? styles.addButton_icon_text_inlist : styles.addButton_icon_text}
-              >{isClicked || movie_tmdb.inList ? '✔' : '+'}
+              <Text style={movie_tmdb.inList ? styles.addButton_icon_text_inlist : styles.addButton_icon_text}
+              >{movie_tmdb.inList ? '✔' : '+'}
               </Text>
             </View>
             <View style={styles.addButton_text_cont}>
               <Text style={styles.addButton_text}>
-                {isClicked || movie_tmdb.inList ? 'IN YOUR WATCHLIST' : 'ADD TO WATCHLIST'}
+                {movie_tmdb.inList ? 'IN YOUR WATCHLIST' : 'ADD TO WATCHLIST'}
                 </Text>
             </View>
           </View>

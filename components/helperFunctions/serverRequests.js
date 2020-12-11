@@ -1,22 +1,22 @@
 import axios from 'axios';
 import keys from '../../config';
 
-// --------------------------------------------------------
-// CUSTOM SERVER API CALLS, DB MANIPULATION
-// --------------------------------------------------------
+/*-------------------------------------------------------
+  == CUSTOM SERVER API CALLS, DB MANIPULATION ==
+--------------------------------------------------------*/
 const getUserListFromServer = (callback) => {
-  axios.get(`http://192.168.1.89:9000/users/${keys.userId}`)
+  axios.get(`http://192.168.1.83:9000/users/${keys.userId}`)
   .then((result) => {
-    console.log('USER LIST QUERY SUCCESS');
+    console.log('++ SERVER ++ GET USERLIST SUCCESS');
     callback(result.data.wish_list)
   })
   .catch((err) => {
-    console.log('USER LIST QUERY FAILED', err);
+    console.log('-- SERVER -- GET USERLIST QUERY FAILED', err);
   })
 };
 
-const addToWishList = (movie_tmdb, callback, setter) => {
-  axios.post(`http://192.168.1.89:9000/users/${keys.userId}`, {
+const addToWishList = (movie_tmdb, getUserList) => {
+  axios.post(`http://192.168.1.83:9000/users/${keys.userId}`, {
       id: movie_tmdb.id,
       title: movie_tmdb.title,
       release_date: movie_tmdb.release_date,
@@ -24,115 +24,109 @@ const addToWishList = (movie_tmdb, callback, setter) => {
       poster_path: movie_tmdb.poster_path,
       inList: true
   })
-  .then((result) => {
-    console.log('POST SUCCESS');
-    callback(setter)
+  .then((res) => {
+    console.log('++ SERVER ++ ADD_TO_LIST SUCESS');
+    getUserList();
   })
   .catch((err) => {
-    console.log('POST FAILED!!!', err);
+    console.log('++ SERVER ++ ADD_TO_LIST FAILED', err);
   })
 };
 
-const deleteFromUserList = (movieId, callback, setter) => {
-  axios.patch(`http://192.168.1.89:9000/users/${keys.userId}`, {
+const deleteFromWishList = (movieId, getUserList) => {
+  axios.patch(`http://192.168.1.83:9000/users/${keys.userId}`, {
     movieId
   })
   .then((result) => {
-    console.log('PATCH SUCCESS', result.data);
-    callback(setter);
+    console.log('++ SERVER ++ DELETE_FROM_LIST SUCCESS');
+    getUserList();
   })
   .catch((err) => {
-    console.log('PATCH FAILED', err);
+    console.log('-- SERVER -- DELETE_FROM_LIST FAILED', err);
   })
 };
 
-// --------------------------------------------------------
-// TMDB API CALLS
-// --------------------------------------------------------
-const checkIfInList = (movieObj, userList) => {
-  let hash = {};
-  for (let i = 0; i < userList.length; i++) {
-    if (hash[userList[i].id] === undefined) {
-      hash[userList[i].id] = true;
-    }
-  }
-  if (hash[movieObj.id.toString()]) {
-    movieObj.inList = true;
-  } else {
-    movieObj.inList = false;
-  }
-  return movieObj;
-}
-
-const getMovieListFromServer = (query, pageNum, setTotalPages, setCurrPageNum, setCurrentMovieList, setIsLoading, userList, setWrongInput) => {
-  console.log('QUERY', query)
-  axios.get('https://api.themoviedb.org/3/search/movie', {
-    params: {
-      api_key: keys.tmdb_api_key,
-      query: query,
-      page: pageNum
-    }
-  })
-  .then((result) => {
-    console.log('SERVER RESPONCE!!!!', result.data.results)
-    if (result.data.results.length === 0) {
-      setWrongInput(true);
-    } else {
-      setWrongInput(false);
-    }
-    setTotalPages(result.data.total_pages);
-    setCurrPageNum(prev => prev + 1);
-    return result.data.results.filter(movie => movie.release_date ? movie : null)
-  })
-  .then((filtered) => {
-    console.log('GET SUCCESS');
-    console.log('======MOVIE COUNT====== :', filtered.length);
-    setCurrentMovieList(prevState =>[...prevState, ...filtered]);
-    setIsLoading(false)
-  })
-  .catch((err) => {
-    console.log('GET FAILED');
-    console.log(err);
-  })
-};
-
+/*-------------------------------------------------------
+  == TMDB API CALLS ==
+--------------------------------------------------------*/
 const getGenresListFromApi = (setter) => {
-  axios.get(`https://api.themoviedb.org/3/genre/movie/list`, {
+    axios.get(`https://api.themoviedb.org/3/genre/movie/list`, {
+      params: {
+        api_key: keys.tmdb_api_key
+      }
+    })
+    .then((result) => {
+      console.log('++ SERVER ++ GET GENRESLIST SUCCESS')
+      let genresObj = {};
+      result.data.genres.forEach((item) => {
+        if(!genresObj[item.id]) {
+          genresObj[item.id] = item.name
+        }
+      })
+      setter(genresObj);
+    })
+    .catch((err) => {
+      console.log('++ SERVER ++ GET GENRESLIST FAILED', err)
+    })
+};
+
+const getTrending = (timeWindow, userList, callback1, callback2) => {
+  axios.get(`https://api.themoviedb.org/3/trending/movie/${timeWindow}`, {
     params: {
       api_key: keys.tmdb_api_key
     }
   })
-  .then((result) => {
-    console.log('GET GENRES SUCCESS')
-    let genresObj = {};
-    result.data.genres.forEach((item) => {
-      if(!genresObj[item.id]) {
-        genresObj[item.id] = item.name
-      }
-    })
-    setter(genresObj);
+  .then((res) => {
+    console.log(`++ SERVER ++ GET TRENDING ${timeWindow} SUCESS`);
+    return checkIfInList(res.data.results, userList)
+  })
+  .then((checked) => {
+    console.log(`++ SERVER ++ GET TRENDING(CHECKED) SUCCESS`);
+    if (timeWindow === 'day') callback1(checked);
+    if (timeWindow === 'week') callback2(checked.reverse());
   })
   .catch((err) => {
-    console.log('GET GENRES FAILED', err)
+    console.log(`-- SERVER -- GET TRENDING ${timeWindow} FAILED`, err);
   })
 };
 
-const getMovieDataById = (id, setter, userList, alert) => {
+const getNowPlaying = (userList, callback) => {
+  axios.get(`https://api.themoviedb.org/3/movie/now_playing/`, {
+    params: {
+      api_key: keys.tmdb_api_key,
+      language: "en-US"
+    }
+  })
+  .then((res) => {
+    console.log(`++ SERVER ++ GET NOWPLAYING SUCESS`);
+    return checkIfInList(res.data.results, userList)
+  })
+  .then((checked) => {
+    console.log(`++ SERVER ++ GET NOWPLAYING(CHECKED) SUCESS`);
+    callback(checked);
+  })
+  .catch((err) => {
+    console.log('++ SERVER ++ GET NOWPLAYING FAILED', err);
+  })
+};
+
+const getMovieDataById = (id, userList, setSelected, alert) => {
   axios.get(`https://api.themoviedb.org/3/movie/${id}`, {
     params: {
       api_key: keys.tmdb_api_key
     }
   })
-  .then((result) => {
-    return checkIfInList(result.data, userList);
+  .then((res) => {
+    console.log(`++ SERVER ++ GET SELECTED_MOVIE_DETAILS SUCESS`);
+    return checkIfInList([res.data], userList);
   })
-  .then((result) => {
-    console.log('GET MOVIE DETAILS SUCCESS');
-    setter(prevState => [result]);
+  .then((checked) => {
+    console.log(`++ SERVER ++ GET SELECTED_MOVIE_DETAILS(CHECKED) SUCESS`);
+    setSelected(prev => [...checked]);
   })
   .catch((err) => {
-   console.log('GET MOVIE DETAILS FAILED', err);
-   alert('We don\'t have info on this movie yet! Please try again later!')
+    console.log(`-- SERVER -- GET SELECTED_MOVIE_DETAILS FAILED`, err);
+    alert('We don\'t have info on this movie yet! Please try again later!')
   })
 };
 
@@ -143,25 +137,29 @@ const getCastListFromServer = (movieId, setCastList, setCrewList, setTopCastList
     }
   })
   .then((result) => {
-    console.log('GET CASTLIST SUCCESS');
+    console.log('++ SERVER ++ GET TOPCASTLIST SUCCESS');
     setCastList(result.data.cast);
     setCrewList(result.data.crew);
     setTopCastList(result.data.cast.slice(0, 20))
   })
   .catch((err) => {
-    console.log('GET CAST ERROR', err)
+    console.log('-- SERVER -- GET TOPCASTLIST FAILED', err)
   })
 };
 
-const getRecommendedList = (movieId, callback) => {
+const getRecommendedList = (movieId, userList, callback) => {
   axios.get(`https://api.themoviedb.org/3/movie/${movieId}/recommendations`, {
     params: {
       api_key: keys.tmdb_api_key
     }
   })
-  .then((result) => {
-    console.log('GET RECOMMENDEDLIST SUCCESS');
-    callback(result.data.results);
+  .then((res) => {
+    console.log(`++ SERVER ++ GET RECOMMENDED_LIST SUCESS`);
+    return checkIfInList(res.data.results, userList);
+  })
+  .then((checked) => {
+    console.log('GET RECOMMENDED_LIST(CHECKED) SUCCESS');
+    callback(checked);
   })
   .catch((err) => {
     console.log('GET RECOMMENDEDLIST ERROR', err);
@@ -169,69 +167,66 @@ const getRecommendedList = (movieId, callback) => {
 };
 
 const getMovieTrailer = (id, setter) => {
-  console.log("++++++", id);
   axios.get(`https://api.themoviedb.org/3/movie/${id}/videos`, {
     params: {
       api_key: keys.tmdb_api_key
     }
   })
   .then((result) => {
-    console.log('GET MOVIE TRAILER SUCCESS');
+    console.log('++ SERVER ++ GET MOVIE_TRAILER SUCCESS');
     return getOfficialTrailer(result.data.results);
   })
   .then((result) => {
     setter(result);
   })
   .catch((err) => {
-    console.log('GET MOVIE TRAILER ERROR', err);
+    console.log('-- SERVER -- GET MOVIE_TRAILER ERROR', err);
   })
 };
 
-const getOfficialTrailer = (arr) => {
-  if (arr.length <= 1) return arr;
-  let regex = /official/gi;
-  for (let i = 0; i < arr.length; i++) {
-    if (regex.test(arr[i].name)) return [arr[i]];
-  }
-  return arr;
-};
-
-const getTrending = (timeWindow, callback1, callback2) => {
-  axios.get(`https://api.themoviedb.org/3/trending/movie/${timeWindow}`, {
-    params: {
-      api_key: keys.tmdb_api_key
+/*-------------------------------------------------------
+  == KINOPOISK API CALLS ==
+--------------------------------------------------------*/
+const getMovieImages = (title, date, runtime, callback) => {
+  axios({
+    method: 'GET',
+    url: `https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword?keyword=${title}&page=1`,
+    headers: {
+      'X-API-KEY': keys.kp_unof_api_key
     }
   })
   .then((result) => {
-    console.log(`GET TRENDING ${timeWindow} SUCESS`);
-    if (timeWindow === 'day') callback1(result.data.results);
-    if (timeWindow === 'week') callback2(result.data.results.reverse());
+    console.log('++ SERVER ++ GET IMAGES SUCESS');
+    return filterMovie(result.data.films, title, date, runtime);
+  })
+  .then((movies) => {
+    movies.length > 0 ? callback(movies[0]['filmId']) : null
   })
   .catch((err) => {
-    console.log(`GET TRENDING ${timeWindow} FAILED`, err);
+    console.log('-- SERVER -- GET IMAGES ERROR', err);
   })
 };
 
-const getNowPlaying = (callback) => {
-  axios.get(`https://api.themoviedb.org/3/movie/now_playing/`, {
-    params: {
-      api_key: keys.tmdb_api_key,
-      language: "en-US"
+const getImagesUrls = (id, callback) => {
+  axios({
+    method: 'get',
+    url: `https://kinopoiskapiunofficial.tech/api/v2.1/films/${id}/frames`,
+    headers: {
+      'X-API-KEY': keys.kp_unof_api_key
     }
   })
   .then((result) => {
-    console.log('GET NOW PLAYING SUCESS');
-    callback(result.data.results);
+    console.log('++ SERVER ++ GET IMAGE_URL SUCESS');
+    callback(result.data.frames);
   })
   .catch((err) => {
-    console.log('GET NOW PLAYING FAILED', err);
+    console.log('-- SERVER -- GET IMAGE_URL FAILED', err);
   })
-}
+};
 
-// --------------------------------------------------------
-// OMDB API CALLS
-// --------------------------------------------------------
-
+/*-------------------------------------------------------
+  == OMDB API CALLS ==
+--------------------------------------------------------*/
 const getDataFromOMDB = (id, callback) => {
   axios.get(`http://www.omdbapi.com/`, {
     params: {
@@ -240,17 +235,32 @@ const getDataFromOMDB = (id, callback) => {
     }
   })
   .then((result) => {
-    console.log('OMDB GET SUCCESS');
+    console.log('++ SERVER ++ GET OMDBDATA SUCCESS');
     callback(result.data);
   })
   .catch((err) => {
-    console.log('OMDB GETT ERROR', err)
+    console.log('-- SERVER -- GET OMDBDATA FAILED', err)
   })
-}
+};
 
-// --------------------------------------------------------
-// KINOPOISK API CALLS AND HELPERS
-// --------------------------------------------------------
+/*-------------------------------------------------------
+  == HELPERS ==
+--------------------------------------------------------*/
+const checkIfInList = (apiList, userList) => {
+  let hash = {};
+  for (let i = 0; i < userList.length; i++) {
+    if (hash[userList[i].id] === undefined) {
+      hash[userList[i].id] = true;
+    }
+  }
+  for (let i = 0; i < apiList.length; i++) {
+    let movie = apiList[i];
+    if (hash[movie.id]) movie.inList = true;
+    else movie.inList = false;
+  }
+  return apiList;
+};
+
 const filterMovie = (arr, title, date, runtime) => {
   let results = [];
   const compareLength = (kp_leng, tmdb_leng) => {
@@ -275,57 +285,68 @@ const filterMovie = (arr, title, date, runtime) => {
   return results;
 };
 
-const getMovieImages = (title, date, runtime, callback) => {
-  console.log('KP QUERY INVOKED! QUERY: ', 'TITLE:',title,'DATE:', date)
-  axios({
-    method: 'GET',
-    url: `https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword?keyword=${title}&page=1`,
-    headers: {
-      'X-API-KEY': keys.kp_unof_api_key
-    }
-  })
-  .then((result) => {
-    return filterMovie(result.data.films, title, date, runtime);
-  })
-  .then((movies) => {
-    movies.length > 0 ? callback(movies[0]['filmId']) : null
-  })
-  .catch((err) => {
-    console.log('KP GET ERROR', err);
-  })
-};
-
-const getImagesUrls = (id, callback) => {
-  console.log('URL ID', id)
-  axios({
-    method: 'get',
-    url: `https://kinopoiskapiunofficial.tech/api/v2.1/films/${id}/frames`,
-    headers: {
-      'X-API-KEY': keys.kp_unof_api_key
-    }
-  })
-  .then((result) => {
-    callback(result.data.frames);
-  })
-  .catch((err) => {
-    console.log('GET IMAGE_URLS FAILED', err);
-  })
+const getOfficialTrailer = (arr) => {
+  if (arr.length <= 1) return arr;
+  let regex = /official/gi;
+  for (let i = 0; i < arr.length; i++) {
+    if (regex.test(arr[i].name)) return [arr[i]];
+  }
+  return arr;
 };
 
 module.exports = {
+  getGenresListFromApi,
+  getUserListFromServer,
   getTrending,
   getNowPlaying,
-  getUserListFromServer,
-  addToWishList,
-  deleteFromUserList,
-  getMovieListFromServer,
-  getGenresListFromApi,
   getMovieDataById,
-  getDataFromOMDB,
+
   getCastListFromServer,
+  getDataFromOMDB,
   getRecommendedList,
+  getMovieTrailer,
   getMovieImages,
   getImagesUrls,
-  getMovieTrailer
-}
 
+  addToWishList,
+  deleteFromWishList
+};
+
+
+// const getMovieListFromServer = (query, pageNum, setTotalPages, setCurrPageNum, setCurrentMovieList, setIsLoading, userList, setWrongInput) => {
+//   console.log('QUERY', query)
+//   axios.get('https://api.themoviedb.org/3/search/movie', {
+//     params: {
+//       api_key: keys.tmdb_api_key,
+//       query: query,
+//       page: pageNum
+//     }
+//   })
+//   .then((result) => {
+//     if (result.data.results.length === 0) {
+//       setWrongInput(true);
+//     } else {
+//       setWrongInput(false);
+//     }
+//     setTotalPages(result.data.total_pages);
+//     setCurrPageNum(prev => prev + 1);
+//     return result.data.results.filter(movie => movie.release_date ? movie : null)
+//   })
+//   .then((filtered) => {
+//     console.log('GET SUCCESS');
+//     console.log('======MOVIE COUNT====== :', filtered.length);
+//     setCurrentMovieList(prevState =>[...prevState, ...filtered]);
+//     setIsLoading(false)
+//   })
+//   .catch((err) => {
+//     console.log('GET FAILED');
+//     console.log(err);
+//   })
+// };
+
+
+
+
+// // --------------------------------------------------------
+// // KINOPOISK API CALLS AND HELPERS
+// // --------------------------------------------------------

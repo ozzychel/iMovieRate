@@ -4,16 +4,17 @@ from 'react-native';
 import axios from 'axios';
 import Movie from './Movie';
 
-const WatchList = ({ userList, genresList, getUserSelectedMovie, currentTab, deleteFromList }) => {
-  console.log('WATCH USER LIST LOG', userList.length)
+const WatchList = ({ userList, genresList, currentTab, changeView, getSelectedMovie, deleteFromList
+}) => {
 
   const movies = userList.map((mov, i) => (
     <Movie
       key={i}
       movie={mov}
       genresList={genresList}
-      getUserSelectedMovie={getUserSelectedMovie}
       currentTab={currentTab}
+      changeView={changeView}
+      getSelectedMovie={getSelectedMovie}
       deleteFromList={deleteFromList}
     />
   ))
@@ -29,13 +30,12 @@ const WatchList = ({ userList, genresList, getUserSelectedMovie, currentTab, del
     </View>
   )
   :
-  (<View style={styles.msg_cont}><Text style={styles.msg}>You don't have any saved lists yet, please start new search...</Text></View>)
+  (<View style={styles.msg_cont}><Text style={styles.msg_text}>You don't have any saved lists yet, please start new search...</Text></View>)
 }
 
 const styles = StyleSheet.create({
   contentContainer: {
     backgroundColor: '#131313',
-
   },
   scrollWrapper: {
     height: '100%',
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 8
   },
-  msg: {
+  msg_text: {
     color:'white',
     textAlign: 'center',
     fontSize: 16,

@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 
-const MainCarousel = ({items, currentTab, handleTabPress}) => {
+const MainCarousel = ({items, currentTab, changeView}) => {
 
   return (
     <View style={styles.container}>
@@ -9,10 +9,8 @@ const MainCarousel = ({items, currentTab, handleTabPress}) => {
         horizontal={true}
         contentContainerStyle={{
         }}
-        showsHorizontalScrollIndicator={false}//
-        // onContentSizeChange={(w, h) => init(w)}
+        showsHorizontalScrollIndicator={false}
         scrollEventThrottle={200}
-        // pagingEnabled
         decelerationRate="fast"
       >{items.map((item, i) => {
         return (
@@ -20,7 +18,7 @@ const MainCarousel = ({items, currentTab, handleTabPress}) => {
             key={i}
             style={styles.itemCont}
             onPress={()=> {
-              handleTabPress(item.title)
+              changeView(item.title)
             }}
             >
             <Text style={styles.itemText}>{item.title}</Text>

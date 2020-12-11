@@ -2,33 +2,21 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import RenderImage from './helperFunctions/RenderImage';
 
-const Movie = ({ movie, getUserSelectedMovie, genresList, currentTab, deleteFromList }) => {
-  const genres = [];
-  movie.genre_ids.forEach((id) => {
-    genres.push(genresList[id]);
-  })
+const Movie = ({ movie, genresList, currentTab, getSelectedMovie, changeView, deleteFromList }) => {
 
-  const renderDelBtn = (tab) => {
-    return tab === 'WATCHLIST' ?
-      (<View style={styles.del_btn_cont}>
-        <TouchableOpacity
-          style={styles.del_btn_body}
-          onPress={() => {
-            deleteFromList(movie.id)
-          }}
-        >
-          <Text style={styles.del_btn_text}>X</Text>
-        </TouchableOpacity>
-      </View>)
-      :
-      (<View style={styles.del_btn_cont}></View>)
-  }
+  const genres = [];
+  if (!genresList.length && movie.genre_ids.length) {
+    movie.genre_ids.forEach((id) => {
+      genres.push(genresList[id]);
+    })
+  };
 
   return (
     <View>
       <TouchableOpacity
         onPress={() => {
-          getUserSelectedMovie(movie.id);
+          getSelectedMovie(movie.id);
+          changeView('MOVIE VIEW');
         }}
       >
       <View style={styles.container}>
@@ -46,9 +34,20 @@ const Movie = ({ movie, getUserSelectedMovie, genresList, currentTab, deleteFrom
           <Text style={styles.title}>
             {movie.title + ` (${movie.release_date.slice(0,4)})`}
           </Text>
-            <Text style={styles.genres_title}>{genres.join(', ')}</Text>
+          <Text style={styles.genres_title}>{genres.join(', ')}</Text>
         </View>
-        {renderDelBtn(currentTab)}
+        <View style={styles.del_btn_cont}>
+          {currentTab === 'WATCHLIST' ? (
+          <TouchableOpacity
+            style={styles.del_btn_body}
+            onPress={() => {
+              deleteFromList(movie.id)
+            }}
+            >
+            <Text style={styles.del_btn_text}>X</Text>
+          </TouchableOpacity>) : null}
+        </View>
+
       </View>
       <Separator />
       </TouchableOpacity>

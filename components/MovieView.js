@@ -12,52 +12,45 @@ import TrailerBlock from './MovieView_comp/TrailerBlock';
 import AddToListButtonBlock from './MovieView_comp/AddToListButtonBlock';
 const api = require('./helperFunctions/serverRequests');
 
-const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie, changeView, addToList }) => {
+const MovieView = ({ selectedMovie, genresList, userList, addToList, getSelectedMovie, changeView }) => {
 
   const scroll = React.createRef();
+
   const movie_tmdb = selectedMovie[0];
-  const [castList, setCastList] = useState([]);
-  const [crewList, setCrewList] = useState([]);
   const [topCastList, setTopCastList] = useState([]);
   const [movie_omdb, setMovie_omdb] = useState({});
   const [recommendedList, setRecommendedList] = useState([]);
-  const [imageUrls, setImageUrls] = useState([]);
   const [movieTrailer, setMovieTrailer] = useState([]);
+  const [imageUrls, setImageUrls] = useState([]);
+  const [castList, setCastList] = useState([]);
+  const [crewList, setCrewList] = useState([]);
 
   useEffect(() => {
     scroll.current.scrollTo({y:0, animated:true})
   }, [movie_tmdb])
 
   useEffect(() => {
-    getCastListFromServer(movie_tmdb.id)
-  }, [movie_tmdb]);
-
-  useEffect(() => {
-    getDataFromOMDB(movie_tmdb.imdb_id)
-  }, [movie_tmdb]);
-
-  useEffect(() => {
+    getCastListFromServer(movie_tmdb.id);
+    getDataFromOMDB(movie_tmdb.imdb_id);
     getRecommendedList(movie_tmdb.id)
-  }, [movie_tmdb]);
-
-  useEffect(() => {
-    getMovieImages(movie_tmdb.title, movie_tmdb.release_date.slice(0,4), movie_tmdb.runtime)
-  }, [movie_tmdb]);
-
-  useEffect(() => {
     getMovieTrailer(movie_tmdb.id);
-  }, [movie_tmdb])
-
-  const getDataFromOMDB = (id) => {
-    api.getDataFromOMDB(id, setMovie_omdb);
-  };
+    getMovieImages(movie_tmdb.title, movie_tmdb.release_date.slice(0,4), movie_tmdb.runtime);
+  }, [movie_tmdb]);
 
   const getCastListFromServer = (movieId) => {
     api.getCastListFromServer(movieId, setCastList, setCrewList, setTopCastList);
   };
 
+  const getDataFromOMDB = (id) => {
+    api.getDataFromOMDB(id, setMovie_omdb);
+  };
+
   const getRecommendedList = (movieId) => {
-    api.getRecommendedList(movieId, setRecommendedList);
+    api.getRecommendedList(movieId, userList, setRecommendedList);
+  };
+
+  const getMovieTrailer = (id) => {
+    api.getMovieTrailer(id, setMovieTrailer);
   };
 
   const getMovieImages = (title, date, runtime) => {
@@ -68,16 +61,21 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie, changeView
     api.getImagesUrls(id, setImageUrls);
   };
 
-  const getMovieTrailer = (id) => {
-    api.getMovieTrailer(id, setMovieTrailer);
-  }
+  // LOGS
+  console.log('== MV LOG == TOPCASTLIST LENGTH:', topCastList.length);
+  console.log('== MV LOG == RECOMMENDED_LIST LENGTH:', recommendedList.length);
+  console.log('== MV LOG == MOVIETRAILER LENGTH:', movieTrailer.length);
+  console.log('== MV LOG == IMAGE_URLS LENGTH:', imageUrls.length);
+  // -----
 
   const runtime = moment.utc(moment.duration(movie_tmdb.runtime, "minutes").asMilliseconds()).format(`H:mm`);
 
   const genres = [];
-  movie_tmdb.genres.forEach((obj) => {
-    genres.push(genresList[obj.id]);
-  });
+  if (!genres.length && movie_tmdb.genres.length) {
+    movie_tmdb.genres.forEach((obj) => {
+      genres.push(genresList[obj.id]);
+    });
+  };
 
   const Separator = () => (
     <View style={styles.separator} />
@@ -138,15 +136,15 @@ const MovieView = ({ selectedMovie, genresList, getUserSelectedMovie, changeView
 
       <MovieCarousel
         movieList={recommendedList}
-        getUserSelectedMovie={getUserSelectedMovie}
+        getSelectedMovie={getSelectedMovie}
         carouselHeader="Similar Movies"
+        changeView={changeView}
       />
 
       <ImagesBlock
         movie_title={movie_tmdb.title}
         release_date={movie_tmdb.release_date}
         imageUrls={imageUrls}
-        changeView={changeView}
       />
 
     </ScrollView>

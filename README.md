@@ -1,6 +1,9 @@
 # iMovieRate
 
-![app_image](assets/splash.png "iMovieRate poster")
+<!-- ![app_image](assets/splash.png "iMovieRate poster") -->
+<p float="left">
+  <img src="./assets/splash.png" width="60%" height="60%">
+</p>
 
 ## Table of Contents
 
@@ -65,7 +68,7 @@ $ add instructions
 ## Screenshots
 
 <p float="left">
-  <img src="./assets/shots/shot1.png" width="200" style="border:1px solid grey" alt="Home.tab -In theatres now-"/>
+  <img src="./assets/shots/shot1.png" width="200" style="border:1px solid grey" alt="Home.tab -In theatres now-" onmouseover="this.src='./assets/shots/original-shot1.png'" onmouseout="this.src='./assets/shots/shot1.png'"/>
   <img src="./assets/shots/shot2.png" width="200" style="border:1px solid grey" alt="Home.tab -Trending today/week-"/>
   <img src="./assets/shots/shot3.png" width="200" style="border:1px solid grey" alt="Home.tab -on Search icon press, modal visible="/>
   <img src="./assets/shots/shot4.png" width="200" style="border:1px solid grey" alt="Search.tab active"/>

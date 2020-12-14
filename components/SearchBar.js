@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Button, TextInput, Alert, Keyboard, TouchableOpacity } from 'react-native';
 
-const SearchBar = ({ getUserInput, setModalVisible, changeView, setIsLoading }) => {
+const SearchBar = ({ getUserInput, setModalVisible, changeView }) => {
+
   const [inputValue, setInputValue] = useState('');
 
   const handleSearchPress = () => {
     if (inputValue.trim()) {
-      console.log('search:', inputValue)
+      console.log('!!! handleSearchPress() invoked')
       getUserInput(inputValue)
       setInputValue('')
       Keyboard.dismiss()
       setModalVisible(false)
       changeView('SEARCH')
-      setIsLoading(true)
     } else {
       Alert.alert('Search field cannot be empty!')
     }

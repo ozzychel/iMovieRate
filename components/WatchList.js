@@ -4,9 +4,7 @@ from 'react-native';
 import axios from 'axios';
 import Movie from './Movie';
 
-const WatchList = ({ userList, genresList, currentTab, changeView, getSelectedMovie, deleteFromList
-}) => {
-
+const WatchList = ({ userList, genresList, currentTab, changeView, getSelectedMovie, deleteFromList }) => {
   const movies = userList.map((mov, i) => (
     <Movie
       key={i}

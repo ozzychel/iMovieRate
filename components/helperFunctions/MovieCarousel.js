@@ -5,7 +5,6 @@ import RenderImage from '../helperFunctions/RenderImage';
 const MovieCarousel = ({ movieList, carouselHeader, changeView, getSelectedMovie }) => {
 
   const scroll = React.createRef();
-
   useEffect(() => {
     if(movieList.length) {
       scroll.current.scrollTo({x:0, animated: false});
@@ -40,7 +39,6 @@ const MovieCarousel = ({ movieList, carouselHeader, changeView, getSelectedMovie
             <View key={i} style={styles.movie_cont}>
               <TouchableOpacity
                 onPress={() => {
-                  // getUserSelectedMovie(movie.id);
                   getSelectedMovie(movie.id);
                   changeView('MOVIE VIEW');
                 }}
@@ -70,7 +68,7 @@ const MovieCarousel = ({ movieList, carouselHeader, changeView, getSelectedMovie
                     </Text>
                   </View>
                   <View style={styles.star_cont}>
-                    {movie.inList ? (<Text style={styles.star_cont_text}>★</Text>) : null}
+                    {movie.inList ? (<Text style={styles.star_cont_text}>★ </Text>) : null}
                   </View>
                 </View>
 

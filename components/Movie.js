@@ -11,6 +11,27 @@ const Movie = ({ movie, genresList, currentTab, getSelectedMovie, changeView, de
     })
   };
 
+  const renderButton = () => {
+    if (currentTab === 'WATCHLIST') {
+      return (
+        <TouchableOpacity
+        style={styles.del_btn_body}
+        onPress={() => {
+          deleteFromList(movie.id)
+        }}
+        >
+        <Text style={styles.del_btn_text}>X</Text>
+      </TouchableOpacity>
+      )
+    } else {
+        return (
+          <View>
+            {movie.inList ? (<Text style={styles.star_cont_text}>★</Text>) : null}
+          </View>
+        )
+    }
+  }
+
   return (
     <View>
       <TouchableOpacity
@@ -45,7 +66,8 @@ const Movie = ({ movie, genresList, currentTab, getSelectedMovie, changeView, de
             }}
             >
             <Text style={styles.del_btn_text}>X</Text>
-          </TouchableOpacity>) : null}
+          </TouchableOpacity>) : null
+          }
         </View>
 
       </View>
@@ -111,7 +133,11 @@ const styles = StyleSheet.create({
   del_btn_text: {
     color: '#737373',
     fontSize: 16,
-  }
+  },
+  star_cont_text: {
+    color: 'green',
+    fontSize: 16
+  },
 })
 
 export default Movie;

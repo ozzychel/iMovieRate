@@ -8,7 +8,6 @@ import ImageView from 'react-native-image-viewing';
 const windowWidth = Dimensions.get('window').width;
 
 const ImagesBlock = ({ movie_title, release_date, imageUrls }) => {
-
   const scroll = React.createRef();
 
   const [visible, setIsVisible] = useState(false);
@@ -26,15 +25,18 @@ const ImagesBlock = ({ movie_title, release_date, imageUrls }) => {
   const previewThumbs = imageUrls;
   const thumbsPerBlock = 9;
   const blocks = [];
-  for(let i = 0; i < previewThumbs.length; i += thumbsPerBlock) {
-    let inner = [];
-    blocks.push(previewThumbs.slice(i, i + thumbsPerBlock));
+  const fullSizeImages = [];
+  if (previewThumbs) {
+    for(let i = 0; i < previewThumbs.length; i += thumbsPerBlock) {
+      let inner = [];
+      blocks.push(previewThumbs.slice(i, i + thumbsPerBlock));
+    }
+    for(let i = 0; i < previewThumbs.length; i++) {
+      fullSizeImages.push({uri:previewThumbs[i]['image']})
+    }
+
   }
 
-  const fullSizeImages = [];
-  for(let i = 0; i < previewThumbs.length; i++) {
-    fullSizeImages.push({uri:previewThumbs[i]['image']})
-  }
   const calculateIndex = (i, j) => {
     if(i === 0) {
       setCurrentIndex(j);

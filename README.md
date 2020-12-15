@@ -50,62 +50,64 @@ For each user-selected movie displays:
 
 ## Installation
 1. clone this repository
-   ```
-   git clone https://github.com/ozzychel/iMovieRate.git
-   ```
+    ```
+    git clone https://github.com/ozzychel/iMovieRate.git
+    ```
 2. go to root folder
-   ```
-   cd iMovieRate
-   ```
+    ```
+    cd iMovieRate
+    ```
 3. run npm install
-   ```
-   npm install
-   ```
+    ```
+    npm install
+    ```
 
-**IMPORTANT:** &nbsp;
+**IMPORTANT:** <br>
 App utilizes http requests to several API.
-To get full functionality, including search on user input, you will need to obtain API keys (5 mins), see below for instructions:
+To get full functionality, including search on user input, you will need to obtain API keys (~6 mins), see below for instructions:<br>
+<br>
 <details>
   <summary>Get your API keys (free, takes ~6 mins)</summary>
 
   in root folder open `config.js' file with your favorite IDE and follow the instructions
   1. to obtain TMDb api key:
 
-  ```
   - visit https://www.themoviedb.org/ and sign up for an account
   - in your account "Settings" click "API" in left sidebar
   - obtain your API key and paste it as a value of tmbd_api_key in config.js
-  ```
 
   2. to obtain OMDb api key:
-  ```
-  - visit http://www.omdbapi.com/ in top navbar click API key
+  - visit http://www.omdbapi.com/, in top navbar click 'API key'
   - type your email, obtain API key and paste it as a value of omdb_api_key in config.js
-  ```
 
   3. to obtain KP api key:
-  ```
   - visit https://kinopoiskapiunofficial.tech/ and click 'Sign Up'
   - obtain your API key and paste it as a value of kp_unof_api_key in config.js
-  ```
+  <br>
   *...continue with step 4...*
 </details>
 
 
+<br>
 
-If you don't want to mess with api keys its ok, you still will be able to use app with **mock data** provided, continue as follows:
+If you **don't want to mess with api keys** its ok, you still will be able to use app with **mock data** provided, continue as follows:
 
-4. start service
+4. start server
+   ```
+   npm run prod-server
+   ```
+
+5. in other terminal window start app
    ```
    npm start
    ```
-5. in newly opened browser window:
+6. in newly opened browser window:
 
-   - click `"Run on iOS simulator"` for iOS (requires Xcode installed)
-   - click `"Run on Android device/emulator` for Android (requires Android Studio installed)
-   - scan QR code with Expo Client app on your mobile phone (easiest way)
-     - link to [App store](https://apps.apple.com/us/app/expo-client/id982107779) for Apple device
-     - link to [PlayStore](https://play.google.com/store/apps/details?id=host.exp.exponent) for Android device
+- click `"Run on iOS simulator"` for iOS (requires Xcode installed)
+- click `"Run on Android device/emulator` for Android (requires Android Studio installed)
+- scan QR code with Expo Client app on your mobile phone (easiest way)
+  - link to [App store](https://apps.apple.com/us/app/expo-client/id982107779) for Apple device
+  - link to [PlayStore](https://play.google.com/store/apps/details?id=host.exp.exponent) for Android device
 
 ## Gifs
 

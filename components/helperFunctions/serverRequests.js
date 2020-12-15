@@ -1,5 +1,5 @@
 import axios from 'axios';
-import keys from '../../config';
+import keys from '../../mock_config';
 
 const tmdb = axios.create({
   baseURL: 'https://api.themoviedb.org/3'

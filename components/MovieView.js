@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity, Button } from 'react-native';
-import axios from 'axios';
-import keys from '../config.js';
 import moment from 'moment';
 import InfoBlock from './MovieView_comp/InfoBlock';
 import CastBlock from './MovieView_comp/CastBlock';

@@ -9,8 +9,8 @@
   - [Table of Contents](#table-of-contents)
   - [Description](#description)
   - [Installation](#installation)
-  - [ScreenShots](#screenshots)
   - [Gifs](#gifs)
+  - [ScreenShots](#screenshots)
   - [Videos](#videos)
   - [Planned Features](#planned-features-in-development)
   - [License](#license)
@@ -20,7 +20,7 @@
 Mobile iOS/Android app for searching movie data and creating "to-watch" lists. Allows user to search, browse and store most relevant information on thousands of movies. Displays most trending movies of the day/week and movies, that are screened in theaters today.
 App utilizes fetching data from several API's ([The Movie Database](http://https://www.themoviedb.org/), [The Open Movie Database](http://www.omdbapi.com/), Kinopoisk Unofficial) and displays it in a user friendly manner.
 
-Supports both iOS and Android, utilizes React Native and Expo.io frameworks on client side and custom-build Express server with MongoDB on the server side.
+Supports both iOS and Android, utilizes React Native and Expo frameworks on client side and custom-build Express server with MongoDB on the server side.
 
 For each user-selected movie displays:
   * general information:
@@ -49,22 +49,64 @@ For each user-selected movie displays:
   * movie stills and images
 
 ## Installation
-clone this repository
-```bash
-$ git clone https://github.com/ozzychel/iMovieRate.git
-```
-go to root folder
-```bash
-$ cd iMovieRate
-```
-run npm install
-```bash
-$ npm install
-```
-....in development
-```bash
-$ add instructions
-```
+1. clone this repository
+   ```
+   git clone https://github.com/ozzychel/iMovieRate.git
+   ```
+2. go to root folder
+   ```
+   cd iMovieRate
+   ```
+3. run npm install
+   ```
+   npm install
+   ```
+
+**IMPORTANT:** &nbsp;
+App utilizes http requests to several API.
+To get full functionality, including search on user input, you will need to obtain API keys (5 mins), see below for instructions:
+<details>
+  <summary>Get your API keys (free, takes ~6 mins)</summary>
+
+  in root folder open `config.js' file with your favorite IDE and follow the instructions
+  1. to obtain TMDb api key:
+
+  ```
+  - visit https://www.themoviedb.org/ and sign up for an account
+  - in your account "Settings" click "API" in left sidebar
+  - obtain your API key and paste it as a value of tmbd_api_key in config.js
+  ```
+
+  2. to obtain OMDb api key:
+  ```
+  - visit http://www.omdbapi.com/ in top navbar click API key
+  - type your email, obtain API key and paste it as a value of omdb_api_key in config.js
+  ```
+
+  3. to obtain KP api key:
+  ```
+  - visit https://kinopoiskapiunofficial.tech/ and click 'Sign Up'
+  - obtain your API key and paste it as a value of kp_unof_api_key in config.js
+  ```
+  *...continue with step 4...*
+</details>
+
+
+
+If you don't want to mess with api keys its ok, you still will be able to use app with **mock data** provided, continue as follows:
+
+4. start service
+   ```
+   npm start
+   ```
+5. in newly opened browser window:
+
+   - click `"Run on iOS simulator"` for iOS (requires Xcode installed)
+   - click `"Run on Android device/emulator` for Android (requires Android Studio installed)
+   - scan QR code with Expo Client app on your mobile phone (easiest way)
+     - link to [App store](https://apps.apple.com/us/app/expo-client/id982107779) for Apple device
+     - link to [PlayStore](https://play.google.com/store/apps/details?id=host.exp.exponent) for Android device
+
 ## Gifs
 
 <p float="left">

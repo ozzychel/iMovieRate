@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView }
 from 'react-native';
-import axios from 'axios';
 import Movie from './Movie';
 
 const WatchList = ({ userList, genresList, currentTab, changeView, getSelectedMovie, deleteFromList }) => {

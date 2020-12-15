@@ -1,8 +1,7 @@
 # iMovieRate
 
-<!-- ![app_image](assets/splash.png "iMovieRate poster") -->
 <p float="left">
-  <img src="./assets/splash.png" width="60%" height="60%">
+  <img src="./assets/splash.png" width="70%" height="70%">
 </p>
 
 ## Table of Contents
@@ -11,16 +10,17 @@
   - [Description](#description)
   - [Installation](#installation)
   - [ScreenShots](#screenshots)
-  - [Videos and gifs](#videos)
+  - [Gifs](#gifs)
+  - [Videos](#videos)
   - [Planned Features](#planned-features-in-development)
   - [License](#license)
 
 
 ## Description
-Mobile iOS/Android app for searching movie data and creating "to-watch" lists. Allows user to search, browse and store most relevent information on thousands of movies. Displays most trending movies of the day/week and movies, that are screened in theatres now.
-App utilizes fetching data from several API's (The Movie Database, The Open Movie Database, Kinopoisk Unofficial) and displays it in a user friendly manner.
+Mobile iOS/Android app for searching movie data and creating "to-watch" lists. Allows user to search, browse and store most relevant information on thousands of movies. Displays most trending movies of the day/week and movies, that are screened in theaters today.
+App utilizes fetching data from several API's ([The Movie Database](http://https://www.themoviedb.org/), [The Open Movie Database](http://www.omdbapi.com/), Kinopoisk Unofficial) and displays it in a user friendly manner.
 
-Supports both iOS and Android, utilizes React Native and Expo.io framework on client side and custom-build Express server with MongoDB on the server side.
+Supports both iOS and Android, utilizes React Native and Expo.io frameworks on client side and custom-build Express server with MongoDB on the server side.
 
 For each user-selected movie displays:
   * general information:
@@ -65,13 +65,19 @@ $ npm install
 ```bash
 $ add instructions
 ```
+## Gifs
+
+<p float="left">
+  <img src="./assets/perf.gif"/>
+</p>
+
 ## Screenshots
 
 <p float="left">
-  <img src="./assets/shots/shot1.png" width="200" style="border:1px solid grey" alt="Home.tab -In theatres now-" onmouseover="this.src='./assets/shots/original-shot1.png'" onmouseout="this.src='./assets/shots/shot1.png'"/>
+  <img src="./assets/shots/shot1.png" width="200" style="border:1px solid grey" alt="Home.tab -In theatres now-"/>
   <img src="./assets/shots/shot2.png" width="200" style="border:1px solid grey" alt="Home.tab -Trending today/week-"/>
   <img src="./assets/shots/shot3.png" width="200" style="border:1px solid grey" alt="Home.tab -on Search icon press, modal visible="/>
-  <img src="./assets/shots/shot4.png" width="200" style="border:1px solid grey" alt="Search.tab active"/>
+  <img src="./assets/shots/shot4.png" width="200" style="border:1px solid grey" alt="Search.tab active" />
 </p>
 <p float="left">
   <img src="./assets/shots/shot5.png" width="200" style="border:1px solid grey" alt="Search.tab -Load more button-"/>
@@ -86,14 +92,18 @@ $ add instructions
   <img src="./assets/shots/shot12.png" width="200" style="border:1px solid grey" alt="WatchList.tab -User saved movies-"/>
 </p>
 
-## Videos
-....in development
+## Video
+
+app video on [Youtube](https://youtu.be/bd-IM4Bdd7I)
+
 ## Planned Features in development
 * browsing actors and displaying relevant information
 * browsing tv shows and tv series
-* login view with biometrics support
+* login screen with biometrics support
 * display movie of the day in Home tab
 
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
+
+

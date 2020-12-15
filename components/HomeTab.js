@@ -7,7 +7,7 @@ const HomeTab = ({trendingDayList, trendingWeekList,  nowPlayingList, changeView
     <ScrollView>
       <MovieCarousel
         movieList={nowPlayingList}
-        carouselHeader="In Theatres Now"
+        carouselHeader="In Theaters Now"
         changeView={changeView}
         getSelectedMovie={getSelectedMovie}
       />

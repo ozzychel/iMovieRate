@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import Movie from './Movie';
 
-const SearchTab = ({ movieList, currentPageNum, totalPages, genresList, currentTab, changeView, getSelectedMovie, deleteFromList, getMoreMovies, setModalVisible, noResult }) => {
-
-  const [flag, setFlag] = useState(0);
+const SearchTab = ({ movieList, currentPageNum, totalPages, genresList, currentTab, changeView, getSelectedMovie, deleteFromList, getMoreMovies, setModalVisible, isLoading, noResult }) => {
 
   const movies = movieList.map((mov, i) => (
     <Movie
@@ -30,15 +28,6 @@ const SearchTab = ({ movieList, currentPageNum, totalPages, genresList, currentT
         </TouchableOpacity>) : null;
   };
 
-  const noSearchYet = async (param) => {
-    await setFlag(1);
-    setModalVisible(true);
-  };
-
-  const renderMsg = (flag) => {
-    return flag ? (<View style={styles.msg_cont}><Text style={styles.msg_text}>We don't have information on this movie yet! Please check your input or try again later...</Text></View>) : null
-  }
-
   return movieList.length > 0 ? (
     <View style={styles.scrollWrapper}>
         <ScrollView
@@ -50,11 +39,10 @@ const SearchTab = ({ movieList, currentPageNum, totalPages, genresList, currentT
         <View style={Platform.OS === 'ios' ? {height:160} : {height:110}}></View>
     </View>
   )
-  :
-  (<View style={styles.back}>
-    {!flag ? noSearchYet() : null}
-    {renderMsg(noResult)}
-    </View>)
+  : isLoading ? (<View style={styles.back}></View>)
+  : noResult ?
+  (<View style={styles.msg_cont}><Text style={styles.msg_text}>We don't have information on this movie yet! Please check your input or try again later...</Text></View>)
+  : (<View style={styles.msg_cont}><Text style={styles.msg_text}>Search results will be displayed here, press 🔍 to start new search!</Text></View>)
 };
 
 const styles = StyleSheet.create({

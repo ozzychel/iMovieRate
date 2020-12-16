@@ -27,6 +27,7 @@ export default function App() {
   const [searchResults, setSearchResults] = useState([]);
   const [currPageNum, setCurrPageNum] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
   const [noResult, setNoResult] = useState(false);
 
   useEffect(() => {
@@ -107,11 +108,13 @@ export default function App() {
 
   const getMovieList = async (query, pageNum, list) => {
     console.log('!!! getMovieList() invoked');
+    setIsLoading(true);
     const [total, result] = await api.getMovieList(query, pageNum, list);
     setCurrPageNum(prev => prev + 1);
     setTotalPages(total)
     if(result.length) setSearchResults(prev => [...prev, ...result]);
     else setNoResult(true)
+    setIsLoading(false);
   };
 
   const getMoreMovies = async () => {
@@ -137,6 +140,7 @@ export default function App() {
   };
 
   // LOGS
+  console.log('.. APP LOG .. IS_LOADING:', isLoading);
   console.log('== APP LOG == GENRES LIST:', Object.keys(genresList).length);
   console.log('== APP LOG == USER LIST:', userList.length);
   console.log('== APP LOG == TRENDING DAY:', trendingDayList.length);
@@ -147,7 +151,6 @@ export default function App() {
   console.log('== APP LOG == TOTALPAGES', totalPages)
   console.log('== APP LOG == CURRENT_SEARCH_RESULTS', searchResults.length);
   console.log('== APP LOG == NORESULT_FLAG', noResult);
-
 
   console.log("-----------------------------------")
   console.log('== APP LOG == *CURRENT TAB*:', currentTab)
@@ -168,6 +171,7 @@ export default function App() {
           getMoreMovies={getMoreMovies}
           deleteFromList={deleteFromList}
           setModalVisible={setModalVisible}
+          isLoading={isLoading}
           noResult={noResult}
         />
       )

@@ -92,6 +92,8 @@ To get full functionality, including search on user input, you will need to obta
 
 If you **don't want to mess with api keys** its ok, you still will be able to use app with **mock data** provided, continue as follows:
 
+<!-- ...seed database with mock data -->
+
 4. start server
    ```
    npm run prod-server
@@ -104,7 +106,7 @@ If you **don't want to mess with api keys** its ok, you still will be able to us
 6. in newly opened browser window:
 
 - click `"Run on iOS simulator"` for iOS (requires Xcode installed)
-- click `"Run on Android device/emulator` for Android (requires Android Studio installed)
+- click `"Run on Android device/emulator"` for Android (requires Android Studio installed)
 - scan QR code with Expo Client app on your mobile phone (easiest way)
   - link to [App store](https://apps.apple.com/us/app/expo-client/id982107779) for Apple device
   - link to [PlayStore](https://play.google.com/store/apps/details?id=host.exp.exponent) for Android device

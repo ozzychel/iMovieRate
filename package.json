@@ -6,7 +6,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "dev-server": "nodemon /server/index.js"
+    "prod-server": "nodemon ./server/index.js"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.30",
@@ -16,7 +16,6 @@
     "expo": "~38.0.8",
     "expo-status-bar": "^1.0.2",
     "moment": "^2.27.0",
-    "nodemon": "^2.0.4",
     "path": "^0.12.7",
     "react": "~16.11.0",
     "react-dom": "~16.11.0",

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import Movie from './Movie';
 
-const SearchTab = ({ movieList, currentPageNum, totalPages, genresList, currentTab, changeView, getSelectedMovie, deleteFromList, getMoreMovies }) => {
+const SearchTab = ({ movieList, currentPageNum, totalPages, genresList, currentTab, changeView, getSelectedMovie, deleteFromList, getMoreMovies, modalVisible, setModalVisible }) => {
 
   const movies = movieList.map((mov, i) => (
     <Movie
@@ -26,6 +26,13 @@ const SearchTab = ({ movieList, currentPageNum, totalPages, genresList, currentT
             <Text style={styles.load_more_text}>Load more...</Text>
           </View>
         </TouchableOpacity>) : null;
+  };
+  const [flag, setFlag] = useState(0);
+
+  const noSearchYet = async (param) => {
+    console.log('notSearchedYet() invoked')
+    await setFlag(1)
+    setModalVisible(true);
   }
 
   return movieList.length > 0 ? (
@@ -40,7 +47,9 @@ const SearchTab = ({ movieList, currentPageNum, totalPages, genresList, currentT
     </View>
   )
   :
-  (<View style={styles.back}></View>)
+  (<View style={styles.back}>
+    {!flag ? noSearchYet() : null}
+    </View>)
 };
 
 const styles = StyleSheet.create({

@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import Movie from './Movie';
 
-const SearchTab = ({ movieList, currentPageNum, totalPages, genresList, currentTab, changeView, getSelectedMovie, deleteFromList, getMoreMovies, modalVisible, setModalVisible }) => {
+const SearchTab = ({ movieList, currentPageNum, totalPages, genresList, currentTab, changeView, getSelectedMovie, deleteFromList, getMoreMovies, setModalVisible, noResult }) => {
+
+  const [flag, setFlag] = useState(0);
 
   const movies = movieList.map((mov, i) => (
     <Movie
@@ -27,12 +29,14 @@ const SearchTab = ({ movieList, currentPageNum, totalPages, genresList, currentT
           </View>
         </TouchableOpacity>) : null;
   };
-  const [flag, setFlag] = useState(0);
 
   const noSearchYet = async (param) => {
-    console.log('notSearchedYet() invoked')
-    await setFlag(1)
+    await setFlag(1);
     setModalVisible(true);
+  };
+
+  const renderMsg = (flag) => {
+    return flag ? (<View style={styles.msg_cont}><Text style={styles.msg_text}>We don't have information on this movie yet! Please check your input or try again later...</Text></View>) : null
   }
 
   return movieList.length > 0 ? (
@@ -49,6 +53,7 @@ const SearchTab = ({ movieList, currentPageNum, totalPages, genresList, currentT
   :
   (<View style={styles.back}>
     {!flag ? noSearchYet() : null}
+    {renderMsg(noResult)}
     </View>)
 };
 
@@ -79,9 +84,9 @@ const styles = StyleSheet.create({
     fontSize: 16
   },
   back: {
-    backgroundColor: '#1f1f1f',
+    backgroundColor: '#131313',
     height: '100%',
-    paddingTop:250
+    paddingTop: 10
   },
   load_more_cont: {
     height: 60,
@@ -94,6 +99,19 @@ const styles = StyleSheet.create({
     color: '#737373',
     fontSize: 18,
     fontWeight: '600'
+  },
+  msg_cont: {
+    borderWidth: 2,
+    borderColor: '#1e1e1e',
+    marginTop: 5,
+    backgroundColor: '#1e1e1e',
+    padding: 10,
+    borderRadius: 8
+  },
+  msg_text: {
+    color:'white',
+    textAlign: 'center',
+    fontSize: 16,
   }
 })
 

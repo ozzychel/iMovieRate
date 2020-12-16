@@ -27,6 +27,7 @@ export default function App() {
   const [searchResults, setSearchResults] = useState([]);
   const [currPageNum, setCurrPageNum] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const [noResult, setNoResult] = useState(false);
 
   useEffect(() => {
     console.log('!!! [] USE EFFECT WORKS');
@@ -109,7 +110,8 @@ export default function App() {
     const [total, result] = await api.getMovieList(query, pageNum, list);
     setCurrPageNum(prev => prev + 1);
     setTotalPages(total)
-    setSearchResults(prev => [...prev, ...result]);
+    if(result.length) setSearchResults(prev => [...prev, ...result]);
+    else setNoResult(true)
   };
 
   const getMoreMovies = async () => {
@@ -143,7 +145,8 @@ export default function App() {
   console.log('== APP LOG == SELECTED_MOVIE:', selectedMovie.length ? selectedMovie[0].title : selectedMovie.length);
   console.log('== APP LOG == CURRENTPAGENUM', currPageNum)
   console.log('== APP LOG == TOTALPAGES', totalPages)
-  console.log('== APP LOG == CURRENT_SEARCH_RESULTS', searchResults.length)
+  console.log('== APP LOG == CURRENT_SEARCH_RESULTS', searchResults.length);
+  console.log('== APP LOG == NORESULT_FLAG', noResult);
 
 
 
@@ -165,8 +168,8 @@ export default function App() {
           getSelectedMovie={getSelectedMovie}
           getMoreMovies={getMoreMovies}
           deleteFromList={deleteFromList}
-          modalVisible={modalVisible}
           setModalVisible={setModalVisible}
+          noResult={noResult}
         />
       )
     }

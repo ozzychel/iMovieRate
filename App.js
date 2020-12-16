@@ -149,7 +149,6 @@ export default function App() {
   console.log('== APP LOG == NORESULT_FLAG', noResult);
 
 
-
   console.log("-----------------------------------")
   console.log('== APP LOG == *CURRENT TAB*:', currentTab)
   console.log("-----------------------------------")

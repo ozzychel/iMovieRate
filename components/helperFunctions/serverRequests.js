@@ -1,21 +1,9 @@
 import axios from 'axios';
 import keys from '../../config';
 
-const tmdb = axios.create({
-  baseURL: 'https://api.themoviedb.org/3'
-});
-
 const server = axios.create({
   baseURL: 'http://localhost:9000'
 });
-
-const omdb = axios.create({
-  baseURL: 'http://www.omdbapi.com'
-});
-
-/*-------------------------------------------------------
-  == CUSTOM SERVER API CALLS, DB MANIPULATION ==
---------------------------------------------------------*/
 
 const getUserList = async () => {
   try{
@@ -51,218 +39,137 @@ const deleteFromList = async (movieId) => {
     console.log('Error: deleteFromList', err);
   }
 };
-/*-------------------------------------------------------
-  == TMDB API CALLS ==
---------------------------------------------------------*/
+
 const getGenresList = async () => {
   try{
-    const response = await tmdb.get(`/genre/movie/list`, {
-      params: { api_key: keys.tmdb_api_key }
+    const response = await server.get('/genre/movie/list', {
+      params: { userId: keys.userId }
     })
-    let genresObj = {};
-    response.data.genres.forEach((item) => {
-      if(!genresObj[item.id]) {
-        genresObj[item.id] = item.name
-      }
-    })
-    return genresObj;
+    return response.data;
   } catch (err) {
     console.log('Error: in getGenresList', err);
+    return {};
   }
 };
 
 const getTrending = async (timeWindow, userList) => {
-  try {
-    let res = await tmdb.get(`/trending/movie/${timeWindow}`, {
-      params: { api_key: keys.tmdb_api_key }
+  try{
+    const response = await server.get(`/trending/movie`, {
+      params: {
+        timeWindow: timeWindow,
+        userId: keys.userId
+      }
     });
-    const checked = await checkIfInList(res.data.results, userList);
-    if(timeWindow === 'day') return checked;
-    else return checked.reverse();
+    return response.data;
   } catch (err) {
     console.log('Error: in getTrending', err);
+    return [];
   }
 };
 
 const getNowPlaying = async (userList) => {
   try{
-    let res = await tmdb.get(`/movie/now_playing/`, {
-      params: { api_key: keys.tmdb_api_key, language: "en-US" }
+    const response = await server.get(`/movie/now_playing/`, {
+      params: { userId: keys.userId }
     })
-    const checked = await checkIfInList(res.data.results, userList);
-    return checked;
+    return response.data;
   } catch (err) {
     console.log('Error: in getNowPlaying', err);
+    return [];
   }
 };
 
-const getMovieDataById = async (id, userList) => {
+const getMovieDataById = async (id) => {
   try{
-    const res = await tmdb.get(`/movie/${id}`, {
-      params: { api_key: keys.tmdb_api_key }
+    const response = await server.get(`/movie`, {
+      params: { userId: keys.userId, movieId: id }
     });
-    const checked = checkIfInList([res.data], userList);
-    return checked;
+    return response.data;
   } catch (err) {
     console.log('Error: in getMovieDataById', err);
-  }
-};
-
-const getMovieList = async (query, num, userList) => {
-  try{
-    let res = await tmdb.get('/search/movie', {
-      params: {
-        api_key: keys.tmdb_api_key,
-        query: query,
-        page: num
-      }
-    });
-    const total = res.data.total_pages;
-    const filtered = await res.data.results.filter(movie => movie.release_date ? movie : null);
-    const checked = await checkIfInList(filtered, userList);
-    return [total, checked];
-  } catch (err) {
-    console.log('Error: in getMovieList', err);
+    return [];
   }
 };
 
 const getCastListFromServer = async (movieId) => {
   try{
-    const res = await tmdb.get(`/movie/${movieId}/credits`, {
-      params: { api_key: keys.tmdb_api_key }
+    const res = await server.get(`/movie/${movieId}/credits`, {
+      params: { userId: keys.userId }
     });
     return [res.data.cast, res.data.crew, res.data.cast.slice(0, 20)];
   } catch (err) {
     console.log('Error: in getCastListFromServer', err);
+    return [[],[],[]];
   }
 };
 
-const getRecommendedList = async (movieId, userList) => {
-    try{
-      const res = await tmdb.get(`/movie/${movieId}/recommendations`, {
-        params: { api_key: keys.tmdb_api_key }
-      });
-      const checked = checkIfInList(res.data.results, userList);
-      return checked;
-    } catch (err) {
-      console.log('Error: in getRecommendedList', err);
-    }
+const getRecommendedList = async (movieId) => {
+  try{
+    const response = await server.get(`/movie/${movieId}/recommendations`, {
+      params: { userId: keys.userId }
+    });
+    return response.data;
+  } catch (err) {
+    console.log('Error: in getRecommendedList', err);
+    return [];
+  }
 };
 
 const getMovieTrailer = async (id) => {
   try{
-    const res = await tmdb.get(`/movie/${id}/videos`, {
-      params: { api_key: keys.tmdb_api_key }
+    const response = await server.get(`/movie/${id}/videos`, {
+      params: { userId: keys.userId }
     });
-    const official = await getOfficialTrailer(res.data.results);
-    return official;
+    return response.data;
   } catch (err) {
     console.log('Error: in getMovieTrailer', err);
-  }
-};
-
-/*-------------------------------------------------------
-  == KINOPOISK API CALLS ==
---------------------------------------------------------*/
-const getMovieImages = async (title, date, runtime) => {
-  try{
-    const res = await axios({
-      method: 'GET',
-      url: `https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword?keyword=${title}&page=1`,
-      headers: {
-        'X-API-KEY': keys.kp_unof_api_key
-      }
-    })
-    console.log('res1 length:', res.data.films.length)
-    const filtered = await filterMovie(res.data.films, title, date, runtime)
-    return filtered.length > 0 ? filtered[0]['filmId'] : null
-  } catch (err) {
-    console.log('Error: in getMovieImages:', err)
-  }
-};
-
-const getImagesUrls = async (id) => {
-  try{
-    if(id !== null) {
-      let res = await axios({
-        method: 'get',
-        url: `https://kinopoiskapiunofficial.tech/api/v2.1/films/${id}/frames`,
-        headers: {
-          'X-API-KEY': keys.kp_unof_api_key
-        }
-      });
-      console.log('res2 length:', Object.keys(res.data).length)
-      return res.data.frames;
-    } else { return []}
-  } catch (err) {
-    console.log('Error: in getImagesUrls', err);
     return [];
   }
-}
+};
 
-/*-------------------------------------------------------
-  == OMDB API CALLS ==
---------------------------------------------------------*/
-const getDataFromOMDB = async (id) => {
+const getMovieList = async (query, num, userList) => {
   try{
-    const res = await omdb.get(`/`, {
-      params: { i: id, apikey: keys.omdb_api_key }
-    })
+    let res = await server.get('/search/movie', {
+      params: {
+        query: query,
+        page: num,
+        userId: keys.userId
+      }
+    });
+    return [res.data.total_pages, res.data.results];
+  } catch (err) {
+    console.log('Error: in getMovieList', err);
+    return [0,[]];
+  }
+};
+
+const getMovieImages = async (title, date, runtime) => {
+  try{
+    const res = await server.get('/movie/images', {
+      params: {
+        userId: keys.userId,
+        title: title,
+        date: date,
+        runtime: runtime
+      }
+    });
     return res.data;
   } catch (err) {
+    console.log('Error: in getMovieImages:', err);
+    return [];
+  }
+};
+
+const getDataFromOMDB = async (id) => {
+  try {
+    const response = await server.get(`/ombd`, {
+      params: { i: id, userId: keys.userId }
+    });
+    return response.data;
+  } catch (err) {
     console.log('Error: in getDataFromOMDB', err);
+    return {};
   }
-};
-
-/*-------------------------------------------------------
-  == HELPERS ==
---------------------------------------------------------*/
-const checkIfInList = (apiList, userList) => {
-  let hash = {};
-  for (let i = 0; i < userList.length; i++) {
-    if (hash[userList[i].id] === undefined) {
-      hash[userList[i].id] = true;
-    }
-  }
-  for (let i = 0; i < apiList.length; i++) {
-    let movie = apiList[i];
-    if (hash[movie.id]) movie.inList = true;
-    else movie.inList = false;
-  }
-  return apiList;
-};
-
-const filterMovie = (arr, title, date, runtime) => {
-  let results = [];
-  const compareLength = (kp_leng, tmdb_leng) => {
-    let arr = kp_leng.split(':');
-    let h = arr[0], mm = arr[1];
-    let kp_num = parseInt(h) * 60 + parseInt(mm);
-    if (tmdb_leng * 0.9 <= kp_num || tmdb_leng * 1.1 >= kp_num) return true;
-    else return false;
-  };
-  for (let i = 0; i < arr.length; i++) {
-    let movie = arr[i];
-    if (movie.nameEn.split(' ').join('').toLowerCase() === title.split(' ').join('').toLowerCase()) {
-      if (movie.year == date) return [movie];
-      else results.push(movie);
-    }
-    if (movie.year == date) results.push(movie)
-  }
-  if (results.length === 1) return results;
-  for(let i = 0; i < results.length; i++) {
-    if(compareLength(results[i].filmLength, runtime)) return [results[i]]
-  }
-  return results;
-};
-
-const getOfficialTrailer = (arr) => {
-  if (arr.length <= 1) return arr;
-  let regex = /official/gi;
-  for (let i = 0; i < arr.length; i++) {
-    if (regex.test(arr[i].name)) return [arr[i]];
-  }
-  return arr;
 };
 
 module.exports = {
@@ -278,6 +185,5 @@ module.exports = {
   getDataFromOMDB,
   getRecommendedList,
   getMovieTrailer,
-  getMovieImages,
-  getImagesUrls
+  getMovieImages
 };

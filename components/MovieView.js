@@ -60,8 +60,7 @@ const MovieView = ({ selectedMovie, genresList, userList, addToList, getSelected
 
   const getMovieImages = async (title, date, runtime) => {
     console.log('!!! MV.getMovieImages() invoked')
-    let id = await api.getMovieImages(title, date, runtime);
-    let urls = await api.getImagesUrls(await id);
+    const urls = await api.getMovieImages(title, date, runtime);
     setImageUrls(urls);
   };
 

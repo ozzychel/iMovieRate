@@ -1,5 +1,5 @@
 import axios from 'axios';
-import keys from '../../config';
+import keys from '../../dev_config';
 
 const server = axios.create({
   baseURL: 'http://localhost:9000'
@@ -7,11 +7,11 @@ const server = axios.create({
 
 const getUserList = async () => {
   try{
-    const response = await server.get(`/users/${keys.userId}`)
+    const response = await server.get(`/users/${keys.userId}`);
     return response.data.wish_list;
   } catch (err) {
     console.log('Error: in getUserList', err);
-    return Promise.resolve([]);
+    return [];
   }
 };
 

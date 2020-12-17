@@ -1,5 +1,4 @@
-config.js
-mock_config.js
+dev_config.js
 assets_dev/
 node_modules/**/*
 .expo/*

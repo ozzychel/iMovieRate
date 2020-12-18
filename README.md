@@ -37,12 +37,10 @@ For each user-selected movie displays:
 
 App provides a user-friendly interface for creating to-watch lists. Add or remove movies with just one tap on a screen, the app will do the rest of the job for you by securely storing your to-watch list in a database and updating all actual information on the screen in a real-time manner.
 <br>
+
+Like to have long lists and don't bother to remember what you've put in there? No worries...iMovieRate will automatically check if a movie was added to your watchlist literally on every screen of the app, even in random search results, "Trending" or "In Theatres Now" (just look for the ★ icon).
 <br>
 
-Like to have long lists and don't bother to remember what you've put in there? No worries...iMovieRate will automatically check if a movie was added to your watchlist literally on every screen of the app, even in random search results, "Trending" or "In Theatres Now" (just look for
-<span style="color:green"> ★ </span>icon).
-<br>
-<br>
 Browse new releases or beloved classic hits, unveil hidden sides of cinematography, watch trailers and images, read plot descriptions or check up on celebrities. Add your picks to the list and enjoy....<br>
 
 ## Gifs

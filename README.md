@@ -18,16 +18,12 @@
 
 ## Description
 Mobile iOS/Android app for searching movie data and creating "to-watch" lists. Allows user to search, browse and store most relevant information on thousands of movies. Displays most trending movies of the day/week and movies that are screened in theaters today.
-App utilizes fetching data from several API's ([The Movie Database](http://https://www.themoviedb.org/), [The Open Movie Database](http://www.omdbapi.com/), [Kinopoisk Unofficial](https://kinopoiskapiunofficial.tech/)) and displays it in a user friendly manner.
+App utilizes fetching data from several API's ([The Movie Database](http://https://www.themoviedb.org/), [The Open Movie Database](http://www.omdbapi.com/), [Kinopoisk Unofficial](https://kinopoiskapiunofficial.tech/)) and displays it in a user-friendly manner.
 
-Supports both iOS and Android, utilizes React Native and Expo frameworks on client side and custom-build Express server with MongoDB on the server side.
+Supports both iOS and Android, utilizes React Native and Expo frameworks on client side and custom-built Express server with MongoDB on the server side.
 
 For each user-selected movie displays:
-  * general information:
-    * title
-    * release year
-    * MPA rating
-    * runtime
+  * general information: title, release year, MPA rating, runtime
   * official poster
   * list of genres
   * plot description
@@ -36,22 +32,51 @@ For each user-selected movie displays:
     * [IMDb](http://https://www.themoviedb.org/)
     * [Metacritics](https://www.metacritic.com/)
     * [Rotten Tomatoes](https://www.rottentomatoes.com/)
-  * top billed cast:
-    * actor image
-    * name
-    * character
+  * top billed cast: actor image, name, character
   * director and writers
   * official movie trailer
-  * similar movies recommended for the user:
-    * poster
-    * title
-    * release year
+  * similar movies recommended for the user: poster, title, release year
   * movie stills and images
 
-App provides a user friendly interface for creating to-watch lists. Add or remove movies with just one tap on a screen, the app will do the rest of the job for you by securely storing your to-watch list in a database and updating all actual information on the screen in a real time manner. Like to have long lists and don't bother to remember what you've put in there? No worries...app will automatically check if a movie was added to your watchlist literally on every screen of the app, even in random search results, 'Trending' or 'In Theatres Now' (just look for 'green star').
+App provides a user-friendly interface for creating to-watch lists. Add or remove movies with just one tap on a screen, the app will do the rest of the job for you by securely storing your to-watch list in a database and updating all actual information on the screen in a real-time manner.
+<br>
+<br>
+Like to have long lists and don't bother to remember what you've put in there? No worries...iMovieRate will automatically check if a movie was added to your watchlist literally on every screen of the app, even in random search results, 'Trending' or 'In Theatres Now' (just look for 'green star').
 <br>
 <br>
 Browse new releases or beloved classic hits, unveil hidden sides of cinematography, watch trailers and images, read plot descriptions or check up on celebrities. Add your picks to the list and enjoy....
+
+
+## Gifs
+
+<p float="left">
+  <img src="./assets/perf.gif"/>
+</p>
+
+## Screenshots
+
+<p float="left">
+  <img src="./assets/shots/shot1.png" width="200" style="border:1px solid grey" alt="Home.tab -In theatres now-"/>
+  <img src="./assets/shots/shot2.png" width="200" style="border:1px solid grey" alt="Home.tab -Trending today/week-"/>
+  <img src="./assets/shots/shot3.png" width="200" style="border:1px solid grey" alt="Home.tab -on Search icon press, modal visible="/>
+  <img src="./assets/shots/shot4.png" width="200" style="border:1px solid grey" alt="Search.tab active" />
+</p>
+<p float="left">
+  <img src="./assets/shots/shot5.png" width="200" style="border:1px solid grey" alt="Search.tab -Load more button-"/>
+  <img src="./assets/shots/shot6.png" width="200" style="border:1px solid grey" alt="MovieView.tab -Info block, ratings block and top billed cast-"/>
+  <img src="./assets/shots/shot7.png" width="200" style="border:1px solid grey" alt="MovieView.tab -Top billed cast, director and writers-"/>
+  <img src="./assets/shots/shot8.png" width="200" style="border:1px solid grey" alt="MovieView.tab -Trailer and Similar Movies-"/>
+</p>
+<p float="left">
+  <img src="./assets/shots/shot9.png" width="200" style="border:1px solid grey" alt="MovieView.tab -Images block-"/>
+  <img src="./assets/shots/shot10.png" width="200" style="border:1px solid grey" alt="MovieView.tab -Images block full-screen-"/>
+  <img src="./assets/shots/shot11.png" width="200" style="border:1px solid grey" alt="MovieView.tab -Images block full-screen-"/>
+  <img src="./assets/shots/shot12.png" width="200" style="border:1px solid grey" alt="WatchList.tab -User saved movies-"/>
+</p>
+
+## Video
+
+app video on [Youtube](https://youtu.be/bd-IM4Bdd7I)
 
 ## Installation
 **IMPORTANT:** <br>
@@ -158,37 +183,6 @@ If you **don't want to mess with api keys** its ok, use app with **mock data** p
   <br>
 </details>
 <br>
-
-## Gifs
-
-<p float="left">
-  <img src="./assets/perf.gif"/>
-</p>
-
-## Screenshots
-
-<p float="left">
-  <img src="./assets/shots/shot1.png" width="200" style="border:1px solid grey" alt="Home.tab -In theatres now-"/>
-  <img src="./assets/shots/shot2.png" width="200" style="border:1px solid grey" alt="Home.tab -Trending today/week-"/>
-  <img src="./assets/shots/shot3.png" width="200" style="border:1px solid grey" alt="Home.tab -on Search icon press, modal visible="/>
-  <img src="./assets/shots/shot4.png" width="200" style="border:1px solid grey" alt="Search.tab active" />
-</p>
-<p float="left">
-  <img src="./assets/shots/shot5.png" width="200" style="border:1px solid grey" alt="Search.tab -Load more button-"/>
-  <img src="./assets/shots/shot6.png" width="200" style="border:1px solid grey" alt="MovieView.tab -Info block, ratings block and top billed cast-"/>
-  <img src="./assets/shots/shot7.png" width="200" style="border:1px solid grey" alt="MovieView.tab -Top billed cast, director and writers-"/>
-  <img src="./assets/shots/shot8.png" width="200" style="border:1px solid grey" alt="MovieView.tab -Trailer and Similar Movies-"/>
-</p>
-<p float="left">
-  <img src="./assets/shots/shot9.png" width="200" style="border:1px solid grey" alt="MovieView.tab -Images block-"/>
-  <img src="./assets/shots/shot10.png" width="200" style="border:1px solid grey" alt="MovieView.tab -Images block full-screen-"/>
-  <img src="./assets/shots/shot11.png" width="200" style="border:1px solid grey" alt="MovieView.tab -Images block full-screen-"/>
-  <img src="./assets/shots/shot12.png" width="200" style="border:1px solid grey" alt="WatchList.tab -User saved movies-"/>
-</p>
-
-## Video
-
-app video on [Youtube](https://youtu.be/bd-IM4Bdd7I)
 
 ## Planned Features in development
 * browsing actors and displaying relevant information

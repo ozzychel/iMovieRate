@@ -1,5 +1,5 @@
 const db = require('../db/index_db');
-const keys = require('../config'); // <-- change
+const keys = require('../config');
 const axios = require('axios');
 const mockData = require('../mockData');
 

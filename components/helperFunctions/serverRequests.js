@@ -143,14 +143,15 @@ const getMovieList = async (query, num, userList) => {
   }
 };
 
-const getMovieImages = async (title, date, runtime) => {
+const getMovieImages = async (title, date, runtime, movieId) => {
   try{
     const res = await server.get('/movie/images', {
       params: {
         userId: keys.userId,
         title: title,
         date: date,
-        runtime: runtime
+        runtime: runtime,
+        movieId: movieId
       }
     });
     return res.data;

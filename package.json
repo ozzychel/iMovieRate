@@ -7,7 +7,8 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "db-seed": "node ./db/seed_db.js",
-    "prod-server": "nodemon ./server/index.js"
+    "prod-server": "nodemon ./server/index.js",
+    "mock-server": "nodemon ./server_mock/index.js"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.30",

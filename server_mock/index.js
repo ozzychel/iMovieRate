@@ -61,5 +61,5 @@ app.get('/movie/images', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`[PROD_SERVER] App listening at http://localhost:${port}`);
+  console.log(`[MOCK_SERVER] App listening at http://localhost:${port}`);
 });

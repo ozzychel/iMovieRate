@@ -26,9 +26,9 @@ const MovieView = ({ selectedMovie, genresList, userList, addToList, getSelected
   useEffect(() => {
     getCastListFromServer(movie_tmdb.id);
     getDataFromOMDB(movie_tmdb.imdb_id);
-    getRecommendedList(movie_tmdb.id)
+    getRecommendedList(movie_tmdb.id);
     getMovieTrailer(movie_tmdb.id);
-    getMovieImages(movie_tmdb.title, movie_tmdb.release_date.slice(0,4), movie_tmdb.runtime);
+    getMovieImages(movie_tmdb.title, movie_tmdb.release_date.slice(0,4), movie_tmdb.runtime, movie_tmdb.id);
     scroll.current.scrollTo({y:0, animated:true})
   }, [movie_tmdb]);
 
@@ -58,9 +58,9 @@ const MovieView = ({ selectedMovie, genresList, userList, addToList, getSelected
     setMovieTrailer(trailer);
   };
 
-  const getMovieImages = async (title, date, runtime) => {
+  const getMovieImages = async (title, date, runtime, id) => {
     console.log('!!! MV.getMovieImages() invoked')
-    const urls = await api.getMovieImages(title, date, runtime);
+    const urls = await api.getMovieImages(title, date, runtime, id);
     setImageUrls(urls);
   };
 

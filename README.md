@@ -8,17 +8,17 @@
 
   - [Table of Contents](#table-of-contents)
   - [Description](#description)
-  - [Installation](#installation)
   - [Gifs](#gifs)
   - [ScreenShots](#screenshots)
-  - [Videos](#videos)
+  - [Videos](#video)
+  - [Installation](#installation)
   - [Planned Features](#planned-features-in-development)
   - [License](#license)
 
 
 ## Description
 Mobile iOS/Android app for searching movie data and creating "to-watch" lists. Allows user to search, browse and store most relevant information on thousands of movies. Displays most trending movies of the day/week and movies that are screened in theaters today.
-App utilizes fetching data from several API's ([The Movie Database](http://https://www.themoviedb.org/), [The Open Movie Database](http://www.omdbapi.com/), [Kinopoisk Unofficial](https://kinopoiskapiunofficial.tech/)) and displays it in a user-friendly manner.
+App utilizes fetching data from several API's ([The Movie Database](http://https://www.themoviedb.org/), [The Open Movie Database](http://www.omdbapi.com/), [KP Unofficial](https://kinopoiskapiunofficial.tech/)) and displays it in a user-friendly manner.
 
 Supports both iOS and Android, utilizes React Native and Expo frameworks on client side and custom-built Express server with MongoDB on the server side.
 
@@ -38,11 +38,12 @@ For each user-selected movie displays:
 App provides a user-friendly interface for creating to-watch lists. Add or remove movies with just one tap on a screen, the app will do the rest of the job for you by securely storing your to-watch list in a database and updating all actual information on the screen in a real-time manner.
 <br>
 <br>
-Like to have long lists and don't bother to remember what you've put in there? No worries...iMovieRate will automatically check if a movie was added to your watchlist literally on every screen of the app, even in random search results, 'Trending' or 'In Theatres Now' (just look for 'green star').
-<br>
-<br>
-Browse new releases or beloved classic hits, unveil hidden sides of cinematography, watch trailers and images, read plot descriptions or check up on celebrities. Add your picks to the list and enjoy....
 
+Like to have long lists and don't bother to remember what you've put in there? No worries...iMovieRate will automatically check if a movie was added to your watchlist literally on every screen of the app, even in random search results, "Trending" or "In Theatres Now" (just look for
+<span style="color:green"> ★ </span>icon).
+<br>
+<br>
+Browse new releases or beloved classic hits, unveil hidden sides of cinematography, watch trailers and images, read plot descriptions or check up on celebrities. Add your picks to the list and enjoy....<br>
 
 ## Gifs
 
@@ -142,7 +143,7 @@ If you **don't want to mess with api keys** its ok, use app with **mock data** p
 <br>
 
 <details>
-  <summary>installation without API keys with mock data (search option unavailable)</summary>
+  <summary>installation without API keys with mock data (search displays mock data)</summary>
 
   1. clone this repository:
 

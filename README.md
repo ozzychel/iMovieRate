@@ -28,10 +28,7 @@ For each user-selected movie displays:
   * list of genres
   * plot description
   * movie tagline
-  * ratings from world famous review-aggregation resources
-    * [IMDb](http://https://www.themoviedb.org/)
-    * [Metacritics](https://www.metacritic.com/)
-    * [Rotten Tomatoes](https://www.rottentomatoes.com/)
+  * ratings from world famous review-aggregators: [IMDb](http://https://www.themoviedb.org/), [Metacritics](https://www.metacritic.com/), [Rotten Tomatoes](https://www.rottentomatoes.com/)
   * top billed cast: actor image, name, character
   * director and writers
   * official movie trailer

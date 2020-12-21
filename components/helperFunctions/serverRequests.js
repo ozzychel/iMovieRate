@@ -1,5 +1,5 @@
 import axios from 'axios';
-import keys from '../../config';
+import keys from '../../dev_config';
 
 const server = axios.create({
   baseURL: 'http://localhost:9000'

@@ -1,7 +1,7 @@
 # iMovieRate
 
 <p float="left">
-  <img src="./assets/splash.png" width="70%" height="70%">
+  <img src="./assets/title_image.png" width="850">
 </p>
 
 ## Table of Contents

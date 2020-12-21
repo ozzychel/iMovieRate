@@ -1,5 +1,5 @@
 const db = require('../db/index_db');
-const keys = require('../config'); // <-- change
+const keys = require('../dev_config'); // <-- change
 const axios = require('axios');
 
 const tmdb = axios.create({

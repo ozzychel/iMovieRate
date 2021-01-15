@@ -17,12 +17,14 @@ const NavBar = ({ setModalVisible }) => {
             setModalVisible(true)
           }}
           style={styles.dotsCont}
+          testID='search-btn'
         >
-              <FontAwesomeIcon
-                icon={faSearch}
-                size={24}
-                color={'#737373'}
-                />
+          <FontAwesomeIcon
+            icon={faSearch}
+            size={24}
+            color={'#737373'}
+            testID='search-btn-icon'
+            />
         </TouchableOpacity>
 
     </View>

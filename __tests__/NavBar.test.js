@@ -1,46 +1,40 @@
 import React from 'react';
-import { render, fireEvent } from 'react-native-testing-library';
-
 import NavBar from '../components/NavBar';
+import { create } from 'react-test-renderer';
 
 const mockFn = jest.fn();
-
-let comp = render(<NavBar setModalVisible={mockFn}/>);
+let testRenderer;
+let testInstance;
 
 describe('<NavBar/> component testing', () => {
 
   beforeEach(() => {
-    comp = render(<NavBar setModalVisible={mockFn}/>);
-    jest.clearAllMocks();
+    testRenderer = create(<NavBar setModalVisible={mockFn}/>);
+    testInstance = testRenderer.root;
   });
 
-  afterEach(() => {
-    comp.unmount();
-  })
+  afterEach(() => jest.clearAllMocks());
 
   it('renders', () => {
-    expect(comp.toJSON()).toBeTruthy();
+    expect(testRenderer.toJSON()).toBeTruthy();
   });
-
-  it('has 2 childs', () => {
-    expect(comp.toJSON().children).toHaveLength(2);
-  })
 
   it('renders app title', () => {
-    expect(comp.queryByText('iMovieRate')).not.toBeNull();
+    let elem = testInstance.findByProps({testID:'app_title'});
+    expect(elem.props.children).toBe('iMovieRate');
   });
 
-  it('has a search button', () => {
-    expect(comp.getByTestId('search-btn')).not.toBeNull();
+  it('renders search button', () => {
+    expect(testInstance.findByProps({testID:'search_btn'})).not.toBeNull();
   });
 
-  it('search button has icon', () => {
-    expect(comp.getByTestId('search-btn-icon')).not.toBeNull();
+  it('renders search button icon', () => {
+    expect(testInstance.findByProps({testID:'search_btn_icon'})).not.toBeNull();
   });
 
   it('click on search button sets modal visible', () => {
-    const btn = comp.getByTestId('search-btn');
-    fireEvent.press(btn);
+    const btn = testInstance.findByProps({testID:'search_btn'});
+    btn.props.onPress();
     expect(mockFn).toHaveBeenCalled();
   });
 

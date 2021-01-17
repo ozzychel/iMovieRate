@@ -9,12 +9,10 @@ const windowWidth = Dimensions.get('window').width;
 
 const ImagesBlock = ({ movie_title, release_date, imageUrls }) => {
   const scroll = React.createRef();
-
   const [visible, setIsVisible] = useState(false);
-
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const [modalVisible, setModalVisible] = useState(false);
+  // const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     if(imageUrls.length) {
@@ -28,24 +26,22 @@ const ImagesBlock = ({ movie_title, release_date, imageUrls }) => {
   const fullSizeImages = [];
   if (previewThumbs) {
     for(let i = 0; i < previewThumbs.length; i += thumbsPerBlock) {
-      let inner = [];
       blocks.push(previewThumbs.slice(i, i + thumbsPerBlock));
     }
     for(let i = 0; i < previewThumbs.length; i++) {
-      fullSizeImages.push({uri:previewThumbs[i]['image']})
+      fullSizeImages.push({uri:previewThumbs[i]['image']});
     }
-
   }
 
-  const calculateIndex = (i, j) => {
-    if(i === 0) {
-      setCurrentIndex(j);
-      return;
-    } else {
-      setCurrentIndex(i * 9 + j)
-      return;
-    }
-  };
+  // const calculateIndex = (i, j) => {
+  //   if(i === 0) {
+  //     setCurrentIndex(j);
+  //     return;
+  //   } else {
+  //     setCurrentIndex(i * 9 + j)
+  //     return;
+  //   }
+  // };
 
   return imageUrls.length > 0 ? (
     <View>
@@ -54,7 +50,7 @@ const ImagesBlock = ({ movie_title, release_date, imageUrls }) => {
         <View style={styles.subtitle_seeAllbutton_cont}>
 
           <View style={styles.subtitle_cont}>
-            <Text style={styles.subtitle_text}>Images ({imageUrls.length})</Text>
+            <Text style={styles.subtitle_text} testID='title'>Images ({imageUrls.length})</Text>
           </View>
 
         </View>
@@ -62,10 +58,11 @@ const ImagesBlock = ({ movie_title, release_date, imageUrls }) => {
         <ScrollView
           horizontal={true}
           pagingEnabled
+          testID='carousel'
           ref={scroll}
         >
         {blocks.map((block, i) => (
-            <View style={styles.scrollView_block} key={i}>
+            <View style={styles.scrollView_block} key={i} testID='block'>
               {block.map((thumb, j) => (
                 <TouchableOpacity
                   key={j}
@@ -80,6 +77,7 @@ const ImagesBlock = ({ movie_title, release_date, imageUrls }) => {
                     propToLink='preview'
                     posterContStyle={styles.thumb_image_cont}
                     posterStyle={styles.thumb_image}
+                    testID='image'
                   />
                 </TouchableOpacity>
               ))}
@@ -92,6 +90,7 @@ const ImagesBlock = ({ movie_title, release_date, imageUrls }) => {
           imageIndex={currentIndex}
           visible={visible}
           onRequestClose={() => setIsVisible(false)}
+          testID='image_view'
         />
 
       </View>

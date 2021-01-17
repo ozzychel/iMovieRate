@@ -25,7 +25,7 @@ describe('<Movie> component testing', () => {
   afterEach(() => jest.clearAllMocks());
 
   it('renders', () => {
-    expect(testRenderer).toBeTruthy();
+    expect(testRenderer.toJSON()).toBeTruthy();
   });
 
   it('renders correct title and release year', () => {

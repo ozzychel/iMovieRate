@@ -27,7 +27,7 @@ describe('<AddToListButtonBlock> component testing(inlist=false)', () => {
   afterEach(() => jest.clearAllMocks());
 
   it('renders', () => {
-    expect(testRenderer).toBeTruthy();
+    expect(testRenderer.toJSON()).toBeTruthy();
   });
 
   it('active when movie is not in list', () => {

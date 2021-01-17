@@ -10,15 +10,16 @@ const AddToListButtonBlock = ({ movie_tmdb, addToList }) => {
           onPress={() => {
             addToList(movie_tmdb)
           }}
+          testID="btn_clickable"
         >
-          <View style={movie_tmdb.inList ? styles.addButton_cont_inlist : styles.addButton_cont}>
+          <View style={movie_tmdb.inList ? styles.addButton_cont_inlist : styles.addButton_cont} testID='btn_cont'>
             <View style={styles.addButton_icon_cont}>
-              <Text style={movie_tmdb.inList ? styles.addButton_icon_text_inlist : styles.addButton_icon_text}
+              <Text style={movie_tmdb.inList ? styles.addButton_icon_text_inlist : styles.addButton_icon_text} testID='btn_icon'
               >{movie_tmdb.inList ? '✔' : '+'}
               </Text>
             </View>
             <View style={styles.addButton_text_cont}>
-              <Text style={styles.addButton_text}>
+              <Text style={styles.addButton_text} testID='btn_text'>
                 {movie_tmdb.inList ? 'IN YOUR WATCHLIST' : 'ADD TO WATCHLIST'}
                 </Text>
             </View>

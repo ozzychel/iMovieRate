@@ -12,8 +12,6 @@ const ImagesBlock = ({ movie_title, release_date, imageUrls }) => {
   const [visible, setIsVisible] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // const [modalVisible, setModalVisible] = useState(false);
-
   useEffect(() => {
     if(imageUrls.length) {
       scroll.current.scrollTo({x:0, animated: false});
@@ -32,16 +30,6 @@ const ImagesBlock = ({ movie_title, release_date, imageUrls }) => {
       fullSizeImages.push({uri:previewThumbs[i]['image']});
     }
   }
-
-  // const calculateIndex = (i, j) => {
-  //   if(i === 0) {
-  //     setCurrentIndex(j);
-  //     return;
-  //   } else {
-  //     setCurrentIndex(i * 9 + j)
-  //     return;
-  //   }
-  // };
 
   return imageUrls.length > 0 ? (
     <View>

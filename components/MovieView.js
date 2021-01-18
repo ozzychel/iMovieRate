@@ -113,7 +113,6 @@ const MovieView = ({ selectedMovie, genresList, userList, addToList, getSelected
       <InfoBlock
         movie_tmdb={movie_tmdb}
         genres={genres}
-        Separator={Separator}
       />
 
       <AddToListButtonBlock
@@ -128,7 +127,6 @@ const MovieView = ({ selectedMovie, genresList, userList, addToList, getSelected
       />
 
       <CastBlock
-        Separator={Separator}
         topCastList={topCastList}
         movie_omdb={movie_omdb}
       />

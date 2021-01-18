@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, StyleSheet, Image } from 'react-native';
 import RenderImage from '../helperFunctions/RenderImage';
 
-const InfoBlock = ({ movie_tmdb, genres, Separator }) => {
-
+const InfoBlock = ({ movie_tmdb, genres }) => {
   const renderGenres = (genresArr) => {
     let genreBlocks = [];
     genresArr.forEach((genre, i) => {
@@ -28,12 +27,16 @@ const InfoBlock = ({ movie_tmdb, genres, Separator }) => {
   const renderTagline = () => {
     return movie_tmdb.tagline ?
       <View style={styles.tagline_cont}>
-        <Text style={styles.tagline_text}>
+        <Text style={styles.tagline_text} testID='tagline'>
           {`"${movie_tmdb.tagline}"`}
         </Text>
         <Separator/>
       </View> : null
-  }
+  };
+
+  const Separator = () => (
+    <View style={styles.separator} />
+  );
 
   return (
     <View>
@@ -47,19 +50,23 @@ const InfoBlock = ({ movie_tmdb, genres, Separator }) => {
           posterStyle={styles.poster}
           defPosterContStyle={styles.poster_cont}
           defPosterStyle={styles.poster}
+          testID='image'
         />
         <View style={styles.genres_desc_cont}>
             <ScrollView
               showsHorizontalScrollIndicator={false}
               style={styles.genres_cont}
-              horizontal={true}>
+              horizontal={true}
+              testID='genres'>
                 {renderGenres(genres)}
             </ScrollView>
             <ScrollView
               style={styles.desc_cont}
               nestedScrollEnabled={true}
-              showsVerticalScrollIndicator={false}>
-              <Text style={styles.desc_scroll_text}>
+              showsVerticalScrollIndicator={false}
+              testID='overview_scroll'
+            >
+              <Text style={styles.desc_scroll_text} testID='overview'>
                 {movie_tmdb.overview}
               </Text>
             </ScrollView>

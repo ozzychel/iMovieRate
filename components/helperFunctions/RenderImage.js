@@ -19,18 +19,19 @@ function RenderImage ({ mainObj, baseUrl, propToLink, defaultImg, posterContStyl
         justifyContent: "center",
         alignItems: "center"
       }}>
-        <ActivityIndicator size={spinnerSize} color={spinnerColor}/>
+        <ActivityIndicator size={spinnerSize} color={spinnerColor} testID='spinner'/>
       </View>
     )
-  }
+  };
 
     return (
-      <View style={filePath ? posterContStyle : defPosterContStyle}>
+      <View style={filePath ? posterContStyle : defPosterContStyle} testID='image_cont'>
         <Image
           source={
             filePath ? {uri:`${baseUrl}${filePath}`} : defaultImg
           }
           style={filePath ? posterStyle : defPosterStyle}
+          testID='image'
           onLoadStart={ () => { setIsLoading(true) }}
           onLoadEnd={ () => { setIsLoading(false)
           }}

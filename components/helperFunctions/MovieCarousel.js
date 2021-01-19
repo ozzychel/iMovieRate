@@ -17,7 +17,7 @@ const MovieCarousel = ({ movieList, carouselHeader, changeView, getSelectedMovie
 
       <View style={styles.movie_heading}>
         <View style={styles.movie_heading_subtitle_cont}>
-          <Text style={styles.subtitle}>{carouselHeader}</Text>
+          <Text testID='header_text' style={styles.subtitle}>{carouselHeader}</Text>
         </View>
         <TouchableOpacity>
           <View style={styles.movie_heading_seeAllbutton_cont}>
@@ -32,6 +32,7 @@ const MovieCarousel = ({ movieList, carouselHeader, changeView, getSelectedMovie
         showsHorizontalScrollIndicator={false}
         scrollEventThrottle={200}
         decelerationRate="fast"
+        testID='scroll_view'
         ref={scroll}
       >
         {movieList.map((movie, i) => {
@@ -42,6 +43,7 @@ const MovieCarousel = ({ movieList, carouselHeader, changeView, getSelectedMovie
                   getSelectedMovie(movie.id);
                   changeView('MOVIE VIEW');
                 }}
+                testID='movie'
               >
                 <RenderImage
                   mainObj={movie}
@@ -52,10 +54,11 @@ const MovieCarousel = ({ movieList, carouselHeader, changeView, getSelectedMovie
                   posterStyle={styles.poster_image}
                   defPosterContStyle={styles.movie_def_cont}
                   defPosterStyle={styles.movie_def_image}
+                  testID='movie_image'
                 />
 
               <View style={styles.movie_title}>
-                <Text style={movie.title.length < 30 ? styles.movie_title_text : styles.movie_title_text_long}
+                <Text style={movie.title.length < 30 ? styles.movie_title_text : styles.movie_title_text_long} testID='movie_title'
                 >
                   {movie.title}
                 </Text>
@@ -63,11 +66,11 @@ const MovieCarousel = ({ movieList, carouselHeader, changeView, getSelectedMovie
 
                 <View style={styles.footer_cont}>
                   <View style={styles.movie_date_cont}>
-                    <Text style={styles.movie_date_text}>
+                    <Text style={styles.movie_date_text} testID='movie_year'>
                       {movie.release_date ? movie.release_date.slice(0,4) : ''}
                     </Text>
                   </View>
-                  <View style={styles.star_cont}>
+                  <View style={styles.star_cont} testID='inlist_star'>
                     {movie.inList ? (<Text style={styles.star_cont_text}>★ </Text>) : null}
                   </View>
                 </View>

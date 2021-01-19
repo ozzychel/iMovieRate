@@ -10,7 +10,7 @@ const TrailerBlock = ({ movieTrailer }) => {
 
       <View style={styles.block_heading}>
         <View style={styles.block_heading_subtitle_cont}>
-          <Text style={styles.subtitle}>Trailer</Text>
+          <Text style={styles.subtitle} testID='title'>Trailer</Text>
         </View>
       </View>
 
@@ -24,6 +24,7 @@ const TrailerBlock = ({ movieTrailer }) => {
           }}
           javaScriptEnabled={true}
           domStorageEnabled={true}
+          testID='webview'
           source={{uri: `https://www.youtube.com/embed/${movieTrailer[0].key}` }}
         />
       </View>

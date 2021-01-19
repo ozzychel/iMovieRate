@@ -4520,5 +4520,5 @@ module.exports = {
   images,
   searchResults,
   singleMovie,
-  movie_tmdb
+  movie_tmdb,
 }

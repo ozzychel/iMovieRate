@@ -247,6 +247,7 @@ export default function App() {
             getUserInput={getUserInput}
             setModalVisible={setModalVisible}
             changeView={changeView}
+            os={Platform.OS}
           />
         </TouchableOpacity>
 

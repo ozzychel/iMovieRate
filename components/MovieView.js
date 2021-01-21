@@ -78,10 +78,10 @@ const MovieView = ({ selectedMovie, genresList, userList, addToList, getSelected
   );
 
   // LOGS
-  console.log('== MV LOG == TOPCASTLIST LENGTH:', topCastList.length);
-  console.log('== MV LOG == RECOMMENDED_LIST LENGTH:', recommendedList.length);
-  console.log('== MV LOG == MOVIETRAILER LENGTH:', movieTrailer.length);
-  console.log('== MV LOG == IMAGE_URLS LENGTH:', imageUrls.length);
+  // console.log('== MV LOG == TOPCASTLIST LENGTH:', topCastList.length);
+  // console.log('== MV LOG == RECOMMENDED_LIST LENGTH:', recommendedList.length);
+  // console.log('== MV LOG == MOVIETRAILER LENGTH:', movieTrailer.length);
+  // console.log('== MV LOG == IMAGE_URLS LENGTH:', imageUrls.length);
   // -----
 
   return (

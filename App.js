@@ -219,8 +219,6 @@ export default function App() {
       <NavBar setModalVisible={setModalVisible}/>
 
       <MainCarousel
-        style="slides"
-        itemsPerInterval={1}
         items={[
           {title: 'HOME'},
           {title: 'SEARCH'},

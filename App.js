@@ -173,6 +173,7 @@ export default function App() {
           setModalVisible={setModalVisible}
           isLoading={isLoading}
           noResult={noResult}
+          os={Platform.OS}
         />
       )
     }

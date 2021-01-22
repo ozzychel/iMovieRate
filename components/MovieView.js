@@ -29,11 +29,11 @@ const MovieView = ({ selectedMovie, genresList, userList, addToList, getSelected
     getRecommendedList(movie_tmdb.id);
     getMovieTrailer(movie_tmdb.id);
     getMovieImages(movie_tmdb.title, movie_tmdb.release_date.slice(0,4), movie_tmdb.runtime, movie_tmdb.id);
-    scroll.current.scrollTo({y:0, animated:true})
+    scroll.current.scrollTo({y:0, animated:true});
   }, [movie_tmdb]);
 
   const getCastListFromServer = async (movieId) => {
-    console.log('!!! MV.getCastList() invoked')
+    // console.log('!!! MV.getCastList() invoked');
     const [allCast, crewCast, topCast] = await api.getCastListFromServer(movieId);
     setCastList(allCast);
     setCrewList(crewCast);
@@ -41,25 +41,26 @@ const MovieView = ({ selectedMovie, genresList, userList, addToList, getSelected
   };
 
   const getDataFromOMDB = async (id) => {
-    console.log('!!! MV.getDataFromOMBD() invoked')
+    // console.log('!!! MV.getDataFromOMBD() invoked');
     const omdb = await api.getDataFromOMDB(id);
+    console.log('OMDB LOG', omdb)
     setMovie_omdb(omdb);
   };
 
   const getRecommendedList = async (movieId) => {
-    console.log('!!! MV.getRecommendedList() invoked')
+    // console.log('!!! MV.getRecommendedList() invoked');
     const recommended = await api.getRecommendedList(movieId, userList);
     setRecommendedList(recommended);
   };
 
   const getMovieTrailer = async (id) => {
-    console.log('!!! MV.getMovieTrailer() invoked')
+    // console.log('!!! MV.getMovieTrailer() invoked');
     const trailer = await api.getMovieTrailer(id);
     setMovieTrailer(trailer);
   };
 
   const getMovieImages = async (title, date, runtime, id) => {
-    console.log('!!! MV.getMovieImages() invoked')
+    // console.log('!!! MV.getMovieImages() invoked');
     const urls = await api.getMovieImages(title, date, runtime, id);
     setImageUrls(urls);
   };
@@ -88,22 +89,23 @@ const MovieView = ({ selectedMovie, genresList, userList, addToList, getSelected
     <ScrollView
       contentContainerStyle={styles.tab_cont}
       showsVerticalScrollIndicator={false}
+      testID='scroll_view'
       ref={scroll}
     >
       <View style={styles.title_cont}>
         <View>
-          <Text style={styles.title_text}>
+          <Text style={styles.title_text} testID="movie_title">
             {movie_tmdb.title}
           </Text>
         </View>
         <View style={styles.year_duration_cont}>
-          <Text style={styles.year_duration_text}>
+          <Text style={styles.year_duration_text} testID='movie_year'>
             {movie_tmdb.release_date.slice(0,4)}
           </Text>
-          <Text style={styles.year_duration_text}>
+          <Text style={styles.year_duration_text} testID='movie_rating'>
             {movie_omdb['Rated']}
           </Text>
-          <Text style={styles.year_duration_text}>
+          <Text style={styles.year_duration_text} testID='movie_duration'>
             {runtime + 'h'}
           </Text>
         </View>

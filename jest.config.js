@@ -15,5 +15,5 @@ module.exports = {
   coverageDirectory: 'coverage',
   moduleFileExtensions: ['js', 'json', 'jsx'],
   testPathIgnorePatterns: ['\\\\node_modules\\\\'],
-  verbose: true,
+  verbose: false,
 };

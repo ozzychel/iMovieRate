@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, ScrollView }
 from 'react-native';
 import Movie from './Movie';
 
-const WatchList = ({ userList, genresList, currentTab, changeView, getSelectedMovie, deleteFromList }) => {
+const WatchList = ({ userList, genresList, currentTab, changeView, getSelectedMovie, deleteFromList, os }) => {
   const movies = userList.map((mov, i) => (
     <Movie
       key={i}
@@ -13,21 +13,24 @@ const WatchList = ({ userList, genresList, currentTab, changeView, getSelectedMo
       changeView={changeView}
       getSelectedMovie={getSelectedMovie}
       deleteFromList={deleteFromList}
+      testID='movie'
     />
-  ))
+  ));
 
   return userList.length > 0 ? (
     <View style={styles.scrollWrapper}>
-        <ScrollView
-          contentContainerStyle={styles.contentContainer}
-        >
+      <ScrollView
+        contentContainerStyle={styles.contentContainer}
+        showsVerticalScrollIndicator={true}
+        testID='scroll_view'
+      >
         {movies}
-        </ScrollView>
-        <View style={Platform.OS === 'ios' ? {height:160} : {height:110}}></View>
+      </ScrollView>
+      <View style={os === 'ios' ? {height:160} : {height:110}} testID='footer'></View>
     </View>
   )
   :
-  (<View style={styles.msg_cont}><Text style={styles.msg_text}>You don't have any saved lists yet, please start new search...</Text></View>)
+  (<View style={styles.msg_cont}><Text style={styles.msg_text}testID='empty_msg'>You don't have any saved lists yet, please start new search...</Text></View>)
 }
 
 const styles = StyleSheet.create({

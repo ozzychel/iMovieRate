@@ -208,6 +208,7 @@ export default function App() {
           getSelectedMovie={getSelectedMovie}
           changeView={changeView}
           deleteFromList={deleteFromList}
+          os={Platform.OS}
         />
         )
     }

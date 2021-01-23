@@ -63,32 +63,4 @@ describe('<WatchList> component testing', () => {
     expect(elem.props.children).toContain('any saved lists yet');
   });
 
-  it('as', () => {
-    let elem = testInstance.findByProps({testID:'scroll_view'});
-  });
-
-  it('as', () => {
-    let elem = testInstance.findByProps({testID:'scroll_view'});
-  });
-
-  it('as', () => {
-    let elem = testInstance.findByProps({testID:'scroll_view'});
-  });
-
-  it('as', () => {
-    let elem = testInstance.findByProps({testID:'scroll_view'});
-  });
-
-  it('as', () => {
-    let elem = testInstance.findByProps({testID:'scroll_view'});
-  });
-
-  it('as', () => {
-    let elem = testInstance.findByProps({testID:'scroll_view'});
-  });
-
-  it('as', () => {
-    let elem = testInstance.findByProps({testID:'scroll_view'});
-  });
-
 });

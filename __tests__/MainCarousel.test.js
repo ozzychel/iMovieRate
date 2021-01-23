@@ -1,14 +1,13 @@
 import React from 'react';
 import mockData from '../mockData';
 import MainCarousel from '../components/MainCarousel';
-// import RenderImage from '../components/helperFunctions/RenderImage'
 import { create } from 'react-test-renderer';
 
 const mockFn = jest.fn();
 let testRenderer;
 let testInstance;
 
-describe('<MovieCarousel> component testing', () => {
+describe('<MainCarousel> component testing', () => {
 
   beforeEach(() => {
     testRenderer = create(<MainCarousel
@@ -31,12 +30,12 @@ describe('<MovieCarousel> component testing', () => {
   });
 
   it('renders horizontal scrollview', () => {
-    let elem = testInstance.findByProps({testID:'scroll_view'})
+    let elem = testInstance.findByProps({testID:'scroll_view'});
     expect(elem.props.horizontal).toBe(true);
   });
 
   it('scrollview doesn\'t show scroll indicator', () => {
-    let elem = testInstance.findByProps({testID:'scroll_view'})
+    let elem = testInstance.findByProps({testID:'scroll_view'});
     expect(elem.props.showsHorizontalScrollIndicator).toBe(false);
   });
 

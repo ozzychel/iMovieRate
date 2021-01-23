@@ -57,7 +57,7 @@ describe('<RenderImage> component testing(url provided)', () => {
 
 });
 
-describe('<RenderImage> component testing(with url)', () => {
+describe('<RenderImage> component testing(url not provided)', () => {
 
   beforeEach(() => {
     testRenderer = create(<RenderImage

@@ -7,7 +7,7 @@ import { create } from 'react-test-renderer';
 let testRenderer;
 let testInstance;
 
-describe('<CastBlock> component testing(inlist=false)', () => {
+describe('<CastBlock> component testing', () => {
 
   beforeEach(() => {
     testRenderer = create(<CastBlock

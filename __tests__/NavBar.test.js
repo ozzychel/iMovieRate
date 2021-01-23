@@ -6,7 +6,7 @@ const mockFn = jest.fn();
 let testRenderer;
 let testInstance;
 
-describe('<NavBar/> component testing', () => {
+describe('<NavBar> component testing', () => {
 
   beforeEach(() => {
     testRenderer = create(<NavBar setModalVisible={mockFn}/>);

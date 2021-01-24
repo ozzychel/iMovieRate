@@ -2,38 +2,49 @@ import React from 'react';
 import mockData from '../mockData';
 import MovieView from '../components/MovieView';
 import { create, act } from 'react-test-renderer';
-
-import axios from 'axios';
-import {jest} from '@jest/globals';
+import { jest } from '@jest/globals';
 import api from '../components/helperFunctions/serverRequests';
 
 const mockFn = jest.fn();
 let testRenderer;
 let testInstance;
 
-jest.spyOn(api, 'getMovieTrailer').mockImplementation(() =>
-  Promise.resolve(mockData.trailer['272'])
-);
-jest.spyOn(api, 'getCastListFromServer').mockImplementation(() =>
-  Promise.resolve([
-    [...mockData.cast['272'].cast],
-    [...mockData.cast['272'].cast],
-    [...mockData.cast['272'].cast],
-  ])
-);
-jest.spyOn(api, 'getDataFromOMDB').mockImplementation(() =>
-  Promise.resolve(mockData.omdb[0])
-);
-jest.spyOn(api, 'getRecommendedList').mockImplementation(() =>
-  Promise.resolve(mockData.trending.results)
-);
+let getMovieTrailerSpy;
+let getCastListFromServerSpy;
+let getDataFromOMDBSpy;
+let getRecommendedListSpy;
+let getMovieImagesSpy;
 
-jest.spyOn(api, 'getMovieImages').mockImplementation(() => Promise.resolve(mockData.images['272']));
+const initSpies = () => {
+
+  getMovieTrailerSpy = jest.spyOn(api, 'getMovieTrailer')
+    .mockImplementation(() => Promise.resolve(mockData.trailer['272']));
+
+  getCastListFromServerSpy = jest.spyOn(api, 'getCastListFromServer')
+    .mockImplementation(() => Promise.resolve([
+      [...mockData.cast['272'].cast],
+      [...mockData.cast['272'].cast],
+      [...mockData.cast['272'].cast],
+    ])
+  );
+
+  getDataFromOMDBSpy = jest.spyOn(api, 'getDataFromOMDB')
+    .mockImplementation(() => Promise.resolve(mockData.omdb[0]));
+
+  getRecommendedListSpy = jest.spyOn(api, 'getRecommendedList')
+    .mockImplementation(() => Promise.resolve(mockData.trending.results));
+
+  getMovieImagesSpy = jest.spyOn(api, 'getMovieImages')
+    .mockImplementation(() => Promise.resolve(mockData.images['272']));
+
+};
+
 
 
 describe('<MovieView> component testing', () => {
 
   beforeEach(async () => {
+    await initSpies();
     await act(async () => {
       testRenderer = create (<MovieView
         selectedMovie={[mockData.movie_tmdb]}

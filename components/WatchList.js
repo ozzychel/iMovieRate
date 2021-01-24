@@ -13,7 +13,7 @@ const WatchList = ({ userList, genresList, currentTab, changeView, getSelectedMo
       changeView={changeView}
       getSelectedMovie={getSelectedMovie}
       deleteFromList={deleteFromList}
-      testID='movie'
+      testID='inlist_movie'
     />
   ));
 

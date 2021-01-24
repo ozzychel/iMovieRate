@@ -39,8 +39,8 @@ const Movie = ({ movie, genresList, currentTab, getSelectedMovie, changeView, de
           <Text style={styles.genres_title} testID='movie_genres'>{genres.join(', ')}</Text>
         </View>
         <View style={styles.del_btn_cont}>
-          {currentTab === 'WATCHLIST' ? (
-          <TouchableOpacity
+          {currentTab === 'WATCHLIST' ?
+          (<TouchableOpacity
             style={styles.del_btn_body}
             onPress={() => {
               deleteFromList(movie.id)
@@ -48,8 +48,7 @@ const Movie = ({ movie, genresList, currentTab, getSelectedMovie, changeView, de
             testID='delete_btn'
             >
             <Text style={styles.del_btn_text}>X</Text>
-          </TouchableOpacity>) : null
-          }
+          </TouchableOpacity>) : null }
         </View>
 
       </View>

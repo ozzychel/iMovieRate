@@ -25,7 +25,7 @@ describe('<NavBar> component testing', () => {
   });
 
   it('renders search button', () => {
-    expect(testInstance.findByProps({testID:'search_btn'})).not.toBeNull();
+    expect(testInstance.findByProps({testID:'nav_search_btn'})).not.toBeNull();
   });
 
   it('renders search button icon', () => {
@@ -33,7 +33,7 @@ describe('<NavBar> component testing', () => {
   });
 
   it('click on search button sets modal visible', () => {
-    const btn = testInstance.findByProps({testID:'search_btn'});
+    const btn = testInstance.findByProps({testID:'nav_search_btn'});
     btn.props.onPress();
     expect(mockFn).toHaveBeenCalled();
   });

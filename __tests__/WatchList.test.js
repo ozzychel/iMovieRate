@@ -39,7 +39,7 @@ describe('<WatchList> component testing', () => {
   });
 
   it('scroll view displays correct number of movies', () => {
-    let elem = testInstance.findAllByProps({testID:'movie'});
+    let elem = testInstance.findAllByProps({testID:'inlist_movie'});
     expect(elem.length).toBe(5);
   });
 

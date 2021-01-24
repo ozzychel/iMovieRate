@@ -17,7 +17,7 @@ const NavBar = ({ setModalVisible }) => {
             setModalVisible(true)
           }}
           style={styles.dotsCont}
-          testID='search_btn'
+          testID='nav_search_btn'
         >
           <FontAwesomeIcon
             icon={faSearch}

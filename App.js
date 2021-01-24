@@ -49,7 +49,7 @@ export default function App () {
   }, [currentInput])
 
   const getUserList = async () => {
-    console.log('!!! getUserList() invoked');
+    // console.log('!!! getUserList() invoked');
     const list = await api.getUserList();
     setUserList(list);
     return list;
@@ -62,14 +62,14 @@ export default function App () {
   };
 
   const getTrending = async (timeWindow, list) => {
-    console.log(`!!! getTrending ${timeWindow} () invoked`)
+    // console.log(`!!! getTrending ${timeWindow} () invoked`)
     const trendList = await api.getTrending(timeWindow, list);
     if(timeWindow === 'day') setTrendingDayList(trendList);
     if(timeWindow === 'week') setTrendingWeekList(trendList);
   };
 
   const getNowPlaying = async (list) => {
-    console.log('!!! getNowPlaying() invoked');
+    // console.log('!!! getNowPlaying() invoked');
     const nowPlaying = await api.getNowPlaying(list);
     setNowPlaying(nowPlaying);
   };
@@ -79,7 +79,7 @@ export default function App () {
   };
 
   const getMovieDataById = async (id, arg) => {
-    console.log('!!! getMovieDataById() invoked');
+    // console.log('!!! getMovieDataById() invoked');
     let list = arg || userList;
     const response = await api.getMovieDataById(id, list);
     setSelectedMovie(prev => [...response]);

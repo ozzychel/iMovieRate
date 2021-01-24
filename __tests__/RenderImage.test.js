@@ -2,7 +2,7 @@ import React from 'react';
 import mockData from '../mockData';
 import RenderImage from '../components/helperFunctions/RenderImage';
 import { Image, ActivityIndicator } from 'react-native';
-import { create } from 'react-test-renderer';
+import { create, act } from 'react-test-renderer';
 
 const mockFn = jest.fn();
 let testRenderer;
@@ -102,4 +102,38 @@ describe('<RenderImage> component testing(url not provided)', () => {
     expect(elem.props.style).toBe(testInstance.props.defPosterStyle);
   });
 
+
+
+});
+
+describe('<RenderImage> component testing(spinner)', () => {
+
+  beforeEach(() => {
+
+    testRenderer = create(<RenderImage
+      mainObj={mockData.cast["1726"].cast[17]}
+      baseUrl={'https://image.tmdb.org/t/p/w154'}
+      propToLink={'profile_path'}
+      defaultImg={require('../assets/noProfilePic.png')}
+      posterContStyle={{height: 225, width: 150}}
+      posterStyle={{height: 225,width: 150, borderTopLeftRadius: 10}}
+      spinnerSize='large'
+      spinnerColor='#FFD700'
+      spinnerBg='#1f1f1f'
+      defPosterContStyle={{height: 225, width: 150}}
+      defPosterStyle={{height: 225, width: 150}}
+    />);
+    testInstance = testRenderer.root;
+  });
+
+
+  it('renders spinner during data fetch', () => {
+    let elem = testInstance.findByProps({testID:'image'});
+    act(() => { elem.props.onLoadStart() })
+    let spinwrap = testInstance.findByProps({testID:'spin_wrap'});
+    let spin = testInstance.findByProps({testID:'spinner'});
+    expect(spinwrap).toBeTruthy();
+    expect(spin).toBeTruthy();
+    act(() => { elem.props.onLoadEnd() })
+  });
 });

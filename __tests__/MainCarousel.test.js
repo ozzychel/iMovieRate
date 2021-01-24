@@ -45,7 +45,7 @@ describe('<MainCarousel> component testing', () => {
   });
 
   it('button has correct text', () => {
-    let text = testInstance.findAllByProps({testID:'btn-text'})[0];
+    let text = testInstance.findAllByProps({testID:'btn_text'})[0];
     expect(text.props.children).toBe('HOME');
   });
 
@@ -60,7 +60,7 @@ describe('<MainCarousel> component testing', () => {
   });
 
   it('button click changes current tab', () => {
-    let btn = testInstance.findAllByProps({testID:'btn'})[0];
+    let btn = testInstance.findAllByProps({testID:'tab_btn'})[0];
     btn.props.onPress();
     expect(mockFn).toHaveBeenCalled();
   });

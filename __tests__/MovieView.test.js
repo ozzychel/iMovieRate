@@ -7,9 +7,7 @@ const mockFn = jest.fn();
 let testRenderer;
 let testInstance;
 
-jest.mock('../components/helperFunctions/serverRequests.js', () => {
-  return mockData.omdb[0];
-});
+jest.mock('../components/helperFunctions/serverRequests.js', () => mockData.omdb[0]);
 
 describe('<MovieView> component testing', () => {
 
@@ -57,5 +55,7 @@ describe('<MovieView> component testing', () => {
     let elem = testInstance.findByProps({testID:'movie_duration'});
     expect(elem.props.children).toBe('2:20h');
   });
+
+
 
 });

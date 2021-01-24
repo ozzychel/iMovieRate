@@ -18,7 +18,7 @@ function RenderImage ({ mainObj, baseUrl, propToLink, defaultImg, posterContStyl
         backgroundColor: spinnerBg,
         justifyContent: "center",
         alignItems: "center"
-      }}>
+      }} testID='spin_wrap'>
         <ActivityIndicator size={spinnerSize} color={spinnerColor} testID='spinner'/>
       </View>
     )

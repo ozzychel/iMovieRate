@@ -43,7 +43,6 @@ const MovieView = ({ selectedMovie, genresList, userList, addToList, getSelected
   const getDataFromOMDB = async (id) => {
     // console.log('!!! MV.getDataFromOMBD() invoked');
     const omdb = await api.getDataFromOMDB(id);
-    console.log('OMDB LOG', omdb)
     setMovie_omdb(omdb);
   };
 

@@ -18,9 +18,9 @@ const MainCarousel = ({ items, currentTab, changeView }) => {
             onPress={()=> {
               changeView(item.title)
             }}
-            testID='btn'
+            testID='tab_btn'
           >
-            <Text testID='btn-text' style={styles.itemText}>{item.title}</Text>
+            <Text testID='btn_text' style={styles.itemText}>{item.title}</Text>
             <View testID='bullet' style={item.title === currentTab ? styles.bulletActive : styles.bullet}></View>
           </TouchableOpacity>
         )

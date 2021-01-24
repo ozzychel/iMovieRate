@@ -114,26 +114,31 @@ const MovieView = ({ selectedMovie, genresList, userList, addToList, getSelected
       <InfoBlock
         movie_tmdb={movie_tmdb}
         genres={genres}
+        testID='info_block'
       />
 
       <AddToListButtonBlock
         addToList={addToList}
         movie_tmdb={movie_tmdb}
+        testID='add_btn_block'
       />
       <Separator />
 
       <RatingsBlock
         Separator={Separator}
         movie_omdb={movie_omdb}
+        testID='ratings_block'
       />
 
       <CastBlock
         topCastList={topCastList}
         movie_omdb={movie_omdb}
+        testID='cast_block'
       />
 
       <TrailerBlock
         movieTrailer={movieTrailer}
+        testID='trailer_block'
       />
 
       <MovieCarousel
@@ -141,12 +146,14 @@ const MovieView = ({ selectedMovie, genresList, userList, addToList, getSelected
         getSelectedMovie={getSelectedMovie}
         carouselHeader="Similar Movies"
         changeView={changeView}
+        testID='movie_carousel'
       />
 
       <ImagesBlock
         movie_title={movie_tmdb.title}
         release_date={movie_tmdb.release_date}
         imageUrls={imageUrls}
+        testID='images_block'
       />
 
     </ScrollView>

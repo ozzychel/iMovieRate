@@ -183,20 +183,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#313131',
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
-
-    // borderColor: 'red',
-    // borderWidth: 1,
     display: 'flex',
     flexDirection: 'row'
   },
-  movie_date_cont: {
-    // borderWidth:1,
-    // borderColor: 'yellow'
-  },
-  star_cont: {
-    // borderColor: 'green',
-    // borderWidth: 1
-  },
+  movie_date_cont: {},
+  star_cont: {},
   star_cont_text: {
     color: 'green',
     fontSize: 16

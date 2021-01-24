@@ -43,12 +43,27 @@ describe('<ImagesBlock> component testing', () => {
     expect(block.props.children.length).toBe(9);
   });
 
+  it('image viewer is invisible by default', () => {
+    let elem = testInstance.findByProps({testID:'image_view'});
+    expect(elem.props.visible).toBe(false);
+  });
+
   it('click on image sets image viewer visible', () => {
-    let images = testInstance.findAllByProps({testID:'image'});
+    let image = testInstance.findAllByProps({testID:'image'})[0];
     let viewer = testInstance.findByProps({testID:'image_view'});
-    act(() => { images[0].parent.props.onClick() });
+    act(() => { image.parent.props.onClick() });
     expect(viewer.props.visible).toBe(true);
   });
+
+  it('image viewer can be set invisible again', () => {
+    let image = testInstance.findAllByProps({testID:'image'})[0];
+    let viewer = testInstance.findByProps({testID:'image_view'});
+    act(() => { image.parent.props.onClick() });
+    act(() => { viewer.props.onRequestClose() });
+    expect(viewer.props.visible).toBe(false);
+  })
+
+
 
   it('image viewer recieves all images', () => {
     let elem = testInstance.findByProps({testID:'image_view'});

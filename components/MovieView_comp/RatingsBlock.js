@@ -5,18 +5,14 @@ const RatingsBlock = ({ movie_omdb }) => {
 
   const getRottenTomatoes = (movie) => {
     let result = 'N/A';
-    if (!movie) {
-      return <Text>{result}</Text>
-    } else {
-      if (movie['Ratings'] && movie['Ratings'].length > 0) {
-        for (let i = 0; i < movie['Ratings'].length; i++) {
-          if (movie['Ratings'][i]['Source'] === 'Rotten Tomatoes') {
-            result = movie['Ratings'][i]['Value'];
-          }
+    if (movie['Ratings'] && movie['Ratings'].length > 0) {
+      for (let i = 0; i < movie['Ratings'].length; i++) {
+        if (movie['Ratings'][i]['Source'] === 'Rotten Tomatoes') {
+          result = movie['Ratings'][i]['Value'];
         }
       }
-      return <Text style={styles.rating_text}>{result}</Text>
     }
+    return <Text style={styles.rating_text}>{result}</Text>
   };
 
     return (

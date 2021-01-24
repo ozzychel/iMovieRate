@@ -56,6 +56,11 @@ describe('<MovieCarousel> component testing', () => {
     expect(mov.props.children).toBe('Batman Begins');
   });
 
+  it('movie title fontSize depends on title length', () => {
+    let elem = testInstance.findAllByProps({testID:'movie_title'})[0];
+    expect(elem.props.style.fontSize).toBe(16);
+  })
+
   it('renders movie with correct date', () => {
     let mov = testInstance.findAllByProps({testID:'movie_year'})[0];
     expect(mov.props.children).toBe('2005');

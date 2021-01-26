@@ -6,6 +6,9 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage=true",
     "db-seed": "node ./db/seed_db.js",
     "prod-server": "nodemon ./server/index.js",
     "mock-server": "nodemon ./server_mock/index.js"
@@ -32,9 +35,12 @@
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
+    "@testing-library/jest-native": "^3.4.3",
     "babel-preset-expo": "~8.1.0",
+    "jest-expo": "^40.0.1",
     "morgan": "^1.10.0",
-    "nodemon": "^2.0.6"
+    "nodemon": "^2.0.6",
+    "react-test-renderer": "^17.0.1"
   },
   "private": true
 }

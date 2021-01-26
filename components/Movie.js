@@ -11,27 +11,6 @@ const Movie = ({ movie, genresList, currentTab, getSelectedMovie, changeView, de
     })
   };
 
-  const renderButton = () => {
-    if (currentTab === 'WATCHLIST') {
-      return (
-        <TouchableOpacity
-        style={styles.del_btn_body}
-        onPress={() => {
-          deleteFromList(movie.id)
-        }}
-        >
-        <Text style={styles.del_btn_text}>X</Text>
-      </TouchableOpacity>
-      )
-    } else {
-        return (
-          <View>
-            {movie.inList ? (<Text style={styles.star_cont_text}>★</Text>) : null}
-          </View>
-        )
-    }
-  }
-
   return (
     <View>
       <TouchableOpacity
@@ -39,6 +18,7 @@ const Movie = ({ movie, genresList, currentTab, getSelectedMovie, changeView, de
           getSelectedMovie(movie.id);
           changeView('MOVIE VIEW');
         }}
+        testID='movie_inst'
       >
       <View style={styles.container}>
         <RenderImage
@@ -50,24 +30,25 @@ const Movie = ({ movie, genresList, currentTab, getSelectedMovie, changeView, de
           posterStyle={styles.poster}
           defPosterContStyle={styles.poster_cont}
           defPosterStyle={styles.poster}
+          testID='movie_img'
         />
-        <View style={styles.title_cont}>
-          <Text style={styles.title}>
+        <View style={styles.title_cont} testID='title_cont'>
+          <Text style={styles.title} testID='title_text'>
             {movie.title + ` (${movie.release_date.slice(0,4)})`}
           </Text>
-          <Text style={styles.genres_title}>{genres.join(', ')}</Text>
+          <Text style={styles.genres_title} testID='movie_genres'>{genres.join(', ')}</Text>
         </View>
         <View style={styles.del_btn_cont}>
-          {currentTab === 'WATCHLIST' ? (
-          <TouchableOpacity
+          {currentTab === 'WATCHLIST' ?
+          (<TouchableOpacity
             style={styles.del_btn_body}
             onPress={() => {
               deleteFromList(movie.id)
             }}
+            testID='delete_btn'
             >
             <Text style={styles.del_btn_text}>X</Text>
-          </TouchableOpacity>) : null
-          }
+          </TouchableOpacity>) : null }
         </View>
 
       </View>

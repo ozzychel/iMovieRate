@@ -4,7 +4,10 @@ import MovieCarousel from './helperFunctions/MovieCarousel';
 
 const HomeTab = ({trendingDayList, trendingWeekList,  nowPlayingList, changeView, getSelectedMovie}) => {
   return (
-    <ScrollView>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      testID='scroll_view'
+    >
       <MovieCarousel
         movieList={nowPlayingList}
         carouselHeader="In Theaters Now"

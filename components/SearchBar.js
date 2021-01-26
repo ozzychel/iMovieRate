@@ -1,26 +1,28 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Button, TextInput, Alert, Keyboard, TouchableOpacity } from 'react-native';
 
-const SearchBar = ({ getUserInput, setModalVisible, changeView }) => {
+const SearchBar = ({ getUserInput, setModalVisible, changeView, os }) => {
 
   const [inputValue, setInputValue] = useState('');
 
   const handleSearchPress = () => {
     if (inputValue.trim()) {
-      console.log('!!! handleSearchPress() invoked')
-      getUserInput(inputValue)
-      setInputValue('')
-      Keyboard.dismiss()
-      setModalVisible(false)
-      changeView('SEARCH')
+      // console.log('!!! handleSearchPress() invoked');
+      getUserInput(inputValue);
+      setInputValue('');
+      Keyboard.dismiss();
+      setModalVisible(false);
+      changeView('SEARCH');
     } else {
-      Alert.alert('Search field cannot be empty!')
+      Alert.alert('Search field cannot be empty!');
     }
-  }
+  };
+
   return (
-    <View style={Platform.OS === 'ios' ?
+    <View testID='container' style={os === 'ios' ?
       {marginTop: 135,backgroundColor: 'white'} :
-      {marginTop: 100,backgroundColor: 'white'}}
+      {marginTop: 100,backgroundColor: 'white'}
+    }
     >
 
     <View style={styles.container}>
@@ -33,6 +35,7 @@ const SearchBar = ({ getUserInput, setModalVisible, changeView }) => {
           placeholder="Search movie title..."
           // placeholderTextColor="grey"
           returnKeyType='search'
+          testID='input'
         />
       </View>
     </View>
@@ -41,8 +44,9 @@ const SearchBar = ({ getUserInput, setModalVisible, changeView }) => {
         <TouchableOpacity
           style={styles.btn_body}
           onPress={handleSearchPress}
+          testID='search_btn'
           >
-          <Text style={styles.btn_text}>SEARCH</Text>
+          <Text style={styles.btn_text} testID='btn_text'>SEARCH</Text>
         </TouchableOpacity>
       </View>
   </View>
@@ -94,3 +98,5 @@ const styles = StyleSheet.create({
 })
 
 export default SearchBar;
+
+

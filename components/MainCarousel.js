@@ -1,17 +1,15 @@
 import React from 'react';
 import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 
-const MainCarousel = ({items, currentTab, changeView}) => {
-
+const MainCarousel = ({ items, currentTab, changeView }) => {
   return (
     <View style={styles.container}>
       <ScrollView
         horizontal={true}
-        contentContainerStyle={{
-        }}
         showsHorizontalScrollIndicator={false}
         scrollEventThrottle={200}
         decelerationRate="fast"
+        testID='scroll_view'
       >{items.map((item, i) => {
         return (
           <TouchableOpacity
@@ -20,9 +18,10 @@ const MainCarousel = ({items, currentTab, changeView}) => {
             onPress={()=> {
               changeView(item.title)
             }}
-            >
-            <Text style={styles.itemText}>{item.title}</Text>
-            <View style={item.title === currentTab ? styles.bulletActive : styles.bullet}></View>
+            testID='tab_btn'
+          >
+            <Text testID='btn_text' style={styles.itemText}>{item.title}</Text>
+            <View testID='bullet' style={item.title === currentTab ? styles.bulletActive : styles.bullet}></View>
           </TouchableOpacity>
         )
       })}

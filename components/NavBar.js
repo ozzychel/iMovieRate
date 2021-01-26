@@ -9,7 +9,7 @@ const NavBar = ({ setModalVisible }) => {
     <View style={styles.navbar}>
 
       <View style={styles.titleCont}>
-        <Text style={styles.titleText}>iMovieRate</Text>
+        <Text style={styles.titleText} testID='app_title'>iMovieRate</Text>
       </View>
 
         <TouchableOpacity
@@ -17,12 +17,14 @@ const NavBar = ({ setModalVisible }) => {
             setModalVisible(true)
           }}
           style={styles.dotsCont}
+          testID='nav_search_btn'
         >
-              <FontAwesomeIcon
-                icon={faSearch}
-                size={24}
-                color={'#737373'}
-                />
+          <FontAwesomeIcon
+            icon={faSearch}
+            size={24}
+            color={'#737373'}
+            testID='search_btn_icon'
+            />
         </TouchableOpacity>
 
     </View>

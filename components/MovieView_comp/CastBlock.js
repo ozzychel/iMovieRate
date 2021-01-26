@@ -19,7 +19,7 @@ const CastBlock = ({ topCastList, movie_omdb }) => {
 
       <View style={styles.cast_heading}>
         <View style={styles.cast_heading_subtitle_cont}>
-          <Text style={styles.subtitle}>Top Billed Cast</Text>
+          <Text style={styles.subtitle} testId='heading_text'>Top Billed Cast</Text>
         </View>
         <TouchableOpacity>
           <View style={styles.cast_heading_seeAllbutton_cont}>
@@ -36,6 +36,7 @@ const CastBlock = ({ topCastList, movie_omdb }) => {
         scrollEventThrottle={200}
         // pagingEnabled
         decelerationRate="fast"
+        testID='carousel'
         ref={scroll}
         >
           {topCastList.map((actor, i) => {
@@ -70,21 +71,21 @@ const CastBlock = ({ topCastList, movie_omdb }) => {
         </ScrollView>
 
         <View style={styles.cast_writers_job_cont}>
-          <Text style={styles.cast_writers_job_text}>Director</Text>
+          <Text style={styles.cast_writers_job_text} testId='director_heading'>Director</Text>
         </View>
 
         <View style={styles.cast_writers_name_cont}>
-          <Text style={styles.cast_writers_name_text}>
+          <Text style={styles.cast_writers_name_text} testID='director_name'>
             {movie_omdb['Director'] ? movie_omdb['Director'] : 'N/A'}
           </Text>
         </View>
 
         <View style={styles.cast_writers_job_cont}>
-          <Text style={styles.cast_writers_job_text}>Writer</Text>
+          <Text style={styles.cast_writers_job_text} testID='writer_heading'>Writer</Text>
         </View>
 
         <View style={styles.cast_writers_name_cont}>
-          <Text style={styles.cast_writers_name_text}>
+          <Text style={styles.cast_writers_name_text} testID='writer_name'>
             {movie_omdb['Writer'] ? movie_omdb['Writer'] : 'N/A'}
           </Text>
         </View>

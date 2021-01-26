@@ -186,5 +186,5 @@ module.exports = {
   getDataFromOMDB,
   getRecommendedList,
   getMovieTrailer,
-  getMovieImages
+  getMovieImages,
 };

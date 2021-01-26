@@ -5,18 +5,14 @@ const RatingsBlock = ({ movie_omdb }) => {
 
   const getRottenTomatoes = (movie) => {
     let result = 'N/A';
-    if (!movie) {
-      return <Text>{result}</Text>
-    } else {
-      if (movie['Ratings'] && movie['Ratings'].length > 0) {
-        for (let i = 0; i < movie['Ratings'].length; i++) {
-          if (movie['Ratings'][i]['Source'] === 'Rotten Tomatoes') {
-            result = movie['Ratings'][i]['Value'];
-          }
+    if (movie['Ratings'] && movie['Ratings'].length > 0) {
+      for (let i = 0; i < movie['Ratings'].length; i++) {
+        if (movie['Ratings'][i]['Source'] === 'Rotten Tomatoes') {
+          result = movie['Ratings'][i]['Value'];
         }
       }
-      return <Text style={styles.rating_text}>{result}</Text>
     }
+    return <Text style={styles.rating_text}>{result}</Text>
   };
 
     return (
@@ -28,11 +24,12 @@ const RatingsBlock = ({ movie_omdb }) => {
               style={styles.imdb_logo}
               source={{
                 uri:`https://ia.media-imdb.com/images/M/MV5BODc4MTA3NjkzNl5BMl5BcG5nXkFtZTgwMDg0MzQ2OTE@._V1_.png`
-            }}
+              }}
+              testID='imdb_logo'
             />
           </View>
           <View style={styles.rating_text_cont}>
-            <Text style={styles.rating_text}>
+            <Text style={styles.rating_text} testID='imdb_rating'>
               {movie_omdb.imdbRating ? `${movie_omdb.imdbRating} / 10` : 'N/A'}
             </Text>
           </View>
@@ -40,7 +37,7 @@ const RatingsBlock = ({ movie_omdb }) => {
 
         <View style={styles.rating_table_cont}>
           <View style={styles.rating_text_cont}>
-            <Text style={styles.metascore}>
+            <Text style={styles.metascore} testID='mscore_rating'>
               {movie_omdb["Metascore"] ? movie_omdb["Metascore"] : 'N/A'}
             </Text>
           <View style={styles.rating_logo_cont}>
@@ -54,9 +51,10 @@ const RatingsBlock = ({ movie_omdb }) => {
           <Image
               style={styles.rt_logo}
               source={require('../../assets/rotten.png')}
+              testID='rt_logo'
             />
           </View>
-          <View style={styles.rating_text_cont}>
+          <View style={styles.rating_text_cont} testID='rt_rating'>
             {getRottenTomatoes(movie_omdb)}
           </View>
         </View>

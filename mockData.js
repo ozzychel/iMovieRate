@@ -4436,16 +4436,89 @@ const images = {
       preview: 'https://kinopoiskapiunofficial.tech/images/frames/kp/kadr/sm_726932.jpg'
     }
   ],
-}
+};
+
+const singleMovie = {
+  "genre_ids" : [
+    28,
+    80,
+    18
+  ],
+  "_id" : "5fdad27ec40f746d4d81b7c9",
+  "id" : 272,
+  "title" : "Batman Begins",
+  "release_date" : "2005-06-10",
+  "poster_path" : "/1P3ZyEq02wcTMd3iE4ebtLvncvH.jpg",
+  "inList" : true
+};
+
+const genresList = {
+  "10402": "Music",
+  "10749": "Romance",
+  "10751": "Family",
+  "10752": "War",
+  "10770": "TV Movie",
+  "12": "Adventure",
+  "14": "Fantasy",
+  "16": "Animation",
+  "18": "Drama",
+  "27": "Horror",
+  "28": "Action",
+  "35": "Comedy",
+  "36": "History",
+  "37": "Western",
+  "53": "Thriller",
+  "80": "Crime",
+  "878": "Science Fiction",
+  "9648": "Mystery",
+  "99": "Documentary",
+};
+
+const movie_tmdb = {
+  adult: false,
+  backdrop_path: '/lh5lbisD4oDbEKgUxoRaZU8HVrk.jpg',
+  belongs_to_collection: {
+    id: 263,
+    name: 'The Dark Knight Collection',
+    poster_path: '/bqS2lMgGkuodIXtDILFWTSWDDpa.jpg',
+    backdrop_path: '/xfKot7lqaiW4XpL5TtDlVBA9ei9.jpg'
+  },
+  budget: 150000000,
+  genres: [
+    { id: 28, name: 'Action' },
+    { id: 80, name: 'Crime' },
+    { id: 18, name: 'Drama' }
+  ],
+  homepage: 'https://www.warnerbros.com/movies/batman-begins/',
+  id: 272,
+  imdb_id: 'tt0372784',
+  original_language: 'en',
+  original_title: 'Batman Begins',
+  overview: 'Driven by tragedy, billionaire Bruce Wayne dedicates his life to uncovering and defeating the corruption that plagues his home, Gotham City.  Unable to work within the system, he instead creates a new identity, a symbol of fear for the criminal underworld - The Batman.',
+  popularity: 58.909,
+  poster_path: '/1P3ZyEq02wcTMd3iE4ebtLvncvH.jpg',
+  release_date: '2005-06-10',
+  revenue: 374218673,
+  runtime: 140,
+  status: 'Released',
+  tagline: 'Evil fears the knight.',
+  title: 'Batman Begins',
+  video: false,
+  vote_average: 7.7,
+  vote_count: 15326
+};
 
 module.exports = {
   user,
   genres,
+  genresList,
   trending,
   movieDetails,
   omdb,
   cast,
   trailer,
   images,
-  searchResults
+  searchResults,
+  singleMovie,
+  movie_tmdb,
 }

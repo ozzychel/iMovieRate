@@ -9,10 +9,11 @@ import HomeTab from './components/HomeTab';
 import SearchBar from './components/SearchBar';
 import MovieView from './components/MovieView';
 import WatchList from './components/WatchList';
+import helpers from './components/helperFunctions/helpers';
 
 const api = require('./components/helperFunctions/serverRequests');
 
-export default function App() {
+export default function App () {
 
   const [modalVisible, setModalVisible] = useState(false);
   const [currentTab, setCurrentTab] = useState('HOME');
@@ -31,10 +32,9 @@ export default function App() {
   const [noResult, setNoResult] = useState(false);
 
   useEffect(() => {
-    console.log('!!! [] USE EFFECT WORKS');
     const onLoadingFetch = async () => {
-        const fetchGenres = await getGenresList();
-        const fetchedUserList = await getUserList();
+      const fetchGenres = await getGenresList();
+      const fetchedUserList = await getUserList();
         getTrending('day', fetchedUserList);
         getTrending('week', fetchedUserList);
         getNowPlaying(fetchedUserList);
@@ -49,27 +49,27 @@ export default function App() {
   }, [currentInput])
 
   const getUserList = async () => {
-    console.log('!!! getUserList() invoked');
+    // console.log('!!! getUserList() invoked');
     const list = await api.getUserList();
     setUserList(list);
     return list;
   };
 
   const getGenresList = async () => {
-    console.log('!!! getGenresList() invoked');
+    // console.log('!!! getGenresList() invoked');
     const genres = await api.getGenresList();
     setGenresList(genres);
   };
 
   const getTrending = async (timeWindow, list) => {
-    console.log(`!!! getTrending ${timeWindow} () invoked`)
+    // console.log(`!!! getTrending ${timeWindow} () invoked`)
     const trendList = await api.getTrending(timeWindow, list);
     if(timeWindow === 'day') setTrendingDayList(trendList);
     if(timeWindow === 'week') setTrendingWeekList(trendList);
   };
 
   const getNowPlaying = async (list) => {
-    console.log('!!! getNowPlaying() invoked');
+    // console.log('!!! getNowPlaying() invoked');
     const nowPlaying = await api.getNowPlaying(list);
     setNowPlaying(nowPlaying);
   };
@@ -79,20 +79,20 @@ export default function App() {
   };
 
   const getMovieDataById = async (id, arg) => {
-    console.log('!!! getMovieDataById() invoked');
+    // console.log('!!! getMovieDataById() invoked');
     let list = arg || userList;
     const response = await api.getMovieDataById(id, list);
     setSelectedMovie(prev => [...response]);
   };
 
   const addToList = async (movie_tmdb) => {
-    console.log('!!! addToList() invoked');
+    // console.log('!!! addToList() invoked');
     const add = await api.addToList(movie_tmdb);
     updateLists(movie_tmdb.id);
   };
 
   const updateLists = async (id) => {
-    console.log('!!! updateLists() invoked');
+    // console.log('!!! updateLists() invoked');
     const fetchedUserList = await getUserList();
     const updateSelected = await getMovieDataById(id, await fetchedUserList);
     getTrending('day', await fetchedUserList);
@@ -101,13 +101,13 @@ export default function App() {
   };
 
   const deleteFromList = async (id) => {
-    console.log("!!! deleteFromList() invoked");
+    // console.log("!!! deleteFromList() invoked");
     const del = await api.deleteFromList(id);
     updateLists(id);
   };
 
   const getMovieList = async (query, pageNum, list) => {
-    console.log('!!! getMovieList() invoked');
+    // console.log('!!! getMovieList() invoked');
     setIsLoading(true);
     const [total, result] = await api.getMovieList(query, pageNum, list);
     setCurrPageNum(prev => prev + 1);
@@ -140,21 +140,21 @@ export default function App() {
   };
 
   // LOGS
-  console.log('.. APP LOG .. IS_LOADING:', isLoading);
-  console.log('== APP LOG == GENRES LIST:', Object.keys(genresList).length);
-  console.log('== APP LOG == USER LIST:', userList.length);
-  console.log('== APP LOG == TRENDING DAY:', trendingDayList.length);
-  console.log('== APP LOG == TRENDING WEEK:', trendingWeekList.length);
-  console.log('== APP LOG == NOW PLAYING:', nowPlayingList.length);
-  console.log('== APP LOG == SELECTED_MOVIE:', selectedMovie.length ? selectedMovie[0].title : selectedMovie.length);
-  console.log('== APP LOG == CURRENTPAGENUM', currPageNum)
-  console.log('== APP LOG == TOTALPAGES', totalPages)
-  console.log('== APP LOG == CURRENT_SEARCH_RESULTS', searchResults.length);
-  console.log('== APP LOG == NORESULT_FLAG', noResult);
+  // console.log('.. APP LOG .. IS_LOADING:', isLoading);
+  // console.log('== APP LOG == GENRES LIST:', Object.keys(genresList).length);
+  // console.log('== APP LOG == USER LIST:', userList.length);
+  // console.log('== APP LOG == TRENDING DAY:', trendingDayList.length);
+  // console.log('== APP LOG == TRENDING WEEK:', trendingWeekList.length);
+  // console.log('== APP LOG == NOW PLAYING:', nowPlayingList.length);
+  // console.log('== APP LOG == SELECTED_MOVIE:', selectedMovie.length ? selectedMovie[0].title : selectedMovie.length);
+  // console.log('== APP LOG == CURRENTPAGENUM', currPageNum)
+  // console.log('== APP LOG == TOTALPAGES', totalPages)
+  // console.log('== APP LOG == CURRENT_SEARCH_RESULTS', searchResults.length);
+  // console.log('== APP LOG == NORESULT_FLAG', noResult);
 
-  console.log("-----------------------------------")
-  console.log('== APP LOG == *CURRENT TAB*:', currentTab)
-  console.log("-----------------------------------")
+  // console.log("-----------------------------------")
+  // console.log('== APP LOG == *CURRENT TAB*:', currentTab)
+  // console.log("-----------------------------------")
   // -------------------
 
   const renderView = (view) => {
@@ -173,6 +173,8 @@ export default function App() {
           setModalVisible={setModalVisible}
           isLoading={isLoading}
           noResult={noResult}
+          os={helpers.getOS()}
+          testID='search_tab'
         />
       )
     }
@@ -184,6 +186,7 @@ export default function App() {
         nowPlayingList={nowPlayingList}
         changeView={changeView}
         getSelectedMovie={getSelectedMovie}
+        testID='home_tab'
        />
       )
     }
@@ -196,7 +199,9 @@ export default function App() {
         addToList={addToList}
         getSelectedMovie={getSelectedMovie}
         changeView={changeView}
-      />) : (<View style={styles.msg_cont}><Text style={styles.msg_text}>Nothing to display! Please search the movie...</Text></View>)
+        testID='movieview_tab'
+        />) :
+      (<View style={styles.msg_cont}><Text style={styles.msg_text}testID='movieview_msg'>Nothing to display! Please search the movie...</Text></View>)
     }
     if (view === 'WATCHLIST') {
       return (
@@ -207,46 +212,52 @@ export default function App() {
           getSelectedMovie={getSelectedMovie}
           changeView={changeView}
           deleteFromList={deleteFromList}
+          os={helpers.getOS()}
+          testID='watchlist_tab'
         />
-        )
+      )
     }
   };
 
   return (
     <View style={styles.container}>
-      <View style={Platform.OS === 'ios' ? styles.iosBar : null}></View>
-      <StatusBar barStyle='light-content'/>
-      <NavBar setModalVisible={setModalVisible}/>
+      <View style={helpers.getOS() === 'ios' ? styles.iosBar : null}></View>
+      <StatusBar barStyle='light-content' testID='status_bar'/>
+
+      <NavBar setModalVisible={setModalVisible} testID='nav_bar'/>
 
       <MainCarousel
-        style="slides"
-        itemsPerInterval={1}
         items={[
           {title: 'HOME'},
           {title: 'SEARCH'},
           {title: 'WATCHLIST'},
           {title: 'MOVIE VIEW'}
-        ]
-        }
+        ]}
         currentTab={currentTab}
         changeView={changeView}
+        testID='main_carousel'
       />
+
       <Modal
          animationType="slide"
          transparent={true}
          visible={modalVisible}
          onRequestClose={() => {setModalVisible(false)}}
+         testID='search_modal'
       >
         <TouchableOpacity
           style={styles.modal_outside}
           onPressOut={() => {
             setModalVisible(!modalVisible)
           }}
+          testID='modal_touchable'
         >
           <SearchBar
             getUserInput={getUserInput}
             setModalVisible={setModalVisible}
             changeView={changeView}
+            os={helpers.getOS()}
+            testID='search_bar'
           />
         </TouchableOpacity>
 

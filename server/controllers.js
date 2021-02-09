@@ -11,7 +11,7 @@ const omdb = axios.create({
 });
 
 /*-------------------------------------------------------
-  == APIC CALLS ==
+  == API CALLS ==
 --------------------------------------------------------*/
 const getGenresList = async (req, res) => {
   try{
@@ -178,6 +178,7 @@ const getDataFromOMDB = async (req, res) => {
   }
 };
 
+
 /*-------------------------------------------------------
   == HELPERS ==
 --------------------------------------------------------*/
@@ -269,6 +270,24 @@ const patchDataInUserList = (req, res) => {
       res.status(400).send();
     }
   })
+};
+
+
+
+
+
+const getPersonDataById = async (req, res) => {
+  // console.log('+++REQ QUERY:', req.query)
+  try{
+    const person = await tmdb.get(`/person/${req.query.personId}`, {
+      params: { api_key: keys.tmdb_api_key }
+    });
+    // console.log('---PERSON', person)
+    res.status(200).send(person.data)
+  } catch(err) {
+    console.log('Error: in getPersonDataById', err)
+    res.status(400).send();
+  }
 }
 
 module.exports = {
@@ -284,5 +303,6 @@ module.exports = {
   getMovieTrailer,
   getDataFromOMDB,
   getMovieList,
-  getMovieImages
+  getMovieImages,
+  getPersonDataById
 }

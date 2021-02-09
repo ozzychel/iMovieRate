@@ -60,6 +60,10 @@ app.get('/movie/images', (req, res) => {
   Controllers.getMovieImages(req, res);
 });
 
+app.get('/person', (req, res) => {
+  Controllers.getPersonDataById(req, res);
+});
+
 app.listen(port, () => {
   console.log(`[PROD_SERVER] App listening at http://localhost:${port}`);
 });

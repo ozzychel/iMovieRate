@@ -10,7 +10,7 @@ import TrailerBlock from './MovieView_comp/TrailerBlock';
 import AddToListButtonBlock from './MovieView_comp/AddToListButtonBlock';
 const api = require('./helperFunctions/serverRequests');
 
-const MovieView = ({ selectedMovie, genresList, userList, addToList, getSelectedMovie, changeView }) => {
+const MovieView = ({ selectedMovie, genresList, userList, addToList, getSelectedMovie, changeView, getSelectedPerson }) => {
 
   const scroll = React.createRef();
 
@@ -133,6 +133,8 @@ const MovieView = ({ selectedMovie, genresList, userList, addToList, getSelected
       <CastBlock
         topCastList={topCastList}
         movie_omdb={movie_omdb}
+        changeView={changeView}
+        getSelectedPerson={getSelectedPerson}
         testID='cast_block'
       />
 

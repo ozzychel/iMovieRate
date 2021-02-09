@@ -115,6 +115,18 @@ const getPersonDataById = async (personId) => {
   }
 };
 
+const getPersonImages = async (personId) => {
+  try{
+    const response = await server.get(`/person/images`, {
+      params: { userId: keys.userId, personId: personId }
+    });
+    return response.data;
+  } catch(err) {
+    console.log('Error: in getPersonImages', err)
+    return [];
+  }
+};
+
 const getRecommendedList = async (movieId) => {
   try{
     const response = await server.get(`/movie/${movieId}/recommendations`, {
@@ -200,4 +212,5 @@ module.exports = {
   getMovieTrailer,
   getMovieImages,
   getPersonDataById,
+  getPersonImages
 };

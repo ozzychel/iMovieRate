@@ -164,7 +164,7 @@ export default function App () {
   console.log('== APP LOG == TOTALPAGES', totalPages)
   console.log('== APP LOG == CURRENT_SEARCH_RESULTS', searchResults.length);
   console.log('== APP LOG == NORESULT_FLAG', noResult);
-  console.log('==APP LOG == SELECTED_PERSON', selectedPerson)
+  console.log('== APP LOG == SELECTED_PERSON', selectedPerson)
 
   console.log("-----------------------------------")
   console.log('== APP LOG == *CURRENT TAB*:', currentTab)

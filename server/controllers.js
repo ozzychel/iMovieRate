@@ -178,6 +178,30 @@ const getDataFromOMDB = async (req, res) => {
   }
 };
 
+const getPersonDataById = async (req, res) => {
+  try{
+    const person = await tmdb.get(`/person/${req.query.personId}`, {
+      params: { api_key: keys.tmdb_api_key }
+    });
+    res.status(200).send(person.data)
+  } catch(err) {
+    console.log('Error: in getPersonDataById', err);
+    res.status(400).send();
+  }
+};
+
+const getPersonImages = async (req, res) => {
+  console.log(req.query)
+  try{
+    const response = await tmdb.get(`/person/${req.query.personId}/images`, {
+      params: { api_key: keys.tmdb_api_key }
+    });
+    res.status(200).send(response.data.profiles.slice(1))
+  } catch(err) {
+    console.log('Error: in getPersonDataById', err);
+    res.status(400).send();
+  }
+};
 
 /*-------------------------------------------------------
   == HELPERS ==
@@ -272,24 +296,6 @@ const patchDataInUserList = (req, res) => {
   })
 };
 
-
-
-
-
-const getPersonDataById = async (req, res) => {
-  // console.log('+++REQ QUERY:', req.query)
-  try{
-    const person = await tmdb.get(`/person/${req.query.personId}`, {
-      params: { api_key: keys.tmdb_api_key }
-    });
-    // console.log('---PERSON', person)
-    res.status(200).send(person.data)
-  } catch(err) {
-    console.log('Error: in getPersonDataById', err)
-    res.status(400).send();
-  }
-}
-
 module.exports = {
   postMovieToUserList,
   getUserList,
@@ -304,5 +310,6 @@ module.exports = {
   getDataFromOMDB,
   getMovieList,
   getMovieImages,
-  getPersonDataById
+  getPersonDataById,
+  getPersonImages
 }

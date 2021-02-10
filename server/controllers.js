@@ -191,7 +191,6 @@ const getPersonDataById = async (req, res) => {
 };
 
 const getPersonImages = async (req, res) => {
-  console.log(req.query)
   try{
     const response = await tmdb.get(`/person/${req.query.personId}/images`, {
       params: { api_key: keys.tmdb_api_key }

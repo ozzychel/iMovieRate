@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { format, parse, differenceInYears } from 'date-fns';
+import RenderImage from '../components/helperFunctions/RenderImage';
+import PhotoCarousel from '../components/ActorView_comp/PhotoCarousel';
 const api = require('./helperFunctions/serverRequests');
-
-// import RenderImage from './helperFunctions/RenderImage';
-// import axios from 'axios'
-// import keys from '../dev_config'
 
 const ActorView = ({ person }) => {
   const scroll = React.createRef();
@@ -25,13 +23,14 @@ const ActorView = ({ person }) => {
   const getImages = async (id) => {
     const response = await api.getPersonImages(id);
     setPersonImages(response);
-  }
+  };
 
   console.log('IMAGES+++++++++', images)
 
   const Separator = () => (
     <View style={styles.separator} />
   );
+
   return (
 
     <ScrollView
@@ -53,6 +52,40 @@ const ActorView = ({ person }) => {
           </Text>
         </View>
       </View>
+
+      <Separator/>
+
+      <View style={styles.desc_main_cont}>
+        <RenderImage
+          mainObj={person}
+          baseUrl='https://image.tmdb.org/t/p/w154'
+          propToLink='profile_path'
+          defaultImg={require('../assets/default.jpg')}
+          posterContStyle={styles.poster_cont}
+          posterStyle={styles.poster}
+          defPosterContStyle={styles.poster_cont}
+          defPosterStyle={styles.poster}
+          testID='image'
+        />
+        <View style={styles.bio_container}>
+            <ScrollView
+              style={styles.desc_cont}
+              nestedScrollEnabled={true}
+              showsVerticalScrollIndicator={false}
+              testID='overview_scroll'
+            >
+              <Text style={styles.desc_scroll_text} testID='overview'>
+                {person.biography}
+              </Text>
+            </ScrollView>
+        </View>
+      </View>
+      <Separator/>
+
+      <PhotoCarousel
+        list={images}
+      />
+
     </ScrollView>
   )
 };
@@ -88,6 +121,42 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
     color: '#737373'
+  },
+  separator: {
+    marginVertical: 0.05,
+    borderBottomColor: '#737373',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+  },
+  desc_main_cont: {
+    flexDirection: 'row',
+    backgroundColor: '#1f1f1f',
+    padding: 5,
+  },
+  poster_cont: {
+    margin: 5,
+    maxHeight: 138
+  },
+  poster: {
+    width: 92,
+    height: 138,
+  },
+  bio_container: {
+    width: '70%',
+    margin: 5,
+    maxHeight: 138,
+  },
+  genres_cont: {
+    paddingTop: 7,
+    paddingBottom: 7,
+  },
+  desc_cont: {
+    maxHeight: "100%",
+    paddingBottom: 5,
+    padding: 1,
+  },
+  desc_scroll_text: {
+    color: 'white',
+    fontSize: 16
   },
 })
 

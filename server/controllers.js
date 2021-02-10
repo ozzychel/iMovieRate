@@ -202,6 +202,18 @@ const getPersonImages = async (req, res) => {
   }
 };
 
+const getPersonMovies = async (req, res) => {
+  try{
+    const response = await tmdb.get(`/person/${req.query.personId}/movie_credits`, {
+      params: { api_key: keys.tmdb_api_key, language: "en-US" }
+    });
+    res.status(200).send(response.data.cast)
+  } catch(err) {
+    console.log('Error: in getPersonDataById', err);
+    res.status(400).send();
+  }
+};
+
 /*-------------------------------------------------------
   == HELPERS ==
 --------------------------------------------------------*/
@@ -310,5 +322,6 @@ module.exports = {
   getMovieList,
   getMovieImages,
   getPersonDataById,
-  getPersonImages
+  getPersonImages,
+  getPersonMovies
 }

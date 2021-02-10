@@ -237,6 +237,8 @@ export default function App () {
       return selectedPerson.length ? (
         <ActorView
           person={selectedPerson[0]}
+          getSelectedMovie={getSelectedMovie}
+          changeView={changeView}
         />
       ) :
       (<View style={styles.msg_cont}><Text style={styles.msg_text}testID='movieview_msg'>Nothing to display! Please search the actor first...</Text></View>)

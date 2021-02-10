@@ -3,18 +3,21 @@ import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity } from 'rea
 import { format, parse, differenceInYears } from 'date-fns';
 import RenderImage from '../components/helperFunctions/RenderImage';
 import PhotoCarousel from '../components/ActorView_comp/PhotoCarousel';
+import MovieCarousel from '../components/helperFunctions/MovieCarousel';
 const api = require('./helperFunctions/serverRequests');
 
-const ActorView = ({ person }) => {
+const ActorView = ({ person, getSelectedMovie, changeView }) => {
   const scroll = React.createRef();
   const birthday = parse(person.birthday, "yyyy-MM-dd", new Date())
   const age = differenceInYears(new Date(), birthday);
   const bd = format(birthday, "MMMM dd, yyyy");
 
-  const [images, setPersonImages] = useState([])
+  const [images, setPersonImages] = useState([]);
+  const [personMovies, setPersonMovies] = useState([]);
 
   useEffect(() => {
     const onLoadingFetch = async () => {
+      const fetchPersonMovies = await getPersonMovies(person.id)
       const fetchImages = await getImages(person.id);
     }
     onLoadingFetch();
@@ -25,7 +28,14 @@ const ActorView = ({ person }) => {
     setPersonImages(response);
   };
 
-  console.log('IMAGES+++++++++', images)
+  const getPersonMovies = async (id) => {
+    const response = await api.getPersonMovies(id);
+    setPersonMovies(response);
+  };
+
+  // console.log('IMAGES+++++++++', images)
+  // console.log('<<<<<PERSON MOVIES:', personMovies)
+  // console.log('<<<<<PERSON MOVIES LENGTH:', personMovies.length)
 
   const Separator = () => (
     <View style={styles.separator} />
@@ -72,15 +82,22 @@ const ActorView = ({ person }) => {
               style={styles.desc_cont}
               nestedScrollEnabled={true}
               showsVerticalScrollIndicator={false}
-              testID='overview_scroll'
+              testID='biography_scroll'
             >
-              <Text style={styles.desc_scroll_text} testID='overview'>
+              <Text style={styles.desc_scroll_text} testID='biography'>
                 {person.biography}
               </Text>
             </ScrollView>
         </View>
       </View>
       <Separator/>
+
+      <MovieCarousel
+        movieList={personMovies}
+        getSelectedMovie={getSelectedMovie}
+        carouselHeader="Known for"
+        changeView={changeView}
+      />
 
       <PhotoCarousel
         list={images}

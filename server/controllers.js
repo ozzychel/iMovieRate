@@ -207,7 +207,8 @@ const getPersonMovies = async (req, res) => {
     const response = await tmdb.get(`/person/${req.query.personId}/movie_credits`, {
       params: { api_key: keys.tmdb_api_key, language: "en-US" }
     });
-    res.status(200).send(response.data.cast)
+    const filtered = await filterUnknown(response.data.cast)
+    res.status(200).send(filtered)
   } catch(err) {
     console.log('Error: in getPersonDataById', err);
     res.status(400).send();
@@ -263,6 +264,15 @@ const filterMovie = (arr, title, date, runtime) => {
     if(compareLength(results[i].filmLength, runtime)) return [results[i]]
   }
   return results;
+};
+
+const filterUnknown = (movies) => {
+  if(movies.length <= 20) return movies;
+  let filtered = movies.filter((mov) => {
+    if(mov.release_date && mov.character && mov.poster_path) return mov;
+  })
+  console.log(filtered.slice(0,20))
+  return filtered.slice(0, 20);
 };
 
 /*-------------------------------------------------------

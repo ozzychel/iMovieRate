@@ -23,14 +23,30 @@ const MovieView = ({ selectedMovie, genresList, userList, addToList, getSelected
   const [castList, setCastList] = useState([]);
   const [crewList, setCrewList] = useState([]);
 
+
   useEffect(() => {
-    getCastListFromServer(movie_tmdb.id);
-    getDataFromOMDB(movie_tmdb.imdb_id);
-    getRecommendedList(movie_tmdb.id);
-    getMovieTrailer(movie_tmdb.id);
-    getMovieImages(movie_tmdb.title, movie_tmdb.release_date.slice(0,4), movie_tmdb.runtime, movie_tmdb.id);
-    scroll.current.scrollTo({y:0, animated:true});
+    const onLoadingFetch = async () => {
+      scroll.current.scrollTo({y:0, animated:true});
+      let res1 = await getCastListFromServer(movie_tmdb.id);
+      let res2 = await getDataFromOMDB(movie_tmdb.imdb_id);
+      let res3 = await getRecommendedList(movie_tmdb.id);
+      let res4 = await getMovieTrailer(movie_tmdb.id);
+      let res5 = await getMovieImages(movie_tmdb.title, movie_tmdb.release_date.slice(0,4), movie_tmdb.runtime, movie_tmdb.id);
+    }
+    onLoadingFetch()
   }, [movie_tmdb]);
+
+  // useEffect(() => {
+  //   const onLoadingFetch = async () => {
+  //     getCastListFromServer(movie_tmdb.id);
+  //     getDataFromOMDB(movie_tmdb.imdb_id);
+  //     getRecommendedList(movie_tmdb.id);
+  //     getMovieTrailer(movie_tmdb.id);
+  //     getMovieImages(movie_tmdb.title, movie_tmdb.release_date.slice(0,4), movie_tmdb.runtime, movie_tmdb.id);
+  //     scroll.current.scrollTo({y:0, animated:true});
+  //   }
+  //   onLoadingFetch()
+  // }, [movie_tmdb]);
 
   const getCastListFromServer = async (movieId) => {
     // console.log('!!! MV.getCastList() invoked');

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import keys from '../../dev_config';
+import keys from '../../config';
 
 const server = axios.create({
   baseURL: 'http://localhost:9000'
@@ -103,6 +103,42 @@ const getCastListFromServer = async (movieId) => {
   }
 };
 
+const getPersonDataById = async (personId) => {
+  try{
+    const response = await server.get(`/person`, {
+      params: { userId: keys.userId, personId: personId }
+    });
+    return [response.data];
+  } catch (err) {
+    console.log('Error: in getPersonDataById', err);
+    return [];
+  }
+};
+
+const getPersonImages = async (personId) => {
+  try{
+    const response = await server.get(`/person/images`, {
+      params: { userId: keys.userId, personId: personId }
+    });
+    return response.data;
+  } catch(err) {
+    console.log('Error: in getPersonImages', err)
+    return [];
+  }
+};
+
+const getPersonMovies = async (personId) => {
+  try{
+    const response = await server.get(`/person/movies`, {
+      params: { userId: keys.userId, personId: personId }
+    });
+    return response.data;
+  } catch(err) {
+    console.log('Error: in getPersonImages', err)
+    return [];
+  }
+};
+
 const getRecommendedList = async (movieId) => {
   try{
     const response = await server.get(`/movie/${movieId}/recommendations`, {
@@ -187,4 +223,7 @@ module.exports = {
   getRecommendedList,
   getMovieTrailer,
   getMovieImages,
+  getPersonDataById,
+  getPersonImages,
+  getPersonMovies
 };

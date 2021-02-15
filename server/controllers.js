@@ -11,7 +11,7 @@ const omdb = axios.create({
 });
 
 /*-------------------------------------------------------
-  == APIC CALLS ==
+  == API CALLS ==
 --------------------------------------------------------*/
 const getGenresList = async (req, res) => {
   try{
@@ -178,6 +178,56 @@ const getDataFromOMDB = async (req, res) => {
   }
 };
 
+const getPersonDataById = async (req, res) => {
+  try{
+    const person = await tmdb.get(`/person/${req.query.personId}`, {
+      params: { api_key: keys.tmdb_api_key }
+    });
+
+    console.log(person.data)
+
+
+
+    res.status(200).send(person.data)
+  } catch(err) {
+    console.log('Error: in getPersonDataById', err);
+    res.status(400).send();
+  }
+};
+
+const getPersonImages = async (req, res) => {
+  try{
+    const response = await tmdb.get(`/person/${req.query.personId}/images`, {
+      params: { api_key: keys.tmdb_api_key }
+    });
+
+
+    console.log('IMAGES',response.data.profiles)
+
+    res.status(200).send(response.data.profiles.slice(1))
+  } catch(err) {
+    console.log('Error: in getPersonDataById', err);
+    res.status(400).send();
+  }
+};
+
+const getPersonMovies = async (req, res) => {
+  try{
+    const response = await tmdb.get(`/person/${req.query.personId}/movie_credits`, {
+      params: { api_key: keys.tmdb_api_key, language: "en-US" }
+    });
+    const filtered = await filterUnknown(response.data.cast)
+
+
+    console.log('FILTERED',filtered)
+
+    res.status(200).send(filtered)
+  } catch(err) {
+    console.log('Error: in getPersonDataById', err);
+    res.status(400).send();
+  }
+};
+
 /*-------------------------------------------------------
   == HELPERS ==
 --------------------------------------------------------*/
@@ -229,6 +279,14 @@ const filterMovie = (arr, title, date, runtime) => {
   return results;
 };
 
+const filterUnknown = (movies) => {
+  if(movies.length <= 20) return movies;
+  let filtered = movies.filter((mov) => {
+    if(mov.release_date && mov.character && mov.poster_path) return mov;
+  })
+  return filtered.slice(0, 20);
+};
+
 /*-------------------------------------------------------
   == DATABASE MANIPULATON ==
 --------------------------------------------------------*/
@@ -269,7 +327,7 @@ const patchDataInUserList = (req, res) => {
       res.status(400).send();
     }
   })
-}
+};
 
 module.exports = {
   postMovieToUserList,
@@ -284,5 +342,8 @@ module.exports = {
   getMovieTrailer,
   getDataFromOMDB,
   getMovieList,
-  getMovieImages
+  getMovieImages,
+  getPersonDataById,
+  getPersonImages,
+  getPersonMovies
 }

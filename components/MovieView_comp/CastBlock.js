@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import RenderImage from '../helperFunctions/RenderImage';
 
-const CastBlock = ({ topCastList, movie_omdb }) => {
+const CastBlock = ({ topCastList, movie_omdb, getSelectedPerson, changeView }) => {
 
   const scroll = React.createRef();
 
@@ -41,31 +41,41 @@ const CastBlock = ({ topCastList, movie_omdb }) => {
         >
           {topCastList.map((actor, i) => {
             return (
-              <View key={i} style={styles.cast_actor_cont}>
+              <TouchableOpacity
+                key={i}
+                onPress={() => {
+                  getSelectedPerson(actor.id);
+                  changeView('ACTORS');
+                  console.log(actor)
+                }}
+                testID='actor_card'
+              >
+                <View  style={styles.cast_actor_cont}>
 
-                  <RenderImage
-                    mainObj={actor}
-                    baseUrl='https://image.tmdb.org/t/p/w154'
-                    propToLink='profile_path'
-                    defaultImg={require('../../assets/noProfilePic.png')}
-                    posterContStyle={styles.actor_image_cont}
-                    posterStyle={styles.actor_image}
-                    defPosterContStyle={styles.cast_actor_def_cont}
-                    defPosterStyle={styles.actor_def_image}
-                  />
+                    <RenderImage
+                      mainObj={actor}
+                      baseUrl='https://image.tmdb.org/t/p/w154'
+                      propToLink='profile_path'
+                      defaultImg={require('../../assets/noProfilePic.png')}
+                      posterContStyle={styles.actor_image_cont}
+                      posterStyle={styles.actor_image}
+                      defPosterContStyle={styles.cast_actor_def_cont}
+                      defPosterStyle={styles.actor_def_image}
+                    />
 
-                <View style={styles.cast_actor_name}>
-                  <Text style={styles.cast_actor_name_text}>
-                    {actor.name}
-                  </Text>
-                </View>
+                  <View style={styles.cast_actor_name}>
+                    <Text style={styles.cast_actor_name_text}>
+                      {actor.name}
+                    </Text>
+                  </View>
 
-                <View style={styles.cast_actor_character}>
-                  <Text style={styles.cast_actor_character_text}>{actor.character}
-                  </Text>
-                </View>
+                  <View style={styles.cast_actor_character}>
+                    <Text style={styles.cast_actor_character_text}>{actor.character}
+                    </Text>
+                  </View>
 
-            </View>
+              </View>
+            </TouchableOpacity>
            )
         })}
         </ScrollView>

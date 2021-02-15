@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Image, StatusBar, ScrollView, Modal, Alert, TouchableOpacity, Dimensions } from 'react-native';
 import NavBar from './components/NavBar';
-import keys from './dev_config.js';
+import keys from './config.js';
 import Constants from "expo-constants";
 import MainCarousel from './components/MainCarousel';
 import SearchTab from './components/SearchTab';
@@ -9,6 +9,7 @@ import HomeTab from './components/HomeTab';
 import SearchBar from './components/SearchBar';
 import MovieView from './components/MovieView';
 import WatchList from './components/WatchList';
+import ActorView from './components/ActorView';
 import helpers from './components/helperFunctions/helpers';
 
 const api = require('./components/helperFunctions/serverRequests');
@@ -30,6 +31,8 @@ export default function App () {
   const [totalPages, setTotalPages] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [noResult, setNoResult] = useState(false);
+
+  const [selectedPerson, setSelectedPerson] = useState([]);
 
   useEffect(() => {
     const onLoadingFetch = async () => {
@@ -78,11 +81,21 @@ export default function App () {
     getMovieDataById(id);
   };
 
+  const getSelectedPerson = (id) => {
+    getPersonDataById(id);
+  };
+
   const getMovieDataById = async (id, arg) => {
     // console.log('!!! getMovieDataById() invoked');
     let list = arg || userList;
     const response = await api.getMovieDataById(id, list);
     setSelectedMovie(prev => [...response]);
+  };
+
+  getPersonDataById = async (id) => {
+    console.log('!!! getPersonDataById() invoked');
+    const response = await api.getPersonDataById(id);
+    setSelectedPerson(response);
   };
 
   const addToList = async (movie_tmdb) => {
@@ -140,21 +153,22 @@ export default function App () {
   };
 
   // LOGS
-  // console.log('.. APP LOG .. IS_LOADING:', isLoading);
-  // console.log('== APP LOG == GENRES LIST:', Object.keys(genresList).length);
-  // console.log('== APP LOG == USER LIST:', userList.length);
-  // console.log('== APP LOG == TRENDING DAY:', trendingDayList.length);
-  // console.log('== APP LOG == TRENDING WEEK:', trendingWeekList.length);
-  // console.log('== APP LOG == NOW PLAYING:', nowPlayingList.length);
-  // console.log('== APP LOG == SELECTED_MOVIE:', selectedMovie.length ? selectedMovie[0].title : selectedMovie.length);
-  // console.log('== APP LOG == CURRENTPAGENUM', currPageNum)
-  // console.log('== APP LOG == TOTALPAGES', totalPages)
-  // console.log('== APP LOG == CURRENT_SEARCH_RESULTS', searchResults.length);
-  // console.log('== APP LOG == NORESULT_FLAG', noResult);
+  console.log('.. APP LOG .. IS_LOADING:', isLoading);
+  console.log('== APP LOG == GENRES LIST:', Object.keys(genresList).length);
+  console.log('== APP LOG == USER LIST:', userList.length);
+  console.log('== APP LOG == TRENDING DAY:', trendingDayList.length);
+  console.log('== APP LOG == TRENDING WEEK:', trendingWeekList.length);
+  console.log('== APP LOG == NOW PLAYING:', nowPlayingList.length);
+  console.log('== APP LOG == SELECTED_MOVIE:', selectedMovie.length ? selectedMovie[0].title : selectedMovie.length);
+  console.log('== APP LOG == CURRENTPAGENUM', currPageNum)
+  console.log('== APP LOG == TOTALPAGES', totalPages)
+  console.log('== APP LOG == CURRENT_SEARCH_RESULTS', searchResults.length);
+  console.log('== APP LOG == NORESULT_FLAG', noResult);
+  console.log('== APP LOG == SELECTED_PERSON', selectedPerson.length)
 
-  // console.log("-----------------------------------")
-  // console.log('== APP LOG == *CURRENT TAB*:', currentTab)
-  // console.log("-----------------------------------")
+  console.log("-----------------------------------")
+  console.log('== APP LOG == *CURRENT TAB*:', currentTab)
+  console.log("-----------------------------------")
   // -------------------
 
   const renderView = (view) => {
@@ -198,6 +212,7 @@ export default function App () {
         userList={userList}
         addToList={addToList}
         getSelectedMovie={getSelectedMovie}
+        getSelectedPerson={getSelectedPerson}
         changeView={changeView}
         testID='movieview_tab'
         />) :
@@ -217,6 +232,17 @@ export default function App () {
         />
       )
     }
+
+    if (view === 'ACTORS') {
+      return selectedPerson.length ? (
+        <ActorView
+          person={selectedPerson[0]}
+          getSelectedMovie={getSelectedMovie}
+          changeView={changeView}
+        />
+      ) :
+      (<View style={styles.msg_cont}><Text style={styles.msg_text}testID='movieview_msg'>Nothing to display! Please search the actor first...</Text></View>)
+    }
   };
 
   return (
@@ -231,7 +257,8 @@ export default function App () {
           {title: 'HOME'},
           {title: 'SEARCH'},
           {title: 'WATCHLIST'},
-          {title: 'MOVIE VIEW'}
+          {title: 'MOVIE VIEW'},
+          {title: 'ACTORS'}
         ]}
         currentTab={currentTab}
         changeView={changeView}

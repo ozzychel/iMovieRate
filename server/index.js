@@ -60,6 +60,18 @@ app.get('/movie/images', (req, res) => {
   Controllers.getMovieImages(req, res);
 });
 
+app.get('/person', (req, res) => {
+  Controllers.getPersonDataById(req, res);
+});
+
+app.get('/person/images', (req, res) => {
+  Controllers.getPersonImages(req, res);
+});
+
+app.get('/person/movies', (req, res) => {
+  Controllers.getPersonMovies(req, res);
+})
+
 app.listen(port, () => {
   console.log(`[PROD_SERVER] App listening at http://localhost:${port}`);
 });

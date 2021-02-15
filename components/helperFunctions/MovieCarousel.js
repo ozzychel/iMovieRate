@@ -5,11 +5,24 @@ import RenderImage from '../helperFunctions/RenderImage';
 const MovieCarousel = ({ movieList, carouselHeader, changeView, getSelectedMovie }) => {
 
   const scroll = React.createRef();
+
   useEffect(() => {
     if(movieList.length) {
       scroll.current.scrollTo({x:0, animated: false});
     }
   }, [movieList])
+
+  const displayCharacter = (char) => {
+    return (
+      <View style={styles.char_title}>
+        <Text
+          style={char.length > 20 ? styles.char_text_sm : styles.char_text}
+        >
+          {char}
+        </Text>
+      </View>
+    )
+  };
 
   return movieList.length > 0 ? (
     <View>
@@ -57,14 +70,16 @@ const MovieCarousel = ({ movieList, carouselHeader, changeView, getSelectedMovie
                   testID='movie_image'
                 />
 
-              <View style={styles.movie_title}>
-                <Text style={movie.title.length < 30 ? styles.movie_title_text : styles.movie_title_text_long} testID='movie_title'
+              <View style={movie.character ? styles.movie_title_sm : styles.movie_title}>
+                <Text style={movie.title.length > 25 ? styles.movie_title_text_sm : styles.movie_title_text} testID='movie_title'
                 >
                   {movie.title}
                 </Text>
               </View>
 
-                <View style={styles.footer_cont}>
+                {movie.character ? displayCharacter(movie.character) : null}
+
+                <View style={movie.character ? styles.footer_cont_sm : styles.footer_cont}>
                   <View style={styles.movie_date_cont}>
                     <Text style={styles.movie_date_text} testID='movie_year'>
                       {movie.release_date ? movie.release_date.slice(0,4) : ''}
@@ -74,7 +89,6 @@ const MovieCarousel = ({ movieList, carouselHeader, changeView, getSelectedMovie
                     {movie.inList ? (<Text style={styles.star_cont_text}>★ </Text>) : null}
                   </View>
                 </View>
-
 
               </TouchableOpacity>
             </View>
@@ -172,7 +186,41 @@ const styles = StyleSheet.create({
     paddingLeft: 8,
     paddingTop: 15,
     justifyContent: 'flex-start',
-    backgroundColor: '#313131'
+    backgroundColor: '#313131',
+  },
+  movie_title_sm: {
+    height: 50,
+    paddingRight: 5,
+    paddingLeft: 8,
+    paddingTop: 10,
+    justifyContent: 'flex-start',
+    backgroundColor: '#313131',
+  },
+  movie_title_text: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  movie_title_text_sm: {
+    color: 'white',
+    fontSize: 13,
+    fontWeight: '600',
+  },
+  char_title: {
+    height: 40,
+    paddingRight: 5,
+    paddingLeft: 8,
+    paddingTop: 5,
+    justifyContent: 'flex-start',
+    backgroundColor: '#313131',
+  },
+  char_text: {
+    color: '#737373',
+    fontSize: 13,
+  },
+  char_text_sm: {
+    color: '#737373',
+    fontSize: 13,
   },
   footer_cont: {
     height: 30,
@@ -184,7 +232,18 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
     display: 'flex',
-    flexDirection: 'row'
+    flexDirection: 'row',
+  },
+  footer_cont_sm: {
+    height: 25,
+    paddingRight: 5,
+    paddingLeft: 8,
+    justifyContent: 'space-between',
+    backgroundColor: '#313131',
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+    display: 'flex',
+    flexDirection: 'row',
   },
   movie_date_cont: {},
   star_cont: {},
@@ -192,22 +251,14 @@ const styles = StyleSheet.create({
     color: 'green',
     fontSize: 16
   },
-  movie_title_text: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  movie_title_text_long: {
-    color: 'white',
-    fontSize: 13,
-    fontWeight: '600',
+  movie_date_text: {
+    color: '#737373',
+    fontSize: 15,
   },
   movie_date_text: {
     color: '#737373',
     fontSize: 15,
   },
-
 })
-
 
 export default MovieCarousel;

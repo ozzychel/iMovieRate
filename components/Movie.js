@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+
 import RenderImage from './helperFunctions/RenderImage';
 
 const Movie = ({ movie, genresList, currentTab, getSelectedMovie, changeView, deleteFromList }) => {
-
   const genres = [];
   if (!genresList.length && movie.genre_ids.length) {
     movie.genre_ids.forEach((id) => {
       genres.push(genresList[id]);
-    })
-  };
+    });
+  }
 
   return (
     <View>
@@ -18,55 +18,53 @@ const Movie = ({ movie, genresList, currentTab, getSelectedMovie, changeView, de
           getSelectedMovie(movie.id);
           changeView('MOVIE VIEW');
         }}
-        testID='movie_inst'
-      >
-      <View style={styles.container}>
-        <RenderImage
-          mainObj={movie}
-          baseUrl='https://image.tmdb.org/t/p/w154'
-          propToLink='poster_path'
-          defaultImg={require('../assets/default.jpg')}
-          posterContStyle={styles.poster_cont}
-          posterStyle={styles.poster}
-          defPosterContStyle={styles.poster_cont}
-          defPosterStyle={styles.poster}
-          testID='movie_img'
-        />
-        <View style={styles.title_cont} testID='title_cont'>
-          <Text style={styles.title} testID='title_text'>
-            {movie.title + ` (${movie.release_date.slice(0,4)})`}
-          </Text>
-          <Text style={styles.genres_title} testID='movie_genres'>{genres.join(', ')}</Text>
+        testID="movie_inst">
+        <View style={styles.container}>
+          <RenderImage
+            mainObj={movie}
+            baseUrl="https://image.tmdb.org/t/p/w154"
+            propToLink="poster_path"
+            defaultImg={require('../assets/default.jpg')}
+            posterContStyle={styles.poster_cont}
+            posterStyle={styles.poster}
+            defPosterContStyle={styles.poster_cont}
+            defPosterStyle={styles.poster}
+            testID="movie_img"
+          />
+          <View style={styles.title_cont} testID="title_cont">
+            <Text style={styles.title} testID="title_text">
+              {movie.title + ` (${movie.release_date.slice(0, 4)})`}
+            </Text>
+            <Text style={styles.genres_title} testID="movie_genres">
+              {genres.join(', ')}
+            </Text>
+          </View>
+          <View style={styles.del_btn_cont}>
+            {currentTab === 'WATCHLIST' ? (
+              <TouchableOpacity
+                style={styles.del_btn_body}
+                onPress={() => {
+                  deleteFromList(movie.id);
+                }}
+                testID="delete_btn">
+                <Text style={styles.del_btn_text}>X</Text>
+              </TouchableOpacity>
+            ) : null}
+          </View>
         </View>
-        <View style={styles.del_btn_cont}>
-          {currentTab === 'WATCHLIST' ?
-          (<TouchableOpacity
-            style={styles.del_btn_body}
-            onPress={() => {
-              deleteFromList(movie.id)
-            }}
-            testID='delete_btn'
-            >
-            <Text style={styles.del_btn_text}>X</Text>
-          </TouchableOpacity>) : null }
-        </View>
-
-      </View>
-      <Separator />
+        <Separator />
       </TouchableOpacity>
     </View>
-  )
-}
+  );
+};
 
-const Separator = () => (
-  <View style={styles.separator} />
-);
+const Separator = () => <View style={styles.separator} />;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
   },
   poster_cont: {
     margin: 5,
@@ -84,14 +82,14 @@ const styles = StyleSheet.create({
     marginTop: '10%',
     paddingLeft: 5,
     fontWeight: '500',
-    color: 'white'
+    color: 'white',
   },
   genres_title: {
     fontSize: 14,
     marginTop: 5,
     paddingLeft: 5,
     fontStyle: 'italic',
-    color: 'white'
+    color: 'white',
   },
   separator: {
     marginVertical: 2,
@@ -103,13 +101,13 @@ const styles = StyleSheet.create({
     margin: 7,
   },
   del_btn_body: {
-    borderColor:'#1e1e1e',
-    borderWidth:3,
+    borderColor: '#1e1e1e',
+    borderWidth: 3,
     width: '100%',
     height: '30%',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 50
+    borderRadius: 50,
   },
   del_btn_text: {
     color: '#737373',
@@ -117,8 +115,8 @@ const styles = StyleSheet.create({
   },
   star_cont_text: {
     color: 'green',
-    fontSize: 16
+    fontSize: 16,
   },
-})
+});
 
 export default Movie;

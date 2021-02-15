@@ -1,35 +1,28 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import React from 'react';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 const NavBar = ({ setModalVisible }) => {
-
   return (
     <View style={styles.navbar}>
-
       <View style={styles.titleCont}>
-        <Text style={styles.titleText} testID='app_title'>iMovieRate</Text>
+        <Text style={styles.titleText} testID="app_title">
+          iMovieRate
+        </Text>
       </View>
 
-        <TouchableOpacity
-          onPress={() => {
-            setModalVisible(true)
-          }}
-          style={styles.dotsCont}
-          testID='nav_search_btn'
-        >
-          <FontAwesomeIcon
-            icon={faSearch}
-            size={24}
-            color={'#737373'}
-            testID='search_btn_icon'
-            />
-        </TouchableOpacity>
-
+      <TouchableOpacity
+        onPress={() => {
+          setModalVisible(true);
+        }}
+        style={styles.dotsCont}
+        testID="nav_search_btn">
+        <FontAwesomeIcon icon={faSearch} size={24} color={'#737373'} testID="search_btn_icon" />
+      </TouchableOpacity>
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   navbar: {
@@ -49,12 +42,12 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     paddingLeft: 10,
     justifyContent: 'flex-end',
-    alignItems: 'flex-start'
+    alignItems: 'flex-start',
   },
   titleText: {
     fontSize: 24,
     fontWeight: '700',
-    color: '#737373'
+    color: '#737373',
   },
   dotsCont: {
     width: '20%',
@@ -64,8 +57,8 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     marginRight: 5,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
-})
+});
 
 export default NavBar;

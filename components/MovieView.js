@@ -1,17 +1,26 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity, Button } from 'react-native';
 import moment from 'moment';
-import InfoBlock from './MovieView_comp/InfoBlock';
-import CastBlock from './MovieView_comp/CastBlock';
-import RatingsBlock from './MovieView_comp/RatingsBlock';
-import MovieCarousel from './helperFunctions/MovieCarousel'
-import ImagesBlock from './MovieView_comp/ImagesBlock';
-import TrailerBlock from './MovieView_comp/TrailerBlock';
+import React, { useState, useEffect } from 'react';
+import { View, Text, ScrollView, StyleSheet } from 'react-native';
+
 import AddToListButtonBlock from './MovieView_comp/AddToListButtonBlock';
+import CastBlock from './MovieView_comp/CastBlock';
+import ImagesBlock from './MovieView_comp/ImagesBlock';
+import InfoBlock from './MovieView_comp/InfoBlock';
+import RatingsBlock from './MovieView_comp/RatingsBlock';
+import TrailerBlock from './MovieView_comp/TrailerBlock';
+import MovieCarousel from './helperFunctions/MovieCarousel';
+
 const api = require('./helperFunctions/serverRequests');
 
-const MovieView = ({ selectedMovie, genresList, userList, addToList, getSelectedMovie, changeView, getSelectedPerson }) => {
-
+const MovieView = ({
+  selectedMovie,
+  genresList,
+  userList,
+  addToList,
+  getSelectedMovie,
+  changeView,
+  getSelectedPerson,
+}) => {
   const scroll = React.createRef();
 
   const movie_tmdb = selectedMovie[0];
@@ -29,10 +38,15 @@ const MovieView = ({ selectedMovie, genresList, userList, addToList, getSelected
       getDataFromOMDB(movie_tmdb.imdb_id);
       getRecommendedList(movie_tmdb.id);
       getMovieTrailer(movie_tmdb.id);
-      getMovieImages(movie_tmdb.title, movie_tmdb.release_date.slice(0,4), movie_tmdb.runtime, movie_tmdb.id);
-      scroll.current.scrollTo({y:0, animated:true});
-    }
-    onLoadingFetch()
+      getMovieImages(
+        movie_tmdb.title,
+        movie_tmdb.release_date.slice(0, 4),
+        movie_tmdb.runtime,
+        movie_tmdb.id
+      );
+      scroll.current.scrollTo({ y: 0, animated: true });
+    };
+    onLoadingFetch();
   }, [movie_tmdb]);
 
   const getCastListFromServer = async (movieId) => {
@@ -40,7 +54,7 @@ const MovieView = ({ selectedMovie, genresList, userList, addToList, getSelected
     const [allCast, crewCast, topCast] = await api.getCastListFromServer(movieId);
     setCastList(allCast);
     setCrewList(crewCast);
-    setTopCastList(topCast)
+    setTopCastList(topCast);
   };
 
   const getDataFromOMDB = async (id) => {
@@ -67,18 +81,18 @@ const MovieView = ({ selectedMovie, genresList, userList, addToList, getSelected
     setImageUrls(urls);
   };
 
-  const runtime = moment.utc(moment.duration(movie_tmdb.runtime, "minutes").asMilliseconds()).format(`H:mm`);
+  const runtime = moment
+    .utc(moment.duration(movie_tmdb.runtime, 'minutes').asMilliseconds())
+    .format(`H:mm`);
 
   const genres = [];
   if (!genres.length && movie_tmdb.genres.length) {
     movie_tmdb.genres.forEach((obj) => {
       genres.push(genresList[obj.id]);
     });
-  };
+  }
 
-  const Separator = () => (
-    <View style={styles.separator} />
-  );
+  const Separator = () => <View style={styles.separator} />;
 
   // LOGS
   // console.log('== MV LOG == TOPCASTLIST LENGTH:', topCastList.length);
@@ -91,9 +105,8 @@ const MovieView = ({ selectedMovie, genresList, userList, addToList, getSelected
     <ScrollView
       contentContainerStyle={styles.tab_cont}
       showsVerticalScrollIndicator={false}
-      testID='scroll_view'
-      ref={scroll}
-    >
+      testID="scroll_view"
+      ref={scroll}>
       <View style={styles.title_cont}>
         <View>
           <Text style={styles.title_text} testID="movie_title">
@@ -101,74 +114,53 @@ const MovieView = ({ selectedMovie, genresList, userList, addToList, getSelected
           </Text>
         </View>
         <View style={styles.year_duration_cont}>
-          <Text style={styles.year_duration_text} testID='movie_year'>
-            {movie_tmdb.release_date.slice(0,4)}
+          <Text style={styles.year_duration_text} testID="movie_year">
+            {movie_tmdb.release_date.slice(0, 4)}
           </Text>
-          <Text style={styles.year_duration_text} testID='movie_rating'>
+          <Text style={styles.year_duration_text} testID="movie_rating">
             {movie_omdb['Rated']}
           </Text>
-          <Text style={styles.year_duration_text} testID='movie_duration'>
+          <Text style={styles.year_duration_text} testID="movie_duration">
             {runtime + 'h'}
           </Text>
         </View>
       </View>
-      <Separator/>
-
-      <InfoBlock
-        movie_tmdb={movie_tmdb}
-        genres={genres}
-        testID='info_block'
-      />
-
-      <AddToListButtonBlock
-        addToList={addToList}
-        movie_tmdb={movie_tmdb}
-        testID='add_btn_block'
-      />
       <Separator />
 
-      <RatingsBlock
-        Separator={Separator}
-        movie_omdb={movie_omdb}
-        testID='ratings_block'
-      />
+      <InfoBlock movie_tmdb={movie_tmdb} genres={genres} testID="info_block" />
+
+      <AddToListButtonBlock addToList={addToList} movie_tmdb={movie_tmdb} testID="add_btn_block" />
+      <Separator />
+
+      <RatingsBlock Separator={Separator} movie_omdb={movie_omdb} testID="ratings_block" />
 
       <CastBlock
         topCastList={topCastList}
         movie_omdb={movie_omdb}
         changeView={changeView}
         getSelectedPerson={getSelectedPerson}
-        testID='cast_block'
+        testID="cast_block"
       />
 
-      <TrailerBlock
-        movieTrailer={movieTrailer}
-        testID='trailer_block'
-      />
+      <TrailerBlock movieTrailer={movieTrailer} testID="trailer_block" />
 
       <MovieCarousel
         movieList={recommendedList}
         getSelectedMovie={getSelectedMovie}
         carouselHeader="Similar Movies"
         changeView={changeView}
-        testID='movie_carousel'
+        testID="movie_carousel"
       />
 
-      <ImagesBlock
-        movie_title={movie_tmdb.title}
-        release_date={movie_tmdb.release_date}
-        imageUrls={imageUrls}
-        testID='images_block'
-      />
-
+      <ImagesBlock imageUrls={imageUrls} testID="images_block" />
     </ScrollView>
-  )
+  );
 };
 
 const styles = StyleSheet.create({
   tab_cont: {
     backgroundColor: '#131313',
-    paddingBottom: 10
+    paddingBottom: 10,
   },
   separator: {
     marginVertical: 0.05,
@@ -177,36 +169,35 @@ const styles = StyleSheet.create({
   },
   title_cont: {
     backgroundColor: '#1f1f1f',
-    maxHeight: 150
+    maxHeight: 150,
   },
   title_text: {
     fontSize: 34,
     color: 'white',
     paddingLeft: 10,
     paddingTop: 10,
-    paddingBottom: 5
+    paddingBottom: 5,
   },
   year_duration_cont: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    paddingBottom: 7
+    paddingBottom: 7,
   },
   year_duration_text: {
     fontSize: 18,
     paddingLeft: 10,
     paddingRight: 10,
-    color: '#737373'
+    color: '#737373',
   },
   addWatchList_cont: {
     backgroundColor: '#1f1f1f',
-    padding: 12
+    padding: 12,
   },
   addButton_cont: {
     flexDirection: 'row',
     justifyContent: 'center',
     backgroundColor: '#313131',
-    borderRadius: 5
-
+    borderRadius: 5,
   },
   addButton_icon_cont: {
     alignItems: 'flex-end',
@@ -215,7 +206,7 @@ const styles = StyleSheet.create({
   },
   addButton_icon_text: {
     color: 'white',
-    fontSize: 22
+    fontSize: 22,
   },
   addButton_text_cont: {
     alignItems: 'flex-start',
@@ -225,12 +216,12 @@ const styles = StyleSheet.create({
   addButton_text: {
     paddingTop: 2,
     color: 'white',
-    fontSize: 14
+    fontSize: 14,
   },
   ratings_cont: {
     backgroundColor: '#1f1f1f',
-    height: 50
-  }
+    height: 50,
+  },
 });
 
 export default MovieView;

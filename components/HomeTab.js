@@ -1,13 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import React from 'react';
+import { ScrollView } from 'react-native';
+
 import MovieCarousel from './helperFunctions/MovieCarousel';
 
-const HomeTab = ({trendingDayList, trendingWeekList,  nowPlayingList, changeView, getSelectedMovie}) => {
+const HomeTab = ({
+  trendingDayList,
+  trendingWeekList,
+  nowPlayingList,
+  changeView,
+  getSelectedMovie,
+}) => {
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      testID='scroll_view'
-    >
+    <ScrollView showsVerticalScrollIndicator={false} testID="scroll_view">
       <MovieCarousel
         movieList={nowPlayingList}
         carouselHeader="In Theaters Now"
@@ -29,7 +33,7 @@ const HomeTab = ({trendingDayList, trendingWeekList,  nowPlayingList, changeView
         getSelectedMovie={getSelectedMovie}
       />
     </ScrollView>
-  )
+  );
 };
 
 export default HomeTab;

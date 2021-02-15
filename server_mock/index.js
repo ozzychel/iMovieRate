@@ -1,8 +1,9 @@
+const parser = require('body-parser');
 const express = require('express');
 const app = express();
 const port = 9000;
 const morgan = require('morgan');
-const parser = require('body-parser');
+
 const Controllers = require('./controllers.js');
 
 app.use(morgan('dev'));

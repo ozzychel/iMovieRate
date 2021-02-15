@@ -1,44 +1,43 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import React, { useEffect } from 'react';
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+
 import RenderImage from '../helperFunctions/RenderImage';
 
 const CastBlock = ({ topCastList, movie_omdb, getSelectedPerson, changeView }) => {
-
   const scroll = React.createRef();
 
   useEffect(() => {
-    if(topCastList.length) {
-      scroll.current.scrollTo({x:0, animated: false});
+    if (topCastList.length) {
+      scroll.current.scrollTo({ x: 0, animated: false });
     }
-  }, [topCastList])
+  }, [topCastList]);
 
-  return topCastList.length > 0 ?
-    (
+  return topCastList.length > 0 ? (
     <View>
       <View style={styles.cast_cont}>
-
-      <View style={styles.cast_heading}>
-        <View style={styles.cast_heading_subtitle_cont}>
-          <Text style={styles.subtitle} testId='heading_text'>Top Billed Cast</Text>
-        </View>
-        <TouchableOpacity>
-          <View style={styles.cast_heading_seeAllbutton_cont}>
-            <Text style={styles.cast_heading_seeAllbutton_text}></Text>
+        <View style={styles.cast_heading}>
+          <View style={styles.cast_heading_subtitle_cont}>
+            <Text style={styles.subtitle} testId="heading_text">
+              Top Billed Cast
+            </Text>
           </View>
-        </TouchableOpacity>
-      </View>
+          <TouchableOpacity>
+            <View style={styles.cast_heading_seeAllbutton_cont}>
+              <Text style={styles.cast_heading_seeAllbutton_text}></Text>
+            </View>
+          </TouchableOpacity>
+        </View>
 
-      <ScrollView
-        horizontal={true}
-        contentContainerStyle={styles.cast_carousel}
-        showsHorizontalScrollIndicator={false}
-        // onContentSizeChange={(w, h) => init(w)}
-        scrollEventThrottle={200}
-        // pagingEnabled
-        decelerationRate="fast"
-        testID='carousel'
-        ref={scroll}
-        >
+        <ScrollView
+          horizontal={true}
+          contentContainerStyle={styles.cast_carousel}
+          showsHorizontalScrollIndicator={false}
+          // onContentSizeChange={(w, h) => init(w)}
+          scrollEventThrottle={200}
+          // pagingEnabled
+          decelerationRate="fast"
+          testID="carousel"
+          ref={scroll}>
           {topCastList.map((actor, i) => {
             return (
               <TouchableOpacity
@@ -46,62 +45,58 @@ const CastBlock = ({ topCastList, movie_omdb, getSelectedPerson, changeView }) =
                 onPress={() => {
                   getSelectedPerson(actor.id);
                   changeView('ACTORS');
-                  console.log(actor)
+                  console.log(actor);
                 }}
-                testID='actor_card'
-              >
-                <View  style={styles.cast_actor_cont}>
-
-                    <RenderImage
-                      mainObj={actor}
-                      baseUrl='https://image.tmdb.org/t/p/w154'
-                      propToLink='profile_path'
-                      defaultImg={require('../../assets/noProfilePic.png')}
-                      posterContStyle={styles.actor_image_cont}
-                      posterStyle={styles.actor_image}
-                      defPosterContStyle={styles.cast_actor_def_cont}
-                      defPosterStyle={styles.actor_def_image}
-                    />
+                testID="actor_card">
+                <View style={styles.cast_actor_cont}>
+                  <RenderImage
+                    mainObj={actor}
+                    baseUrl="https://image.tmdb.org/t/p/w154"
+                    propToLink="profile_path"
+                    defaultImg={require('../../assets/noProfilePic.png')}
+                    posterContStyle={styles.actor_image_cont}
+                    posterStyle={styles.actor_image}
+                    defPosterContStyle={styles.cast_actor_def_cont}
+                    defPosterStyle={styles.actor_def_image}
+                  />
 
                   <View style={styles.cast_actor_name}>
-                    <Text style={styles.cast_actor_name_text}>
-                      {actor.name}
-                    </Text>
+                    <Text style={styles.cast_actor_name_text}>{actor.name}</Text>
                   </View>
 
                   <View style={styles.cast_actor_character}>
-                    <Text style={styles.cast_actor_character_text}>{actor.character}
-                    </Text>
+                    <Text style={styles.cast_actor_character_text}>{actor.character}</Text>
                   </View>
-
-              </View>
-            </TouchableOpacity>
-           )
-        })}
+                </View>
+              </TouchableOpacity>
+            );
+          })}
         </ScrollView>
 
         <View style={styles.cast_writers_job_cont}>
-          <Text style={styles.cast_writers_job_text} testId='director_heading'>Director</Text>
+          <Text style={styles.cast_writers_job_text} testId="director_heading">
+            Director
+          </Text>
         </View>
 
         <View style={styles.cast_writers_name_cont}>
-          <Text style={styles.cast_writers_name_text} testID='director_name'>
+          <Text style={styles.cast_writers_name_text} testID="director_name">
             {movie_omdb['Director'] ? movie_omdb['Director'] : 'N/A'}
           </Text>
         </View>
 
         <View style={styles.cast_writers_job_cont}>
-          <Text style={styles.cast_writers_job_text} testID='writer_heading'>Writer</Text>
-        </View>
-
-        <View style={styles.cast_writers_name_cont}>
-          <Text style={styles.cast_writers_name_text} testID='writer_name'>
-            {movie_omdb['Writer'] ? movie_omdb['Writer'] : 'N/A'}
+          <Text style={styles.cast_writers_job_text} testID="writer_heading">
+            Writer
           </Text>
         </View>
 
+        <View style={styles.cast_writers_name_cont}>
+          <Text style={styles.cast_writers_name_text} testID="writer_name">
+            {movie_omdb['Writer'] ? movie_omdb['Writer'] : 'N/A'}
+          </Text>
+        </View>
       </View>
-
     </View>
   ) : null;
 };
@@ -109,13 +104,13 @@ const CastBlock = ({ topCastList, movie_omdb, getSelectedPerson, changeView }) =
 const styles = StyleSheet.create({
   subtitle: {
     color: 'white',
-    fontSize: 26
+    fontSize: 26,
   },
   cast_cont: {
     marginTop: 20,
     backgroundColor: '#1f1f1f',
     paddingBottom: 10,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 7,
@@ -127,7 +122,7 @@ const styles = StyleSheet.create({
   cast_heading: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: 5
+    padding: 5,
   },
   cast_heading_subtitle_cont: {
     padding: 5,
@@ -140,13 +135,13 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     color: '#1472f1',
     fontSize: 18,
-    fontWeight: '600'
+    fontWeight: '600',
   },
   cast_carousel: {
     backgroundColor: '#1f1f1f',
     justifyContent: 'space-between',
     paddingTop: 15,
-    paddingBottom: 15
+    paddingBottom: 15,
   },
   cast_actor_cont: {
     height: 330,
@@ -154,17 +149,16 @@ const styles = StyleSheet.create({
     marginRight: 10,
     marginLeft: 10,
 
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
-	    width: 3,
-	    height: 3,
+      width: 3,
+      height: 3,
     },
     shadowOpacity: 0.5,
     shadowRadius: 3.84,
     elevation: 5,
   },
-  actor_image_cont:{
-  },
+  actor_image_cont: {},
   actor_image: {
     height: 225,
     width: 150,
@@ -178,14 +172,14 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#131313'
+    backgroundColor: '#131313',
   },
   actor_def_image: {
     height: 225,
     width: 150,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-    opacity: 0.4
+    opacity: 0.4,
   },
   cast_actor_name: {
     height: 60,
@@ -193,7 +187,7 @@ const styles = StyleSheet.create({
     paddingLeft: 8,
     paddingTop: 15,
     justifyContent: 'flex-start',
-    backgroundColor: '#313131'
+    backgroundColor: '#313131',
   },
   cast_actor_character: {
     height: 50,
@@ -216,24 +210,23 @@ const styles = StyleSheet.create({
   },
   cast_writers_job_cont: {
     paddingLeft: 10,
-    paddingTop: 10
+    paddingTop: 10,
   },
   cast_writers_job_text: {
     color: 'white',
     fontSize: 16,
-    fontWeight: '600'
+    fontWeight: '600',
   },
   cast_writers_name_cont: {
     paddingLeft: 10,
     paddingTop: 10,
-    paddingRight: 1
+    paddingRight: 1,
   },
   cast_writers_name_text: {
     color: '#737373',
     fontSize: 16,
-    paddingRight: 1
+    paddingRight: 1,
   },
-
-})
+});
 
 export default CastBlock;

@@ -1,86 +1,78 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, StyleSheet, Image } from 'react-native';
+import React from 'react';
+import { View, Text, ScrollView, StyleSheet } from 'react-native';
+
 import RenderImage from '../helperFunctions/RenderImage';
 
 const InfoBlock = ({ movie_tmdb, genres }) => {
   const renderGenres = (genresArr) => {
-    let genreBlocks = [];
+    const genreBlocks = [];
     genresArr.forEach((genre, i) => {
       genreBlocks.push(
         <View key={i} style={styles.genres_block}>
-          <Text style={styles.genres_text}>
-            {genre}
-          </Text>
+          <Text style={styles.genres_text}>{genre}</Text>
         </View>
-        )
-    })
+      );
+    });
     const notSpecified = (
       <View key={1} style={styles.genres_block}>
-        <Text style={styles.genres_text}>
-          Genres are not specified
-        </Text>
+        <Text style={styles.genres_text}>Genres are not specified</Text>
       </View>
-    )
+    );
     return genresArr.length > 1 ? genreBlocks : notSpecified;
   };
 
   const renderTagline = () => {
-    return movie_tmdb.tagline ?
+    return movie_tmdb.tagline ? (
       <View style={styles.tagline_cont}>
-        <Text style={styles.tagline_text} testID='tagline'>
+        <Text style={styles.tagline_text} testID="tagline">
           {`"${movie_tmdb.tagline}"`}
         </Text>
-        <Separator/>
-      </View> : null
+        <Separator />
+      </View>
+    ) : null;
   };
 
-  const Separator = () => (
-    <View style={styles.separator} />
-  );
+  const Separator = () => <View style={styles.separator} />;
 
   return (
     <View>
-     <View style={styles.desc_main_cont}>
+      <View style={styles.desc_main_cont}>
         <RenderImage
           mainObj={movie_tmdb}
-          baseUrl='https://image.tmdb.org/t/p/w154'
-          propToLink='poster_path'
+          baseUrl="https://image.tmdb.org/t/p/w154"
+          propToLink="poster_path"
           defaultImg={require('../../assets/default.jpg')}
           posterContStyle={styles.poster_cont}
           posterStyle={styles.poster}
           defPosterContStyle={styles.poster_cont}
           defPosterStyle={styles.poster}
-          testID='image'
+          testID="image"
         />
         <View style={styles.genres_desc_cont}>
-            <ScrollView
-              showsHorizontalScrollIndicator={false}
-              style={styles.genres_cont}
-              horizontal={true}
-              testID='genres'>
-                {renderGenres(genres)}
-            </ScrollView>
-            <ScrollView
-              style={styles.desc_cont}
-              nestedScrollEnabled={true}
-              showsVerticalScrollIndicator={false}
-              testID='overview_scroll'
-            >
-              <Text style={styles.desc_scroll_text} testID='overview'>
-                {movie_tmdb.overview}
-              </Text>
-            </ScrollView>
+          <ScrollView
+            showsHorizontalScrollIndicator={false}
+            style={styles.genres_cont}
+            horizontal={true}
+            testID="genres">
+            {renderGenres(genres)}
+          </ScrollView>
+          <ScrollView
+            style={styles.desc_cont}
+            nestedScrollEnabled={true}
+            showsVerticalScrollIndicator={false}
+            testID="overview_scroll">
+            <Text style={styles.desc_scroll_text} testID="overview">
+              {movie_tmdb.overview}
+            </Text>
+          </ScrollView>
         </View>
       </View>
       <Separator />
 
-      <View>
-         {renderTagline()}
-      </View>
+      <View>{renderTagline()}</View>
       <Separator />
-
-      </View>
-  )
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -92,11 +84,11 @@ const styles = StyleSheet.create({
   desc_main_cont: {
     flexDirection: 'row',
     backgroundColor: '#1f1f1f',
-    padding: 5
+    padding: 5,
   },
   poster_cont: {
     margin: 5,
-    maxHeight: 138
+    maxHeight: 138,
   },
   poster: {
     width: 92,
@@ -112,18 +104,18 @@ const styles = StyleSheet.create({
     paddingBottom: 7,
   },
   genres_scroll: {
-    backgroundColor: '#131313'
+    backgroundColor: '#131313',
   },
   genres_block: {
     padding: 5,
     marginRight: 10,
     borderColor: '#737373',
     borderWidth: 2,
-    borderRadius: 6
+    borderRadius: 6,
   },
   genres_text: {
     fontSize: 16,
-    color: 'white'
+    color: 'white',
   },
   desc_cont: {
     maxHeight: 90,
@@ -131,18 +123,18 @@ const styles = StyleSheet.create({
   },
   desc_scroll_text: {
     color: 'white',
-    fontSize: 16
+    fontSize: 16,
   },
   tagline_cont: {
     backgroundColor: '#1f1f1f',
     alignItems: 'center',
-    padding: 10
+    padding: 10,
   },
   tagline_text: {
     color: '#737373',
     fontSize: 18,
-    fontStyle: 'italic'
+    fontStyle: 'italic',
   },
-})
+});
 
 export default InfoBlock;

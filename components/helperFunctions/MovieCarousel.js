@@ -1,115 +1,114 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import React, { useEffect } from 'react';
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+
 import RenderImage from '../helperFunctions/RenderImage';
 
 const MovieCarousel = ({ movieList, carouselHeader, changeView, getSelectedMovie }) => {
-
   const scroll = React.createRef();
 
   useEffect(() => {
-    if(movieList.length) {
-      scroll.current.scrollTo({x:0, animated: false});
+    if (movieList.length) {
+      scroll.current.scrollTo({ x: 0, animated: false });
     }
-  }, [movieList])
+  }, [movieList]);
 
   const displayCharacter = (char) => {
     return (
       <View style={styles.char_title}>
-        <Text
-          style={char.length > 20 ? styles.char_text_sm : styles.char_text}
-        >
-          {char}
-        </Text>
+        <Text style={char.length > 20 ? styles.char_text_sm : styles.char_text}>{char}</Text>
       </View>
-    )
+    );
   };
 
   return movieList.length > 0 ? (
     <View>
       <View style={styles.main_cont}>
-
-      <View style={styles.movie_heading}>
-        <View style={styles.movie_heading_subtitle_cont}>
-          <Text testID='header_text' style={styles.subtitle}>{carouselHeader}</Text>
-        </View>
-        <TouchableOpacity>
-          <View style={styles.movie_heading_seeAllbutton_cont}>
-            <Text style={styles.movie_heading_seeAllbutton_text}></Text>
+        <View style={styles.movie_heading}>
+          <View style={styles.movie_heading_subtitle_cont}>
+            <Text testID="header_text" style={styles.subtitle}>
+              {carouselHeader}
+            </Text>
           </View>
-        </TouchableOpacity>
-      </View>
+          <TouchableOpacity>
+            <View style={styles.movie_heading_seeAllbutton_cont}>
+              <Text style={styles.movie_heading_seeAllbutton_text}></Text>
+            </View>
+          </TouchableOpacity>
+        </View>
 
-      <ScrollView
-        horizontal={true}
-        contentContainerStyle={styles.cast_carousel}
-        showsHorizontalScrollIndicator={false}
-        scrollEventThrottle={200}
-        decelerationRate="fast"
-        testID='scroll_view'
-        ref={scroll}
-      >
-        {movieList.map((movie, i) => {
-          return (
-            <View key={i} style={styles.movie_cont}>
-              <TouchableOpacity
-                onPress={() => {
-                  getSelectedMovie(movie.id);
-                  changeView('MOVIE VIEW');
-                }}
-                testID='movie'
-              >
-                <RenderImage
-                  mainObj={movie}
-                  baseUrl='https://image.tmdb.org/t/p/w154'
-                  propToLink='poster_path'
-                  defaultImg={require('../../assets/default.jpg')}
-                  posterContStyle={styles.movie_poster_cont}
-                  posterStyle={styles.poster_image}
-                  defPosterContStyle={styles.movie_def_cont}
-                  defPosterStyle={styles.movie_def_image}
-                  testID='movie_image'
-                />
+        <ScrollView
+          horizontal={true}
+          contentContainerStyle={styles.cast_carousel}
+          showsHorizontalScrollIndicator={false}
+          scrollEventThrottle={200}
+          decelerationRate="fast"
+          testID="scroll_view"
+          ref={scroll}>
+          {movieList.map((movie, i) => {
+            return (
+              <View key={i} style={styles.movie_cont}>
+                <TouchableOpacity
+                  onPress={() => {
+                    getSelectedMovie(movie.id);
+                    changeView('MOVIE VIEW');
+                  }}
+                  testID="movie">
+                  <RenderImage
+                    mainObj={movie}
+                    baseUrl="https://image.tmdb.org/t/p/w154"
+                    propToLink="poster_path"
+                    defaultImg={require('../../assets/default.jpg')}
+                    posterContStyle={styles.movie_poster_cont}
+                    posterStyle={styles.poster_image}
+                    defPosterContStyle={styles.movie_def_cont}
+                    defPosterStyle={styles.movie_def_image}
+                    testID="movie_image"
+                  />
 
-              <View style={movie.character ? styles.movie_title_sm : styles.movie_title}>
-                <Text style={movie.title.length > 25 ? styles.movie_title_text_sm : styles.movie_title_text} testID='movie_title'
-                >
-                  {movie.title}
-                </Text>
-              </View>
-
-                {movie.character ? displayCharacter(movie.character) : null}
-
-                <View style={movie.character ? styles.footer_cont_sm : styles.footer_cont}>
-                  <View style={styles.movie_date_cont}>
-                    <Text style={styles.movie_date_text} testID='movie_year'>
-                      {movie.release_date ? movie.release_date.slice(0,4) : ''}
+                  <View style={movie.character ? styles.movie_title_sm : styles.movie_title}>
+                    <Text
+                      style={
+                        movie.title.length > 25
+                          ? styles.movie_title_text_sm
+                          : styles.movie_title_text
+                      }
+                      testID="movie_title">
+                      {movie.title}
                     </Text>
                   </View>
-                  <View style={styles.star_cont} testID='inlist_star'>
-                    {movie.inList ? (<Text style={styles.star_cont_text}>★ </Text>) : null}
-                  </View>
-                </View>
 
-              </TouchableOpacity>
-            </View>
-          )
-      })}
+                  {movie.character ? displayCharacter(movie.character) : null}
+
+                  <View style={movie.character ? styles.footer_cont_sm : styles.footer_cont}>
+                    <View style={styles.movie_date_cont}>
+                      <Text style={styles.movie_date_text} testID="movie_year">
+                        {movie.release_date ? movie.release_date.slice(0, 4) : ''}
+                      </Text>
+                    </View>
+                    <View style={styles.star_cont} testID="inlist_star">
+                      {movie.inList ? <Text style={styles.star_cont_text}>★ </Text> : null}
+                    </View>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            );
+          })}
         </ScrollView>
       </View>
     </View>
-  ) : null
+  ) : null;
 };
 
 const styles = StyleSheet.create({
   subtitle: {
     color: 'white',
-    fontSize: 26
+    fontSize: 26,
   },
   main_cont: {
     marginTop: 20,
     backgroundColor: '#1f1f1f',
     paddingBottom: 10,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 7,
@@ -121,7 +120,7 @@ const styles = StyleSheet.create({
   movie_heading: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: 5
+    padding: 5,
   },
   movie_heading_subtitle_cont: {
     padding: 5,
@@ -134,30 +133,29 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     color: '#1472f1',
     fontSize: 18,
-    fontWeight: '600'
+    fontWeight: '600',
   },
   cast_carousel: {
     backgroundColor: '#1f1f1f',
     justifyContent: 'space-between',
     paddingTop: 15,
-    paddingBottom: 15
+    paddingBottom: 15,
   },
   movie_cont: {
     height: 330,
     maxWidth: 150,
     marginRight: 10,
     marginLeft: 10,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
-	    width: 3,
-	    height: 3,
+      width: 3,
+      height: 3,
     },
     shadowOpacity: 0.5,
     shadowRadius: 3.84,
     elevation: 5,
   },
-  movie_poster_cont: {
-  },
+  movie_poster_cont: {},
   poster_image: {
     height: 225,
     width: 150,
@@ -171,14 +169,14 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#131313'
+    backgroundColor: '#131313',
   },
   movie_def_image: {
     height: 225,
     width: 150,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-    opacity: 0.4
+    opacity: 0.4,
   },
   movie_title: {
     height: 80,
@@ -249,16 +247,12 @@ const styles = StyleSheet.create({
   star_cont: {},
   star_cont_text: {
     color: 'green',
-    fontSize: 16
+    fontSize: 16,
   },
   movie_date_text: {
     color: '#737373',
     fontSize: 15,
   },
-  movie_date_text: {
-    color: '#737373',
-    fontSize: 15,
-  },
-})
+});
 
 export default MovieCarousel;

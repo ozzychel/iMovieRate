@@ -1,50 +1,54 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 const AddToListButtonBlock = ({ movie_tmdb, addToList }) => {
-
   return (
     <View style={styles.addWatchList_cont}>
-        <TouchableOpacity
-          disabled={movie_tmdb.inList ? true : false}
-          onPress={() => {
-            addToList(movie_tmdb)
-          }}
-          testID="btn_clickable"
-        >
-          <View style={movie_tmdb.inList ? styles.addButton_cont_inlist : styles.addButton_cont} testID='btn_cont'>
-            <View style={styles.addButton_icon_cont}>
-              <Text style={movie_tmdb.inList ? styles.addButton_icon_text_inlist : styles.addButton_icon_text} testID='btn_icon'
-              >{movie_tmdb.inList ? '✔' : '+'}
-              </Text>
-            </View>
-            <View style={styles.addButton_text_cont}>
-              <Text style={styles.addButton_text} testID='btn_text'>
-                {movie_tmdb.inList ? 'IN YOUR WATCHLIST' : 'ADD TO WATCHLIST'}
-                </Text>
-            </View>
+      <TouchableOpacity
+        disabled={!!movie_tmdb.inList}
+        onPress={() => {
+          addToList(movie_tmdb);
+        }}
+        testID="btn_clickable">
+        <View
+          style={movie_tmdb.inList ? styles.addButton_cont_inlist : styles.addButton_cont}
+          testID="btn_cont">
+          <View style={styles.addButton_icon_cont}>
+            <Text
+              style={
+                movie_tmdb.inList ? styles.addButton_icon_text_inlist : styles.addButton_icon_text
+              }
+              testID="btn_icon">
+              {movie_tmdb.inList ? '✔' : '+'}
+            </Text>
           </View>
-        </TouchableOpacity>
-      </View>
-  )
+          <View style={styles.addButton_text_cont}>
+            <Text style={styles.addButton_text} testID="btn_text">
+              {movie_tmdb.inList ? 'IN YOUR WATCHLIST' : 'ADD TO WATCHLIST'}
+            </Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
   addWatchList_cont: {
     backgroundColor: '#1f1f1f',
-    padding: 12
+    padding: 12,
   },
   addButton_cont: {
     flexDirection: 'row',
     justifyContent: 'center',
     backgroundColor: '#008122',
-    borderRadius: 5
+    borderRadius: 5,
   },
   addButton_cont_inlist: {
     flexDirection: 'row',
     justifyContent: 'center',
     backgroundColor: '#313131',
-    borderRadius: 5
+    borderRadius: 5,
   },
   addButton_icon_cont: {
     alignItems: 'flex-end',
@@ -53,11 +57,11 @@ const styles = StyleSheet.create({
   },
   addButton_icon_text: {
     color: 'white',
-    fontSize: 22
+    fontSize: 22,
   },
   addButton_icon_text_inlist: {
     color: 'green',
-    fontSize: 16
+    fontSize: 16,
   },
   addButton_text_cont: {
     alignItems: 'flex-start',
@@ -67,7 +71,7 @@ const styles = StyleSheet.create({
   addButton_text: {
     paddingTop: 2,
     color: 'white',
-    fontSize: 14
+    fontSize: 14,
   },
 });
 

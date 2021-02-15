@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Button, TextInput, Alert, Keyboard, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TextInput, Alert, Keyboard, TouchableOpacity } from 'react-native';
 
 const SearchBar = ({ getUserInput, setModalVisible, changeView, os }) => {
-
   const [inputValue, setInputValue] = useState('');
 
   const handleSearchPress = () => {
@@ -19,39 +18,37 @@ const SearchBar = ({ getUserInput, setModalVisible, changeView, os }) => {
   };
 
   return (
-    <View testID='container' style={os === 'ios' ?
-      {marginTop: 135,backgroundColor: 'white'} :
-      {marginTop: 100,backgroundColor: 'white'}
-    }
-    >
-
-    <View style={styles.container}>
-
-      <View style={styles.inputWrapper}>
-        <TextInput
-          style={styles.input}
-          value={inputValue}
-          onChangeText={text => setInputValue(text)}
-          placeholder="Search movie title..."
-          // placeholderTextColor="grey"
-          returnKeyType='search'
-          testID='input'
-        />
+    <View
+      testID="container"
+      style={
+        os === 'ios'
+          ? { marginTop: 135, backgroundColor: 'white' }
+          : { marginTop: 100, backgroundColor: 'white' }
+      }>
+      <View style={styles.container}>
+        <View style={styles.inputWrapper}>
+          <TextInput
+            style={styles.input}
+            value={inputValue}
+            onChangeText={(text) => setInputValue(text)}
+            placeholder="Search movie title..."
+            // placeholderTextColor="grey"
+            returnKeyType="search"
+            testID="input"
+          />
+        </View>
       </View>
-    </View>
 
       <View style={styles.btn_cont}>
-        <TouchableOpacity
-          style={styles.btn_body}
-          onPress={handleSearchPress}
-          testID='search_btn'
-          >
-          <Text style={styles.btn_text} testID='btn_text'>SEARCH</Text>
+        <TouchableOpacity style={styles.btn_body} onPress={handleSearchPress} testID="search_btn">
+          <Text style={styles.btn_text} testID="btn_text">
+            SEARCH
+          </Text>
         </TouchableOpacity>
       </View>
-  </View>
-  )
-}
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   inputWrapper: {
@@ -61,17 +58,17 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     borderBottomWidth: 2,
     borderBottomColor: 'darkgrey',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
   input: {
     fontSize: 22,
     paddingLeft: 5,
-    paddingTop:10
+    paddingTop: 10,
   },
   btn_cont: {
-    padding:4,
+    padding: 4,
     borderBottomColor: '#131313',
-    borderBottomWidth: 2
+    borderBottomWidth: 2,
   },
   btn_body: {
     borderWidth: 2,
@@ -81,7 +78,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#131313',
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 5,
@@ -93,10 +90,8 @@ const styles = StyleSheet.create({
   btn_text: {
     fontSize: 18,
     fontWeight: '600',
-    color: 'white'
-  }
-})
+    color: 'white',
+  },
+});
 
 export default SearchBar;
-
-

@@ -1,5 +1,5 @@
-const getOS = () => Platform.OS
+const getOS = () => Platform.OS;
 
 module.exports = {
-  getOS
-}
+  getOS,
+};

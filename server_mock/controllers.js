@@ -1,19 +1,17 @@
 const db = require('../db/index_db');
-const keys = require('../config');
-const axios = require('axios');
 const mockData = require('../mockData');
 
 /*-------------------------------------------------------
   == MOCK APIC CALLS ==
 --------------------------------------------------------*/
 const getGenresList = async (req, res) => {
-  try{
-    let genresObj = {};
+  try {
+    const genresObj = {};
     mockData.genres.forEach((item) => {
-      if(!genresObj[item.id]) {
-        genresObj[item.id] = item.name
+      if (!genresObj[item.id]) {
+        genresObj[item.id] = item.name;
       }
-    })
+    });
     res.status(200).send(genresObj);
   } catch (err) {
     console.log('Error: in getGenresList', err);
@@ -22,26 +20,26 @@ const getGenresList = async (req, res) => {
 };
 
 const getTrending = async (req, res) => {
-  let timeWindow = req.query.timeWindow;
+  const timeWindow = req.query.timeWindow;
   try {
     const movieList = mockData.trending.results;
     const userList = await db.model.findById(req.query.userId);
     const checked = await checkIfInList(movieList, userList.wish_list);
-    if(timeWindow === 'day') res.status(200).send(checked);
+    if (timeWindow === 'day') res.status(200).send(checked);
     else res.status(200).send(checked.reverse());
   } catch (err) {
     console.log('Error: in getTrending', err);
-    res.status(400).send()
+    res.status(400).send();
   }
 };
 
 const getNowPlaying = async (req, res) => {
-  try{
+  try {
     const movieList = mockData.trending.results;
     const userList = await db.model.findById(req.query.userId);
     const checked = await checkIfInList(movieList, userList.wish_list);
-    let mid = Math.floor(checked.length / 2)
-    const swapped = checked.slice(mid).concat(checked.slice(0, mid))
+    const mid = Math.floor(checked.length / 2);
+    const swapped = checked.slice(mid).concat(checked.slice(0, mid));
     res.status(200).send(swapped);
   } catch (err) {
     console.log('Error: in getNowPlaying', err);
@@ -50,7 +48,7 @@ const getNowPlaying = async (req, res) => {
 };
 
 const getMovieDataById = async (req, res) => {
-  try{
+  try {
     const movie = [mockData.movieDetails[req.query.movieId]];
     const userList = await db.model.findById(req.query.userId);
     const checked = await checkIfInList(movie, userList.wish_list);
@@ -62,7 +60,7 @@ const getMovieDataById = async (req, res) => {
 };
 
 const getCastListFromServer = async (req, res) => {
-  try{
+  try {
     const response = mockData.cast[req.params.movieId];
     res.status(200).send(response);
   } catch (err) {
@@ -72,8 +70,7 @@ const getCastListFromServer = async (req, res) => {
 };
 
 const getRecommendedList = async (req, res) => {
-  let movieId = req.params.movieId;
-  try{
+  try {
     const movieList = mockData.trending.results;
     const userList = await db.model.findById(req.query.userId);
     const checked = await checkIfInList(movieList, userList.wish_list);
@@ -85,7 +82,7 @@ const getRecommendedList = async (req, res) => {
 };
 
 const getMovieTrailer = async (req, res) => {
-  try{
+  try {
     const list = mockData.trailer[req.params.movieId];
     const official = await getOfficialTrailer(list);
     res.status(200).send(official);
@@ -96,9 +93,9 @@ const getMovieTrailer = async (req, res) => {
 };
 
 const getMovieList = async (req, res) => {
-  try{
-    let list = mockData.trending;
-    let userList = await db.model.findById(req.query.userId);
+  try {
+    const list = mockData.trending;
+    const userList = await db.model.findById(req.query.userId);
     list.results = await checkIfInList(list.results, userList.wish_list);
     res.status(200).send(list);
   } catch (err) {
@@ -108,18 +105,18 @@ const getMovieList = async (req, res) => {
 };
 
 const getMovieImages = async (req, res) => {
-  try{
-    const response = mockData.images[req.query.movieId]
+  try {
+    const response = mockData.images[req.query.movieId];
     res.status(200).send(response);
   } catch (err) {
-    console.log('Error: in getMovieImages:', err)
+    console.log('Error: in getMovieImages:', err);
     res.status(400).send();
   }
 };
 
 const getDataFromOMDB = async (req, res) => {
-  try{
-    const movie = mockData.omdb.filter(movie => movie.imdbID === req.query.i)
+  try {
+    const movie = mockData.omdb.filter((movie) => movie.imdbID === req.query.i);
     res.status(200).send(movie[0]);
   } catch (err) {
     console.log('Error: in getDataFromOMDB', err);
@@ -127,34 +124,33 @@ const getDataFromOMDB = async (req, res) => {
   }
 };
 
-
 const getPersonDataById = async (req, res) => {
-  try{
-    const response = mockData.persons["3894"];
+  try {
+    const response = mockData.persons['3894'];
     res.status(200).send(response);
-  } catch(err) {
+  } catch (err) {
     console.log('Error: in getPersonDataById', err);
     res.status(400).send([]);
   }
 };
 
 const getPersonImages = async (req, res) => {
-  try{
-    const response = mockData.persons["3894"].images.slice(1);
+  try {
+    const response = mockData.persons['3894'].images.slice(1);
     res.status(200).send(response);
-  } catch(err) {
+  } catch (err) {
     console.log('Error: in getPersonDataById', err);
     res.status(400).send([]);
   }
 };
 
 const getPersonMovies = async (req, res) => {
-  try{
-    const response = mockData.persons["3894"].known_for;
-    res.status(200).send(response)
-  } catch(err) {
+  try {
+    const response = mockData.persons['3894'].known_for;
+    res.status(200).send(response);
+  } catch (err) {
     console.log('Error: in getPersonDataById', err);
-    res.status(400).send(mockData.persons["3894"].known_for);
+    res.status(400).send(mockData.persons['3894'].known_for);
   }
 };
 
@@ -162,14 +158,14 @@ const getPersonMovies = async (req, res) => {
   == HELPERS ==
 --------------------------------------------------------*/
 const checkIfInList = (apiList, userList) => {
-  let hash = {};
+  const hash = {};
   for (let i = 0; i < userList.length; i++) {
     if (hash[userList[i].id] === undefined) {
       hash[userList[i].id] = true;
     }
   }
   for (let i = 0; i < apiList.length; i++) {
-    let movie = apiList[i];
+    const movie = apiList[i];
     if (hash[movie.id]) movie.inList = true;
     else movie.inList = false;
   }
@@ -178,35 +174,11 @@ const checkIfInList = (apiList, userList) => {
 
 const getOfficialTrailer = (arr) => {
   if (arr.length <= 1) return arr;
-  let regex = /official/gi;
+  const regex = /official/gi;
   for (let i = 0; i < arr.length; i++) {
     if (regex.test(arr[i].name)) return [arr[i]];
   }
   return arr;
-};
-
-const filterMovie = (arr, title, date, runtime) => {
-  let results = [];
-  const compareLength = (kp_leng, tmdb_leng) => {
-    let arr = kp_leng.split(':');
-    let h = arr[0], mm = arr[1];
-    let kp_num = parseInt(h) * 60 + parseInt(mm);
-    if (tmdb_leng * 0.9 <= kp_num || tmdb_leng * 1.1 >= kp_num) return true;
-    else return false;
-  };
-  for (let i = 0; i < arr.length; i++) {
-    let movie = arr[i];
-    if (movie.nameEn.split(' ').join('').toLowerCase() === title.split(' ').join('').toLowerCase()) {
-      if (movie.year == date) return [movie];
-      else results.push(movie);
-    }
-    if (movie.year == date) results.push(movie)
-  }
-  if (results.length === 1) return results;
-  for(let i = 0; i < results.length; i++) {
-    if(compareLength(results[i].filmLength, runtime)) return [results[i]]
-  }
-  return results;
 };
 
 /*-------------------------------------------------------
@@ -221,35 +193,38 @@ const getUserList = (req, res) => {
       console.log('GET FAILED', err);
       res.status(400).send();
     }
-  })
+  });
 };
 
 const postMovieToUserList = (req, res) => {
-  let movie = req.body;
-  db.model.findByIdAndUpdate(req.params.userId, { $push: { wish_list: movie } } ,
-     (err, result) => {
+  const movie = req.body;
+  db.model.findByIdAndUpdate(req.params.userId, { $push: { wish_list: movie } }, (err, result) => {
     if (result) {
       res.status(200).send();
     }
     if (err) {
-      console.log('DB INSERTION FAILED', err)
+      console.log('DB INSERTION FAILED', err);
       res.status(400).send();
     }
-  })
+  });
 };
 
 const patchDataInUserList = (req, res) => {
-  let movieId = req.body.movieId
-  db.model.findOneAndUpdate(req.params.userId, { $pull: { wish_list: { id: movieId } } }, (err, result) => {
-    if (result) {
-      res.status(200).send();
+  const movieId = req.body.movieId;
+  db.model.findOneAndUpdate(
+    req.params.userId,
+    { $pull: { wish_list: { id: movieId } } },
+    (err, result) => {
+      if (result) {
+        res.status(200).send();
+      }
+      if (err) {
+        console.log('DB PATCH FAILED', err);
+        res.status(400).send();
+      }
     }
-    if (err) {
-      console.log('DB PATCH FAILED', err)
-      res.status(400).send();
-    }
-  })
-}
+  );
+};
 
 module.exports = {
   postMovieToUserList,
@@ -267,5 +242,5 @@ module.exports = {
   getMovieImages,
   getPersonDataById,
   getPersonImages,
-  getPersonMovies
-}
+  getPersonMovies,
+};

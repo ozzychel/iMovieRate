@@ -11,7 +11,9 @@
     "test:coverage": "jest --coverage=true",
     "db-seed": "node ./db/seed_db.js",
     "prod-server": "nodemon ./server/index.js",
-    "mock-server": "nodemon ./server_mock/index.js"
+    "mock-server": "nodemon ./server_mock/index.js",
+    "lint": "eslint db --ext .js server --ext .js server_mock --ext .js components --ext .js __tests__ --ext .js",
+    "lint-fix": "eslint db --ext .js server --ext .js server_mock --ext .js components --ext .js __tests__ --ext .js --fix"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.30",
@@ -37,12 +39,19 @@
   "devDependencies": {
     "@babel/core": "^7.8.6",
     "@testing-library/jest-native": "^3.4.3",
+    "@typescript-eslint/eslint-plugin": "^4.15.0",
+    "@typescript-eslint/parser": "^4.15.0",
     "axios": "^0.21.1",
     "babel-preset-expo": "~8.1.0",
+    "eslint": "^7.20.0",
+    "eslint-config-universe": "^7.0.1",
+    "eslint-plugin-react": "^7.22.0",
     "jest-expo": "^40.0.1",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.6",
-    "react-test-renderer": "^17.0.1"
+    "prettier": "^2.2.1",
+    "react-test-renderer": "^17.0.1",
+    "typescript": "^4.1.5"
   },
   "private": true
 }

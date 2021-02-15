@@ -1,11 +1,12 @@
-const db = require('./index_db');
 const mockData = require('../mockData');
+const db = require('./index_db');
 
 const mockUser = [mockData.user];
 
-const insertSampleData = function(user) {
+const insertSampleData = function (user) {
   db.model.collection.drop();
-  db.model.create(user)
+  db.model
+    .create(user)
     .then((result) => {
       console.log(`MOCK_USER CREATION SUCCESS`);
       db.connection.close();

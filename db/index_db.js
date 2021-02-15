@@ -8,19 +8,20 @@ const option = {
   useCreateIndex: true,
 };
 
-mongoose.connect('mongodb://localhost/imovierate', option)
-  .then((result)=>{
+mongoose
+  .connect('mongodb://localhost/imovierate', option)
+  .then((result) => {
     console.log('DB CONNECTION ESTABLISHED');
   })
-  .catch((err)=>{
-    console.log('UNABLE TO CONNECT');
+  .catch((err) => {
+    console.log('UNABLE TO CONNECT', err);
   });
 
 const db = mongoose.connection;
 
 //Test connection
 db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function() {
+db.once('open', function () {
   console.log('DATABASE CONNECTED');
 });
 //
@@ -28,25 +29,26 @@ db.once('open', function() {
 const UserSchema = new mongoose.Schema({
   id: {
     type: Number,
-    unique: true
+    unique: true,
   },
   first_name: String,
   last_name: String,
   email: {
     type: String,
-    unique: true
+    unique: true,
   },
   dob: String,
-  wish_list: [{
-    id: Number,
-    title: String,
-    release_date: String,
-    genre_ids: [ Number ],
-    poster_path: String,
-    inList: Boolean
-  }],
-})
-
+  wish_list: [
+    {
+      id: Number,
+      title: String,
+      release_date: String,
+      genre_ids: [Number],
+      poster_path: String,
+      inList: Boolean,
+    },
+  ],
+});
 
 const UserClass = mongoose.model('users', UserSchema);
 

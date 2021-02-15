@@ -1,9 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView }
-from 'react-native';
+import React from 'react';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
+
 import Movie from './Movie';
 
-const WatchList = ({ userList, genresList, currentTab, changeView, getSelectedMovie, deleteFromList, os }) => {
+const WatchList = ({
+  userList,
+  genresList,
+  currentTab,
+  changeView,
+  getSelectedMovie,
+  deleteFromList,
+  os,
+}) => {
   const movies = userList.map((mov, i) => (
     <Movie
       key={i}
@@ -13,7 +21,7 @@ const WatchList = ({ userList, genresList, currentTab, changeView, getSelectedMo
       changeView={changeView}
       getSelectedMovie={getSelectedMovie}
       deleteFromList={deleteFromList}
-      testID='inlist_movie'
+      testID="inlist_movie"
     />
   ));
 
@@ -22,16 +30,19 @@ const WatchList = ({ userList, genresList, currentTab, changeView, getSelectedMo
       <ScrollView
         contentContainerStyle={styles.contentContainer}
         showsVerticalScrollIndicator={true}
-        testID='scroll_view'
-      >
+        testID="scroll_view">
         {movies}
       </ScrollView>
-      <View style={os === 'ios' ? {height:160} : {height:110}} testID='footer'></View>
+      <View style={os === 'ios' ? { height: 160 } : { height: 110 }} testID="footer"></View>
     </View>
-  )
-  :
-  (<View style={styles.msg_cont}><Text style={styles.msg_text}testID='empty_msg'>You don't have any saved lists yet, please start new search...</Text></View>)
-}
+  ) : (
+    <View style={styles.msg_cont}>
+      <Text style={styles.msg_text} testID="empty_msg">
+        You don't have any saved lists yet, please start new search...
+      </Text>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   contentContainer: {
@@ -39,8 +50,8 @@ const styles = StyleSheet.create({
   },
   scrollWrapper: {
     height: '100%',
-    backgroundColor:'#1f1f1f',
-    paddingBottom: 'auto'
+    backgroundColor: '#1f1f1f',
+    paddingBottom: 'auto',
   },
   msg_cont: {
     borderWidth: 2,
@@ -48,13 +59,13 @@ const styles = StyleSheet.create({
     marginTop: 5,
     backgroundColor: '#1e1e1e',
     padding: 10,
-    borderRadius: 8
+    borderRadius: 8,
   },
   msg_text: {
-    color:'white',
+    color: 'white',
     textAlign: 'center',
     fontSize: 16,
-  }
-})
+  },
+});
 
 export default WatchList;

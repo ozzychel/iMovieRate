@@ -7,28 +7,28 @@ const TrailerBlock = ({ movieTrailer }) => {
   return movieTrailer.length > 0 ? (
     <View>
       <View style={styles.main_cont}>
-
-      <View style={styles.block_heading}>
-        <View style={styles.block_heading_subtitle_cont}>
-          <Text style={styles.subtitle} testID='title'>Trailer</Text>
+        <View style={styles.block_heading}>
+          <View style={styles.block_heading_subtitle_cont}>
+            <Text style={styles.subtitle} testID="title">
+              Trailer
+            </Text>
+          </View>
         </View>
-      </View>
 
-      <View style={{alignItems: 'center'}}>
-        <WebView
-          style={{
-            marginTop: (Platform.OS == 'android') ? 20 : 0,
-            width: windowWidth,
-            height: windowWidth * .56,
-            padding: 5
-          }}
-          javaScriptEnabled={true}
-          domStorageEnabled={true}
-          testID='webview'
-          source={{uri: `https://www.youtube.com/embed/${movieTrailer[0].key}` }}
-        />
-      </View>
-
+        <View style={{ alignItems: 'center' }}>
+          <WebView
+            style={{
+              marginTop: Platform.OS === 'android' ? 20 : 0,
+              width: windowWidth,
+              height: windowWidth * 0.56,
+              padding: 5,
+            }}
+            javaScriptEnabled={true}
+            domStorageEnabled={true}
+            testID="webview"
+            source={{ uri: `https://www.youtube.com/embed/${movieTrailer[0].key}` }}
+          />
+        </View>
       </View>
     </View>
   ) : null;
@@ -37,13 +37,13 @@ const TrailerBlock = ({ movieTrailer }) => {
 const styles = StyleSheet.create({
   subtitle: {
     color: 'white',
-    fontSize: 26
+    fontSize: 26,
   },
   main_cont: {
     marginTop: 20,
     backgroundColor: '#1f1f1f',
     paddingBottom: 10,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 7,
@@ -58,8 +58,8 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   block_heading_subtitle_cont: {
-    padding: 5
-  }
-})
+    padding: 5,
+  },
+});
 
 export default TrailerBlock;

@@ -153,22 +153,22 @@ export default function App () {
   };
 
   // LOGS
-  console.log('.. APP LOG .. IS_LOADING:', isLoading);
-  console.log('== APP LOG == GENRES LIST:', Object.keys(genresList).length);
-  console.log('== APP LOG == USER LIST:', userList.length);
-  console.log('== APP LOG == TRENDING DAY:', trendingDayList.length);
-  console.log('== APP LOG == TRENDING WEEK:', trendingWeekList.length);
-  console.log('== APP LOG == NOW PLAYING:', nowPlayingList.length);
-  console.log('== APP LOG == SELECTED_MOVIE:', selectedMovie.length ? selectedMovie[0].title : selectedMovie.length);
-  console.log('== APP LOG == CURRENTPAGENUM', currPageNum)
-  console.log('== APP LOG == TOTALPAGES', totalPages)
-  console.log('== APP LOG == CURRENT_SEARCH_RESULTS', searchResults.length);
-  console.log('== APP LOG == NORESULT_FLAG', noResult);
-  console.log('== APP LOG == SELECTED_PERSON', selectedPerson.length)
+  // console.log('.. APP LOG .. IS_LOADING:', isLoading);
+  // console.log('== APP LOG == GENRES LIST:', Object.keys(genresList).length);
+  // console.log('== APP LOG == USER LIST:', userList.length);
+  // console.log('== APP LOG == TRENDING DAY:', trendingDayList.length);
+  // console.log('== APP LOG == TRENDING WEEK:', trendingWeekList.length);
+  // console.log('== APP LOG == NOW PLAYING:', nowPlayingList.length);
+  // console.log('== APP LOG == SELECTED_MOVIE:', selectedMovie.length ? selectedMovie[0].title : selectedMovie.length);
+  // console.log('== APP LOG == CURRENTPAGENUM', currPageNum)
+  // console.log('== APP LOG == TOTALPAGES', totalPages)
+  // console.log('== APP LOG == CURRENT_SEARCH_RESULTS', searchResults.length);
+  // console.log('== APP LOG == NORESULT_FLAG', noResult);
+  // console.log('== APP LOG == SELECTED_PERSON', selectedPerson.length)
 
-  console.log("-----------------------------------")
-  console.log('== APP LOG == *CURRENT TAB*:', currentTab)
-  console.log("-----------------------------------")
+  // console.log("-----------------------------------")
+  // console.log('== APP LOG == *CURRENT TAB*:', currentTab)
+  // console.log("-----------------------------------")
   // -------------------
 
   const renderView = (view) => {

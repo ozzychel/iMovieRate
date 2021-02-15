@@ -4452,6 +4452,170 @@ const singleMovie = {
   "inList" : true
 };
 
+const persons = {
+  "3894": {
+    adult: false,
+    biography: `A Welsh-born English actor. In addition to starring roles in big budget Hollywood films, he has long been heavily involved in films produced by independent producers and art houses. Bale first caught the public eye when he was cast in the starring role of Steven Spielberg's Empire of the Sun at the age of 13, playing an English boy who is separated from his parents and subsequently finds himself lost in a Japanese internment camp during World War II. Since then, he has portrayed a wide range of characters. Bale is especially noted for his cult following: the tenth anniversary issue of Entertainment Weekly hailed him as one of the "Top 8 Most Powerful Cult Figures of the Past Decade", citing his cult status on the Internet. EW called Bale one of the "Most Creative People in Entertainment" in anticipation of the release American Psycho (2000). The Guardian named Bale as one of the best actors never to have received an Academy Award nomination.  Bale is most well-known for starring as Bruce Wayne/Batman in Christopher Nolan’s Dark Knight trilogy. All three films earned critical praise and did well at the box office by making over 2 billion combined dollars between the three films.  Bale was born in Haverfordwest, Pembrokeshire, Wales to parents of English descent. His father, David Bale, was an entrepreneur, commercial pilot, and talent manager and his mother, Jenny James, was a circus clown and performer. He is the youngest of four children. After leaving Wales in 1976, Bale spent his childhood in several countries, including England, Portugal and the United States. Settling for four years in Bournemouth and Henley-on-Thames, Bale was educated at Shiplake C of E Primary School, the independent Dolphin School in Berkshire, and at Bournemouth School. He participated actively in rugby union. Bale has described his childhood, with respect to his mother being in the circus, as "interesting". He recalled his first kiss was with an acrobat named Barta. As a child, he trained in ballet and guitar. His sister Louise's work in theatre also influenced his decision to become an actor. Bale's father was very supportive of his son's acting, resigning from his job as a commercial pilot to travel and manage Bale's burgeoning career. Bale's first foray into acting was a commercial for the fabric softener Lenor in 1982, when he was eight years old. He appeared in a Pac-Man cereal commercial playing a child rock star a year later and in 1984 made his stage debut in The Nerd, opposite Rowan Atkinson.\n` +
+      '\n' +
+      'On 29 January, 2000, Bale married Sandra "Sibi" Blažić (born 1970), a one-time model, make-up artist and personal assistant to Winona Ryder; the couple have a daughter, Emmeline, who was born on 27 March 2005, in Santa Monica, California. Since 1992, Bale has resided in Los Angeles.',
+    birthday: '1974-01-30',
+    deathday: null,
+    gender: 2,
+    homepage: null,
+    id: 3894,
+    imdb_id: 'nm0000288',
+    known_for_department: 'Acting',
+    name: 'Christian Bale',
+    place_of_birth: 'Haverfordwest, Pembrokeshire, Wales, UK',
+    popularity: 17.46,
+    profile_path: '/aRV0OntBgQZR0lqAekOx3Zuirml.jpg',
+    known_for: [
+      {
+        adult: false,
+        backdrop_path: '/lh5lbisD4oDbEKgUxoRaZU8HVrk.jpg',
+        genre_ids: [ 28, 80, 18 ],
+        original_language: 'en',
+        original_title: 'Batman Begins',
+        poster_path: '/1P3ZyEq02wcTMd3iE4ebtLvncvH.jpg',
+        id: 272,
+        video: false,
+        vote_average: 7.7,
+        vote_count: 15685,
+        overview: 'Driven by tragedy, billionaire Bruce Wayne dedicates his life to uncovering and defeating the corruption that plagues his home, Gotham City.  Unable to work within the system, he instead creates a new identity, a symbol of fear for the criminal underworld - The Batman.',
+        release_date: '2005-06-10',
+        title: 'Batman Begins',
+        popularity: 56.826,
+        character: 'Bruce Wayne / Batman',
+        credit_id: '52fe4230c3a36847f800ac3d',
+        order: 0
+      },
+      {
+        genre_ids: [ 28, 878, 53 ],
+        original_language: 'en',
+        original_title: 'Terminator Salvation',
+        poster_path: '/gw6JhlekZgtKUFlDTezq3j5JEPK.jpg',
+        video: false,
+        vote_average: 6,
+        id: 534,
+        overview: "All grown up in post-apocalyptic 2018, John Connor must lead the resistance of humans against the increasingly dominating militaristic robots. But when Marcus Wright appears, his existence confuses the mission as Connor tries to determine whether Wright has come from the future or the past -- and whether he's friend or foe.",
+        release_date: '2009-05-20',
+        vote_count: 4772,
+        title: 'Terminator Salvation',
+        adult: false,
+        backdrop_path: '/lo70DEjfUOweEosuPPIlcIOhhBm.jpg',
+        popularity: 49.509,
+        character: 'John Connor',
+        credit_id: '52fe424ec3a36847f8013ff7',
+        order: 0
+      },
+      {
+        adult: false,
+        backdrop_path: '/2Tawvc0JMmR9nBXD3nhBThTQP2X.jpg',
+        genre_ids: [ 53, 18, 80, 27 ],
+        vote_count: 6266,
+        original_language: 'en',
+        original_title: 'American Psycho',
+        poster_path: '/3ddHhfMlZHZCefHDeaP8FzSoH4Y.jpg',
+        id: 1359,
+        video: false,
+        vote_average: 7.3,
+        title: 'American Psycho',
+        overview: 'A wealthy New York investment banking executive hides his alternate psychopathic ego from his co-workers and friends as he escalates deeper into his illogical, gratuitous fantasies.',
+        release_date: '2000-04-13',
+        popularity: 25.257,
+        character: 'Patrick Bateman',
+        credit_id: '52fe42eec3a36847f802daf9',
+        order: 0
+      },
+      {
+        adult: false,
+        backdrop_path: '/yCnJT53HMXAK87xzPAdjdYhZ3JE.jpg',
+        genre_ids: [ 18, 9648, 53 ],
+        id: 1124,
+        original_language: 'en',
+        original_title: 'The Prestige',
+        overview: 'A mysterious story of two magicians whose intense rivalry leads them on a life-long battle for supremacy -- full of obsession, deceit and jealousy with dangerous and deadly consequences.',
+        poster_path: '/Ag2B2KHKQPukjH7WutmgnnSNurZ.jpg',
+        release_date: '2006-10-19',
+        title: 'The Prestige',
+        video: false,
+        vote_average: 8.2,
+        vote_count: 11298,
+        popularity: 29.603,
+        character: 'Alfred Borden',
+        credit_id: '52fe42e8c3a36847f802bf2b',
+        order: 0
+      },
+      {
+        video: false,
+        vote_average: 7.5,
+        overview: 'Jamie Graham, a privileged English boy, is living in Shanghai when the Japanese invade and force all foreigners into prison camps. Jamie is captured with an American sailor, who looks out for him while they are in the camp together. Even though he is separated from his parents and in a hostile environment, Jamie maintains his dignity and youthful spirits, providing a beacon of hope for the others held captive with him.',
+        release_date: '1987-12-09',
+        vote_count: 1229,
+        adult: false,
+        backdrop_path: '/l1HWd2rQ0XDNP9FUT4ZQJIQdEgp.jpg',
+        title: 'Empire of the Sun',
+        genre_ids: [ 18, 36, 10752 ],
+        id: 10110,
+        original_language: 'en',
+        original_title: 'Empire of the Sun',
+        poster_path: '/gEaCzjwHoPgyQFcwHql7o5YLHAU.jpg',
+        popularity: 11.973,
+        character: "Jim 'Jamie' Graham",
+        credit_id: '52fe43299251416c75005c7f',
+        order: 0
+      }
+    ],
+    images: [
+      {
+        aspect_ratio: 0.6668611435239207,
+        file_path: '/aRV0OntBgQZR0lqAekOx3Zuirml.jpg',
+        height: 1714,
+        iso_639_1: null,
+        vote_average: 5.258,
+        vote_count: 6,
+        width: 1143
+      },
+      {
+        aspect_ratio: 0.6666666666666666,
+        file_path: '/h9AdANYr05pWtqYJfyxQnDN9W93.jpg',
+        height: 510,
+        iso_639_1: null,
+        vote_average: 5.258,
+        vote_count: 6,
+        width: 340
+      },
+      {
+        aspect_ratio: 0.6666666666666666,
+        file_path: '/mJdH3sD8z3K6wTpaH9MvD8oQOKZ.jpg',
+        height: 1500,
+        iso_639_1: null,
+        vote_average: 5.258,
+        vote_count: 6,
+        width: 1000
+      },
+      {
+        aspect_ratio: 0.6666666666666666,
+        file_path: '/AcfW3p5D6ov573fABLyGqwYdolD.jpg',
+        height: 3000,
+        iso_639_1: null,
+        vote_average: 5.246,
+        vote_count: 2,
+        width: 2000
+      },
+      {
+        aspect_ratio: 0.6670588235294118,
+        file_path: '/azhZ0B3FZGagTv86KWnxDDJg3Jh.jpg',
+        height: 850,
+        iso_639_1: null,
+        vote_average: 5.246,
+        vote_count: 2,
+        width: 567
+      },
+    ]
+  }
+}
+
 const genresList = {
   "10402": "Music",
   "10749": "Romance",
@@ -4521,4 +4685,5 @@ module.exports = {
   searchResults,
   singleMovie,
   movie_tmdb,
+  persons
 }

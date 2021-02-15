@@ -127,6 +127,37 @@ const getDataFromOMDB = async (req, res) => {
   }
 };
 
+
+const getPersonDataById = async (req, res) => {
+  try{
+    const response = mockData.persons["3894"];
+    res.status(200).send(response);
+  } catch(err) {
+    console.log('Error: in getPersonDataById', err);
+    res.status(400).send([]);
+  }
+};
+
+const getPersonImages = async (req, res) => {
+  try{
+    const response = mockData.persons["3894"].images.slice(1);
+    res.status(200).send(response);
+  } catch(err) {
+    console.log('Error: in getPersonDataById', err);
+    res.status(400).send([]);
+  }
+};
+
+const getPersonMovies = async (req, res) => {
+  try{
+    const response = mockData.persons["3894"].known_for;
+    res.status(200).send(response)
+  } catch(err) {
+    console.log('Error: in getPersonDataById', err);
+    res.status(400).send(mockData.persons["3894"].known_for);
+  }
+};
+
 /*-------------------------------------------------------
   == HELPERS ==
 --------------------------------------------------------*/
@@ -233,5 +264,8 @@ module.exports = {
   getMovieTrailer,
   getDataFromOMDB,
   getMovieList,
-  getMovieImages
+  getMovieImages,
+  getPersonDataById,
+  getPersonImages,
+  getPersonMovies
 }

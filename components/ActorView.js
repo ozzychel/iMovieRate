@@ -11,7 +11,6 @@ const ActorView = ({ person, getSelectedMovie, changeView }) => {
   const birthday = parse(person.birthday, "yyyy-MM-dd", new Date())
   const age = differenceInYears(new Date(), birthday);
   const bd = format(birthday, "MMMM dd, yyyy");
-
   const [images, setPersonImages] = useState([]);
   const [personMovies, setPersonMovies] = useState([]);
 
@@ -32,10 +31,6 @@ const ActorView = ({ person, getSelectedMovie, changeView }) => {
     const response = await api.getPersonMovies(id);
     setPersonMovies(response);
   };
-
-  // console.log('IMAGES+++++++++', images)
-  // console.log('<<<<<PERSON MOVIES:', personMovies)
-  // console.log('<<<<<PERSON MOVIES LENGTH:', personMovies.length)
 
   const Separator = () => (
     <View style={styles.separator} />

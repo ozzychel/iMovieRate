@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Image, StatusBar, ScrollView, Modal, Alert, TouchableOpacity, Dimensions } from 'react-native';
 import NavBar from './components/NavBar';
-import keys from './dev_config.js';
+import keys from './config.js';
 import Constants from "expo-constants";
 import MainCarousel from './components/MainCarousel';
 import SearchTab from './components/SearchTab';
@@ -164,7 +164,7 @@ export default function App () {
   console.log('== APP LOG == TOTALPAGES', totalPages)
   console.log('== APP LOG == CURRENT_SEARCH_RESULTS', searchResults.length);
   console.log('== APP LOG == NORESULT_FLAG', noResult);
-  console.log('== APP LOG == SELECTED_PERSON', selectedPerson)
+  console.log('== APP LOG == SELECTED_PERSON', selectedPerson.length)
 
   console.log("-----------------------------------")
   console.log('== APP LOG == *CURRENT TAB*:', currentTab)

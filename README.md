@@ -35,6 +35,13 @@ For each user-selected movie displays:
   * similar movies recommended for the user: poster, title, release year
   * movie stills and images
 
+For each user-selected actor displays:
+  * general information: name, age, date of birth
+  * profile picture
+  * short biography
+  * list of movies mostly known for
+  * photos
+
 App provides a user-friendly interface for creating to-watch lists. Add or remove movies with just one tap on a screen, the app will do the rest of the job for you by securely storing your to-watch list in a database and updating all actual information on the screen in a real-time manner.
 <br>
 
@@ -181,10 +188,9 @@ If you **don't want to mess with api keys** its ok, use app with **mock data** p
 <br>
 
 ## Planned Features in development
-* browsing actors and displaying relevant information
 * browsing tv shows and tv series
 * login screen with biometrics support
-* display movie of the day in Home tab
+* display movie of the day on Home tab
 
 
 ## License

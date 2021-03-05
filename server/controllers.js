@@ -186,9 +186,6 @@ const getPersonDataById = async (req, res) => {
     const person = await tmdb.get(`/person/${req.query.personId}`, {
       params: { api_key: keys.tmdb_api_key },
     });
-
-    console.log(person.data);
-
     res.status(200).send(person.data);
   } catch (err) {
     console.log('Error: in getPersonDataById', err);
@@ -201,9 +198,6 @@ const getPersonImages = async (req, res) => {
     const response = await tmdb.get(`/person/${req.query.personId}/images`, {
       params: { api_key: keys.tmdb_api_key },
     });
-
-    console.log('IMAGES', response.data.profiles);
-
     res.status(200).send(response.data.profiles.slice(1));
   } catch (err) {
     console.log('Error: in getPersonDataById', err);
@@ -217,9 +211,6 @@ const getPersonMovies = async (req, res) => {
       params: { api_key: keys.tmdb_api_key, language: 'en-US' },
     });
     const filtered = await filterUnknown(response.data.cast);
-
-    console.log('FILTERED', filtered);
-
     res.status(200).send(filtered);
   } catch (err) {
     console.log('Error: in getPersonDataById', err);
